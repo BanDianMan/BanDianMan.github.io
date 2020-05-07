@@ -6,10 +6,19 @@
     <description>Recent content in Posts on 我的个人空间</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 07 May 2020 09:09:34 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 07 May 2020 09:34:52 +0800</lastBuildDate>
     
 	<atom:link href="https://BanDianMan.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hive笔记(一)</title>
+      <link>https://BanDianMan.github.io/post/hive%E7%AC%94%E8%AE%B0%E4%B8%80/</link>
+      <pubDate>Thu, 07 May 2020 09:34:52 +0800</pubDate>
+      
+      <guid>https://BanDianMan.github.io/post/hive%E7%AC%94%E8%AE%B0%E4%B8%80/</guid>
+      <description>Hive概述 什么是Hive ?  Hives是基于Hadoop构建的一个数据仓库工具 可以将结构化的数据映射为一张数据库表 提供HQL(HiveSQL)查询功能 由Facebook实现并开源 底层数据存储在HDFS上 Hive的本质是将SQL语句转换为MapReduce任务运行 使不熟悉MapReduce的用户很方便的利用HQL处理和计算HDFS上的结构化数据,适用于离线的批量数据计算   Hive 依赖于HDFS存储数据,Hive将HQL转换成MapReduce执行,所以说Hive是基于Hadoop的一个数据仓库工具,实质就是一款基于HDFS的MapReduce的计算框架,对存储在HDFS中的数据进行分析和管理  为什么使用Hive ?  友好的接口 : 操作接口采用类似SQL的语法,提供快速开发的能力 低学习成本 : 避免了写MapReduce,减少开发人员的学习成本 好的扩展性 : 可自由的扩展集群规模而无需重启服务,支持用户自定义函数  Hive的特点 优点 :  可扩展性 简化MR开发 自定义函数,格式 庞大活跃的社区  缺点 :  不支持记录级别的增删改查操作 查询延时严重 不支持事物  Hive与RDBMS 的对比 数据表(Tables)  分为内部表和外部表 内部表(管理表)  HDFS中为所属数据库目录下的子文件夹 数据完全由Hive管理,删除表(元数据) 会删除数据   外部表 (External Tables)  数据保存在指定位置的HDFS路径中 Hive不完全管理数据,删除表(元数据)不会删除数据    内部表和外部表的区别  删除内部表，删除表元数据和数据 删除外部表，删除元数据，不删除数据  内部表和外部表的使用选择 如果数据的所有处理都在 Hive 中进行，那么倾向于 选择内部表，但是如果 Hive 和其他工具要针对相同的数据集进行处理，外部表更合适。</description>
+    </item>
     
     <item>
       <title>深度学习之图像处理与分析</title>

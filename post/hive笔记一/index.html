@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Hive笔记(一) // 我的个人空间</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://BanDianMan.github.io/css/main.min.f90f5edd436ec7b74ad05479a05705770306911f721193e7845948fb07fe1335.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Hive笔记(一)"/>
+<meta name="twitter:description" content="Hive概述 什么是Hive ?  Hives是基于Hadoop构建的一个数据仓库工具 可以将结构化的数据映射为一张数据库表 提供HQL(HiveSQL)查询功能 由Facebook实现并开源 底层数据存储在HDFS上 Hive的本质是将SQL语句转换为MapReduce任务运行 使不熟悉MapReduce的用户很方便的利用HQL处理和计算HDFS上的结构化数据,适用于离线的批量数据计算   Hive 依赖于HDFS存储数据,Hive将HQL转换成MapReduce执行,所以说Hive是基于Hadoop的一个数据仓库工具,实质就是一款基于HDFS的MapReduce的计算框架,对存储在HDFS中的数据进行分析和管理  为什么使用Hive ?  友好的接口 : 操作接口采用类似SQL的语法,提供快速开发的能力 低学习成本 : 避免了写MapReduce,减少开发人员的学习成本 好的扩展性 : 可自由的扩展集群规模而无需重启服务,支持用户自定义函数  Hive的特点 优点 :  可扩展性 简化MR开发 自定义函数,格式 庞大活跃的社区  缺点 :  不支持记录级别的增删改查操作 查询延时严重 不支持事物  Hive与RDBMS 的对比 数据表(Tables)  分为内部表和外部表 内部表(管理表)  HDFS中为所属数据库目录下的子文件夹 数据完全由Hive管理,删除表(元数据) 会删除数据   外部表 (External Tables)  数据保存在指定位置的HDFS路径中 Hive不完全管理数据,删除表(元数据)不会删除数据    内部表和外部表的区别  删除内部表，删除表元数据和数据 删除外部表，删除元数据，不删除数据  内部表和外部表的使用选择 如果数据的所有处理都在 Hive 中进行，那么倾向于 选择内部表，但是如果 Hive 和其他工具要针对相同的数据集进行处理，外部表更合适。"/>
+
+    <meta property="og:title" content="Hive笔记(一)" />
+<meta property="og:description" content="Hive概述 什么是Hive ?  Hives是基于Hadoop构建的一个数据仓库工具 可以将结构化的数据映射为一张数据库表 提供HQL(HiveSQL)查询功能 由Facebook实现并开源 底层数据存储在HDFS上 Hive的本质是将SQL语句转换为MapReduce任务运行 使不熟悉MapReduce的用户很方便的利用HQL处理和计算HDFS上的结构化数据,适用于离线的批量数据计算   Hive 依赖于HDFS存储数据,Hive将HQL转换成MapReduce执行,所以说Hive是基于Hadoop的一个数据仓库工具,实质就是一款基于HDFS的MapReduce的计算框架,对存储在HDFS中的数据进行分析和管理  为什么使用Hive ?  友好的接口 : 操作接口采用类似SQL的语法,提供快速开发的能力 低学习成本 : 避免了写MapReduce,减少开发人员的学习成本 好的扩展性 : 可自由的扩展集群规模而无需重启服务,支持用户自定义函数  Hive的特点 优点 :  可扩展性 简化MR开发 自定义函数,格式 庞大活跃的社区  缺点 :  不支持记录级别的增删改查操作 查询延时严重 不支持事物  Hive与RDBMS 的对比 数据表(Tables)  分为内部表和外部表 内部表(管理表)  HDFS中为所属数据库目录下的子文件夹 数据完全由Hive管理,删除表(元数据) 会删除数据   外部表 (External Tables)  数据保存在指定位置的HDFS路径中 Hive不完全管理数据,删除表(元数据)不会删除数据    内部表和外部表的区别  删除内部表，删除表元数据和数据 删除外部表，删除元数据，不删除数据  内部表和外部表的使用选择 如果数据的所有处理都在 Hive 中进行，那么倾向于 选择内部表，但是如果 Hive 和其他工具要针对相同的数据集进行处理，外部表更合适。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://BanDianMan.github.io/post/hive%E7%AC%94%E8%AE%B0%E4%B8%80/" />
+<meta property="article:published_time" content="2020-05-07T09:34:52+08:00" />
+<meta property="article:modified_time" content="2020-05-07T09:34:52+08:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://BanDianMan.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <h1>我的个人空间</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium.</p>
+      <div class="app-header-social">
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Hive笔记(一)</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          May 7, 2020
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          3 min read
+        </div></div>
+    </header>
+    <div class="post-content">
+      <h2 id="hive概述">Hive概述</h2>
+<h4 id="什么是hive-">什么是Hive ?</h4>
+<ul>
+<li>Hives是基于Hadoop构建的一个数据仓库工具</li>
+<li>可以将结构化的数据映射为一张数据库表</li>
+<li>提供HQL(HiveSQL)查询功能</li>
+<li>由Facebook实现并开源</li>
+<li>底层数据存储在HDFS上</li>
+<li>Hive的本质是将SQL语句转换为MapReduce任务运行</li>
+<li>使不熟悉MapReduce的用户很方便的利用HQL处理和计算HDFS上的结构化数据,适用于离线的批量数据计算</li>
+</ul>
+<blockquote>
+<p>Hive 依赖于HDFS存储数据,Hive将HQL转换成MapReduce执行,所以说Hive是基于Hadoop的一个数据仓库工具,实质就是一款基于HDFS的MapReduce的计算框架,对存储在HDFS中的数据进行分析和管理
+<img src="https://i.loli.net/2020/05/07/lxPpMBcqtogFKJA.png" alt="image-20200507093523719"></p>
+</blockquote>
+<h4 id="为什么使用hive-">为什么使用Hive ?</h4>
+<ul>
+<li>友好的接口 : 操作接口采用类似SQL的语法,提供快速开发的能力</li>
+<li>低学习成本 : 避免了写MapReduce,减少开发人员的学习成本</li>
+<li>好的扩展性 : 可自由的扩展集群规模而无需重启服务,支持用户自定义函数</li>
+</ul>
+<h4 id="hive的特点">Hive的特点</h4>
+<h5 id="优点-">优点 :</h5>
+<ol>
+<li>可扩展性</li>
+<li>简化MR开发</li>
+<li>自定义函数,格式</li>
+<li>庞大活跃的社区</li>
+</ol>
+<h5 id="缺点-">缺点 :</h5>
+<ol>
+<li>不支持记录级别的增删改查操作</li>
+<li>查询延时严重</li>
+<li>不支持事物</li>
+</ol>
+<h4 id="hive与rdbms-的对比">Hive与RDBMS 的对比</h4>
+<p><img src="https://i.loli.net/2020/05/07/JYEKA4lmayqt8HG.png" alt="image-20200507093735420"></p>
+<h4 id="数据表tables">数据表(Tables)</h4>
+<ul>
+<li>分为内部表和外部表</li>
+<li>内部表(管理表)
+<ul>
+<li>HDFS中为所属数据库目录下的子文件夹</li>
+<li>数据完全由Hive管理,删除表(元数据) 会删除数据</li>
+</ul>
+</li>
+<li>外部表 (External Tables)
+<ul>
+<li>数据保存在指定位置的HDFS路径中</li>
+<li>Hive不完全管理数据,删除表(元数据)不会删除数据</li>
+</ul>
+</li>
+</ul>
+<h4 id="内部表和外部表的区别">内部表和外部表的区别</h4>
+<ul>
+<li>删除内部表，删除表元数据和数据</li>
+<li>删除外部表，删除元数据，不删除数据</li>
+</ul>
+<h4 id="内部表和外部表的使用选择">内部表和外部表的使用选择</h4>
+<p>如果数据的所有处理都在 Hive 中进行，那么倾向于 选择内部表，但是如果 Hive 和其他工具要针对相同的数据集进行处理，外部表更合适。</p>
+<h4 id="总结">总结</h4>
+<p>Hive 具有 SQL</p>
+<blockquote>
+<p>数据库的外表，但应用场景完全不同，==Hive 只适合用来做海量离线数 据统计分析，也就是数据仓库。==</p>
+</blockquote>
+<h2 id="hive-基本操作">Hive 基本操作</h2>
+<blockquote>
+<p>beeline方式启动 :</p>
+</blockquote>
+<pre><code>./hiveserver2 &amp;
+beeline -u jdbc:hive2://localhost:10000
+</code></pre><h4 id="显示所有数据库">显示所有数据库</h4>
+<pre><code>0: jdbc:hive2://hadoop:10000&gt; show databases;
+OK
++----------------+--+
+| database_name  |
++----------------+--+
+| default        |
++----------------+--+
+1 row selected (0.046 seconds)
+0: jdbc:hive2://hadoop:10000&gt; 
+</code></pre><h4 id="创建数据库">创建数据库</h4>
+<pre><code>0: jdbc:hive2://hadoop:10000&gt; create database test;
+OK
+No rows affected (0.24 seconds)
+0: jdbc:hive2://hadoop:10000&gt; 
+</code></pre><h4 id="查看数据库描述">查看数据库描述</h4>
+<pre><code>0: jdbc:hive2://hadoop:10000&gt; desc database myhivebook;
+OK
++-------------+----------+----------------------------------------------------------------+-------------+-------------+-------------+--+
+|   db_name   | comment  |                            location                            | owner_name  | owner_type  | parameters  |
++-------------+----------+----------------------------------------------------------------+-------------+-------------+-------------+--+
+| myhivebook  |          | hdfs://192.168.239.100:9000/user/hive/warehouse/myhivebook.db  | anonymous   | USER        |             |
++-------------+----------+----------------------------------------------------------------+-------------+-------------+-------------+--+
+1 row selected (0.036 seconds)
+0: jdbc:hive2://hadoop:10000&gt; 
+
+</code></pre><h4 id="删除数据库">删除数据库</h4>
+<pre><code>0: jdbc:hive2://hadoop:10000&gt; drop database if exists test;
+OK
+No rows affected (0.274 seconds)
+0: jdbc:hive2://hadoop:10000&gt; 
+</code></pre><h4 id="显示当前数据库">显示当前数据库</h4>
+<pre><code>0: jdbc:hive2://hadoop:10000&gt; select current_database();
++----------+--+
+|   _c0    |
++----------+--+
+| default  |
++----------+--+
+1 row selected (6.289 seconds)
+0: jdbc:hive2://hadoop:10000&gt; 
+
+</code></pre><pre><code>hive (default)&gt; set hive.cli.print.current.db=true;
+hive (default)&gt; show databases;
+OK
+default
+myhivebook
+Time taken: 0.011 seconds, Fetched: 2 row(s)
+hive (default)&gt; 
+</code></pre><blockquote>
+<p>效果: hive(default)&gt; 会把数据库名称显示在右边</p>
+</blockquote>
+<h4 id="创建表">创建表</h4>
+<pre><code>CREATE TABLE event_attendees
+            (
+                    event string,yes string,maybe string,invited string
+            )
+            ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+            WITH SERDEPROPERTIES 
+            (
+               &quot;separatorChar&quot; = &quot;,&quot;,
+               &quot;quoteChar&quot;     = &quot;\&quot;&quot;
+            )       
+            TBLPROPERTIES (&quot;skip.header.line.count&quot;=&quot;1&quot;);
+            
+            
+示例 : 
+CREATE EXTERNAL TABLE IF NOT EXISTS employee_external (
+name string,
+work_place ARRAY&lt;string&gt;,
+sex_age STRUCT&lt;sex:string,age:int&gt;,
+skills_score MAP&lt;string,int&gt;,
+depart_title MAP&lt;STRING,ARRAY&lt;STRING&gt;&gt;
+)
+COMMENT 'This is an external table'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '|'
+COLLECTION ITEMS TERMINATED BY ','
+MAP KEYS TERMINATED BY ':'
+STORED AS TEXTFILE
+LOCATION '/user/root/employee'; 
+
+comment : 可选 描述
+row format delimited 
+fields terminated by '|' : 如何分割列(字段)
+collection items terminated by ',' : 如何分割集合和映射
+if not exists : 可选,如果表存在,则忽略
+external : 外部表
+location : 数据存储路径(HDFS)
+stored as testfile : 文件存储格式
+</code></pre><pre><code>0: jdbc:hive2://hadoop:10000&gt; create table student(id int,name string )row format delimited fields terminated by ',' stored as textfile;
+No rows affected (2.822 seconds)
+0: jdbc:hive2://hadoop:10000&gt; show tables;
++-----------+--+
+| tab_name  |
++-----------+--+
+| student   |
++-----------+--+
+1 row selected (0.104 seconds)
+0: jdbc:hive2://hadoop:10000&gt; select * from student;
++-------------+---------------+--+
+| student.id  | student.name  |
++-------------+---------------+--+
++-------------+---------------+--+
+No rows selected (2.021 seconds)
+</code></pre><h2 id="hive-高级查询">Hive 高级查询</h2>
+<h4 id="mapjoin">MapJoin</h4>
+<ul>
+<li>小表关联大表</li>
+<li>可进行不等值连接</li>
+</ul>
+<pre><code>set hive.auto.convert.join = true(默认值)
+</code></pre><h5 id="mapjoin-操作不支持">MAPJOIN 操作不支持:</h5>
+<ul>
+<li>在UNION ALL,LATERAL VIEW,GROUP BY/JOIN/SORT BY/CLUSTER BY/DISTRIBUTE BY等操作后面</li>
+<li>在UNION,JOIN,以及其他MAOJOIN之前</li>
+</ul>
+<h4 id="插入数据">插入数据</h4>
+<blockquote>
+<p>向hive中加载数据(local模式) 几种方法</p>
+</blockquote>
+<pre><code>load data local inpath '/home/hadoop/data/employees.txt' into table employee;
+</code></pre><h4 id="数据交互">数据交互</h4>
+<ul>
+<li>import和export用于数据导入和到处
+<ul>
+<li>常用于数据迁移创景</li>
+<li>除数据库,可导入导出所有数据和元数据</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>使用export导出数据</p>
+</blockquote>
+<pre><code>export table 表名 TO '/tmp/output3';
+</code></pre><blockquote>
+<p>使用import导入数据</p>
+</blockquote>
+<pre><code>improt table 表名 from '/tmp/output3';
+</code></pre>
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
