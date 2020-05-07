@@ -6,10 +6,45 @@
     <description>Recent content in Posts on 我的个人空间</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 07 May 2020 10:03:48 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 07 May 2020 10:32:42 +0800</lastBuildDate>
     
 	<atom:link href="https://BanDianMan.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Scala笔记(一)</title>
+      <link>https://BanDianMan.github.io/post/scala%E7%AC%94%E8%AE%B0%E4%B8%80/</link>
+      <pubDate>Thu, 07 May 2020 10:32:42 +0800</pubDate>
+      
+      <guid>https://BanDianMan.github.io/post/scala%E7%AC%94%E8%AE%B0%E4%B8%80/</guid>
+      <description>Scala  简介 : Scala是一门多范式的编程语言,一种类似Java的编程语言,设计初衷是实现可伸缩的语言,并集成面向对象编程和函数式编程的各种特性
+特征 :  Java和scala可以无缝混编,都是运行在JVM之上的 类型推测(自动推测类型),不用指定类型 并发和分布式(Actor,类似Java多线程Thread) 特质Trait(类似Java中interfaces和abstract结合) 模式匹配,match case(类似Java中的switch case) 高阶函数(函数的参数是函数,函数的返回值和函数),可进行函数式编程  数据类型  Unit表示无值,和其他语言中void等同 Null空值或者空引用 Nothing所有其他类型的子类型,表示没有值 Any 所有类型的超类,任何实例都属于Any类型 AnyRef所有引用类型的超类 AnyVal所有值类型的超类 Boolean布尔类型 String 字符串 char 16bit Unicode字符 double 双精度浮点型 Float 单精度浮点型 Long 有符号数字 Int 整性 Short 16 bit有符号数字 Byte 8bit的有符号数字      Null Trait,其唯一实例为null,是AnyRef的子类,不是AnyVal的子类     Nothing Trait,所有类型(包括AnyRef和AnyVal)的子类,没有实例   None Option的两个子类之一,另一个是Some,用于安全的函数返回值   Unit 无返回值的函数的类型,和Java的void对应   Nil 长度为0的List    函数  普通函数</description>
+    </item>
+    
+    <item>
+      <title>Spark笔记(一)</title>
+      <link>https://BanDianMan.github.io/post/spark%E7%AC%94%E8%AE%B0%E4%B8%80/</link>
+      <pubDate>Thu, 07 May 2020 10:27:18 +0800</pubDate>
+      
+      <guid>https://BanDianMan.github.io/post/spark%E7%AC%94%E8%AE%B0%E4%B8%80/</guid>
+      <description>Scala  简介 : Scala是一门多范式的编程语言,一种类似Java的编程语言,设计初衷是实现可伸缩的语言,并集成面向对象编程和函数式编程的各种特性
+特征 :  Java和scala可以无缝混编,都是运行在JVM之上的 类型推测(自动推测类型),不用指定类型 并发和分布式(Actor,类似Java多线程Thread) 特质Trait(类似Java中interfaces和abstract结合) 模式匹配,match case(类似Java中的switch case) 高阶函数(函数的参数是函数,函数的返回值和函数),可进行函数式编程  数据类型  Unit表示无值,和其他语言中void等同 Null空值或者空引用 Nothing所有其他类型的子类型,表示没有值 Any 所有类型的超类,任何实例都属于Any类型 AnyRef所有引用类型的超类 AnyVal所有值类型的超类 Boolean布尔类型 String 字符串 char 16bit Unicode字符 double 双精度浮点型 Float 单精度浮点型 Long 有符号数字 Int 整性 Short 16 bit有符号数字 Byte 8bit的有符号数字      Null Trait,其唯一实例为null,是AnyRef的子类,不是AnyVal的子类     Nothing Trait,所有类型(包括AnyRef和AnyVal)的子类,没有实例   None Option的两个子类之一,另一个是Some,用于安全的函数返回值   Unit 无返回值的函数的类型,和Java的void对应   Nil 长度为0的List    函数  普通函数</description>
+    </item>
+    
+    <item>
+      <title>Hadoop生态常用数据模型</title>
+      <link>https://BanDianMan.github.io/post/hadoop%E7%94%9F%E6%80%81%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Thu, 07 May 2020 10:26:30 +0800</pubDate>
+      
+      <guid>https://BanDianMan.github.io/post/hadoop%E7%94%9F%E6%80%81%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/</guid>
+      <description>Hadoop常用数据模型 TextFile  文本文件通常采用CSV,JSON等固定长度的纯文本格式 优点  便于与其他应用程序(生成或读取分隔文件)或脚本进行数据交换 易读性好,便于理解   缺点  数据存储量非常庞大 查询效率不高 不支持块压缩     SequenceFile  按行存储键值对为二进制数据格式，以&amp;lt;Key,Value&amp;gt;形式序列化为二进制文件，HDFS自带  支持压缩和分割 Hadoop中的小文件合并 常用于在MapReduce作业之间传输数据   SequenceFile中的Key和Value可以是任意类型的Writable(org.apache.hadoop.io.Writable) Java API : org.apache.hadoop.io.SequenceFile   记录级压缩是如何存储的 ？
+ A：记录级仅压缩value数据，按byte的偏移量索引数据。每个记录头为两个固定长度为4的数据量，一个代表本条Record的长度，一个代表Key值的长度，随后依次存储key值和压缩的value值。
+模拟读取过程如下，首先偏移4获得本条记录长度r，然后偏移4获得key类型的长度k，再偏移k读入key的值，最后偏移到位置r，获取压缩后的value值，本条记录读完。
+ 块级压缩是如何存储的 ?
+ A：块级压缩同时压缩key和value，相同特性的记录将会被归为同一块。块头为定长4byte的代表本块所含的记录数目n、定长4byte的代表压缩后的key的长度的k、压缩后的key值组、定长4byte的达标压缩后的value的长度的v、压缩后的value值组。（n,k_length,k, v_length,v）
+模拟读取过程如下，首先偏移4byte，获取当前块存储的记录数目n；偏移4byte，获取压缩后的key类型的长度k，再偏移nk读入多个key值分别存储；偏移4byte，获取压缩后的value类型的长度v，再偏移nv读入多个value值分别对应key值。
+读写操作  读写操作  SequenceFile.Writer （指定为块压缩） SequenceFile.Reader（读取时能够自动解压）   在Hive中使用SequenceFile 方式一  STORED AS sequencefile   方式二显示指定  STORED AS INPUTFORMAT &amp;#39;org.apache.hadoop.mapred.SequenceFileInputFormat&amp;#39; OUTPUTFORMAT &amp;#39;org.</description>
+    </item>
     
     <item>
       <title>Hive的环境部署</title>

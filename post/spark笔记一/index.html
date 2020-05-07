@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Spark笔记(一) // 我的个人空间</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="He Jia Hao" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://BanDianMan.github.io/css/main.min.f90f5edd436ec7b74ad05479a05705770306911f721193e7845948fb07fe1335.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Spark笔记(一)"/>
+<meta name="twitter:description" content="Scala  简介 : Scala是一门多范式的编程语言,一种类似Java的编程语言,设计初衷是实现可伸缩的语言,并集成面向对象编程和函数式编程的各种特性
+特征 :  Java和scala可以无缝混编,都是运行在JVM之上的 类型推测(自动推测类型),不用指定类型 并发和分布式(Actor,类似Java多线程Thread) 特质Trait(类似Java中interfaces和abstract结合) 模式匹配,match case(类似Java中的switch case) 高阶函数(函数的参数是函数,函数的返回值和函数),可进行函数式编程  数据类型  Unit表示无值,和其他语言中void等同 Null空值或者空引用 Nothing所有其他类型的子类型,表示没有值 Any 所有类型的超类,任何实例都属于Any类型 AnyRef所有引用类型的超类 AnyVal所有值类型的超类 Boolean布尔类型 String 字符串 char 16bit Unicode字符 double 双精度浮点型 Float 单精度浮点型 Long 有符号数字 Int 整性 Short 16 bit有符号数字 Byte 8bit的有符号数字      Null Trait,其唯一实例为null,是AnyRef的子类,不是AnyVal的子类     Nothing Trait,所有类型(包括AnyRef和AnyVal)的子类,没有实例   None Option的两个子类之一,另一个是Some,用于安全的函数返回值   Unit 无返回值的函数的类型,和Java的void对应   Nil 长度为0的List    函数  普通函数"/>
+
+    <meta property="og:title" content="Spark笔记(一)" />
+<meta property="og:description" content="Scala  简介 : Scala是一门多范式的编程语言,一种类似Java的编程语言,设计初衷是实现可伸缩的语言,并集成面向对象编程和函数式编程的各种特性
+特征 :  Java和scala可以无缝混编,都是运行在JVM之上的 类型推测(自动推测类型),不用指定类型 并发和分布式(Actor,类似Java多线程Thread) 特质Trait(类似Java中interfaces和abstract结合) 模式匹配,match case(类似Java中的switch case) 高阶函数(函数的参数是函数,函数的返回值和函数),可进行函数式编程  数据类型  Unit表示无值,和其他语言中void等同 Null空值或者空引用 Nothing所有其他类型的子类型,表示没有值 Any 所有类型的超类,任何实例都属于Any类型 AnyRef所有引用类型的超类 AnyVal所有值类型的超类 Boolean布尔类型 String 字符串 char 16bit Unicode字符 double 双精度浮点型 Float 单精度浮点型 Long 有符号数字 Int 整性 Short 16 bit有符号数字 Byte 8bit的有符号数字      Null Trait,其唯一实例为null,是AnyRef的子类,不是AnyVal的子类     Nothing Trait,所有类型(包括AnyRef和AnyVal)的子类,没有实例   None Option的两个子类之一,另一个是Some,用于安全的函数返回值   Unit 无返回值的函数的类型,和Java的void对应   Nil 长度为0的List    函数  普通函数" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://BanDianMan.github.io/post/spark%E7%AC%94%E8%AE%B0%E4%B8%80/" />
+<meta property="article:published_time" content="2020-05-07T10:27:18+08:00" />
+<meta property="article:modified_time" content="2020-05-07T10:27:18+08:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://BanDianMan.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="He Jia Hao" /></a>
+      <h1>我的个人空间</h1>
+      <p>一个记录日常的博客网站.</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://github.com/BanDianMan/BanDianMan.github.io" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Spark笔记(一)</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          May 7, 2020
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          2 min read
+        </div></div>
+    </header>
+    <div class="post-content">
+      <h2 id="scala">Scala</h2>
+<hr>
+<h3 id="简介-">简介 :</h3>
+<p>Scala是一门多范式的编程语言,一种类似Java的编程语言,设计初衷是实现可伸缩的语言,并集成面向对象编程和函数式编程的各种特性</p>
+<h3 id="特征-">特征 :</h3>
+<ol>
+<li>Java和scala可以无缝混编,都是运行在JVM之上的</li>
+<li>类型推测(自动推测类型),不用指定类型</li>
+<li>并发和分布式(Actor,类似Java多线程Thread)</li>
+<li>特质Trait(类似Java中interfaces和abstract结合)</li>
+<li>模式匹配,match case(类似Java中的switch case)</li>
+<li>高阶函数(函数的参数是函数,函数的返回值和函数),可进行函数式编程</li>
+</ol>
+<h3 id="数据类型">数据类型</h3>
+<ul>
+<li>Unit表示无值,和其他语言中void等同</li>
+<li>Null空值或者空引用</li>
+<li>Nothing所有其他类型的子类型,表示没有值</li>
+<li>Any 所有类型的超类,任何实例都属于Any类型</li>
+<li>AnyRef所有引用类型的超类</li>
+<li>AnyVal所有值类型的超类</li>
+<li>Boolean布尔类型</li>
+<li>String 字符串</li>
+<li>char 16bit Unicode字符</li>
+<li>double 双精度浮点型</li>
+<li>Float 单精度浮点型</li>
+<li>Long 有符号数字</li>
+<li>Int 整性</li>
+<li>Short 16 bit有符号数字</li>
+<li>Byte 8bit的有符号数字
+<img src="https://i.loli.net/2020/05/07/uyBOGRKa4w2oNvm.png" alt="image-20200507102812424"></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Null</th>
+<th>Trait,其唯一实例为null,是AnyRef的子类,不是AnyVal的子类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nothing</td>
+<td>Trait,所有类型(包括AnyRef和AnyVal)的子类,没有实例</td>
+</tr>
+<tr>
+<td>None</td>
+<td>Option的两个子类之一,另一个是Some,用于安全的函数返回值</td>
+</tr>
+<tr>
+<td>Unit</td>
+<td>无返回值的函数的类型,和Java的void对应</td>
+</tr>
+<tr>
+<td>Nil</td>
+<td>长度为0的List</td>
+</tr>
+</tbody>
+</table>
+<h3 id="函数">函数</h3>
+<blockquote>
+<p>普通函数</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">  <span style="color:#75715e">// 1.普通函数 : def 方法名称(参数列表):(返回值)={方法体}
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">def</span> fun <span style="color:#f92672">(</span>a<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span>b<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span><span style="color:#66d9ef">Unit</span><span style="color:#f92672">={</span>
+    println<span style="color:#f92672">(</span>a<span style="color:#f92672">+</span>b<span style="color:#f92672">)</span>
+  <span style="color:#f92672">}</span>
+  <span style="color:#66d9ef">def</span> fun1<span style="color:#f92672">(</span>a<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span>b<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">=</span>a<span style="color:#f92672">+</span>b
+</code></pre></div><blockquote>
+<p>递归函数</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">  <span style="color:#75715e">// 2.递归函数
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">def</span> fun2<span style="color:#f92672">(</span>num<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">={</span> <span style="color:#75715e">// 必须写返回值类型
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>num<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span><span style="color:#f92672">)</span>
+      num
+    <span style="color:#66d9ef">else</span>
+      num <span style="color:#f92672">*</span> fun2<span style="color:#f92672">(</span>num<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">)</span>
+  <span style="color:#f92672">}</span>
+</code></pre></div><blockquote>
+<p>包含参数默认值的函数</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">  <span style="color:#75715e">// 3. 包含参数默认值的函数
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">//3.1 函数的参数有默认值,在调函数的时候可以传参,也可以不传参
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">//3.2 不传参 : 使用的是默认值, 传参 : 会覆盖默认值
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">//3.3 传参的时候 可以指定参数名进行传值
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">def</span> fun3<span style="color:#f92672">(</span>num1<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">=</span><span style="color:#ae81ff">10</span><span style="color:#f92672">,</span>num2<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">=</span><span style="color:#ae81ff">20</span><span style="color:#f92672">)={</span>
+    num1 <span style="color:#f92672">+</span> num2
+  <span style="color:#f92672">}</span>
+<span style="color:#75715e">//  println(fun3())
+</span><span style="color:#75715e">//  println(fun3(100))
+</span><span style="color:#75715e">//  println(fun3(num2=1000))
+</span></code></pre></div><blockquote>
+<p>可变参数个数的函数</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"> <span style="color:#75715e">// 4. 可变参数个数的函数:函数参数可以是一个也可以是多个,随机灵活的
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">def</span> fun4<span style="color:#f92672">(</span>args<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Double*</span><span style="color:#f92672">)={</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">      * 在scala中
+</span><span style="color:#75715e">      *     +=前后的数据类型必须一致
+</span><span style="color:#75715e">      *     +前后的数值类型可以不一致
+</span><span style="color:#75715e">      */</span>
+    <span style="color:#66d9ef">var</span> sum <span style="color:#66d9ef">=</span> <span style="color:#ae81ff">0.0</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>arg <span style="color:#66d9ef">&lt;-</span> args<span style="color:#f92672">)</span> sum <span style="color:#f92672">+=</span> arg
+    sum
+  <span style="color:#f92672">}</span>
+</code></pre></div><blockquote>
+<p>匿名函数</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"> <span style="color:#75715e">/**
+</span><span style="color:#75715e">    * 5. 匿名函数 : 没有函数名的函数
+</span><span style="color:#75715e">    * 5.1 有参数的匿名函数
+</span><span style="color:#75715e">    * 5.2 没有参数的匿名函数
+</span><span style="color:#75715e">    * 5.3 有返回值的匿名函数
+</span><span style="color:#75715e">    * 注意 :
+</span><span style="color:#75715e">    * 可以将匿名函数返回给定义的一个变量
+</span><span style="color:#75715e">    * 匿名函数不能显式声明函数的返回类型
+</span><span style="color:#75715e">    */</span>
+  <span style="color:#75715e">// 有参数的匿名函数
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">val</span> value1 <span style="color:#66d9ef">=</span> <span style="color:#f92672">(</span>a<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#f92672">{</span>
+    println<span style="color:#f92672">(</span>a<span style="color:#f92672">)</span>
+  <span style="color:#f92672">}</span>
+  <span style="color:#75715e">// 无参数的匿名函数
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">val</span> value2 <span style="color:#f92672">=()=&gt;{</span>
+    println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;天干物燥&#34;</span><span style="color:#f92672">)</span>
+  <span style="color:#f92672">}</span>
+  <span style="color:#75715e">// 有返回值的匿名函数
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">val</span> value3 <span style="color:#f92672">=(</span>a<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span>b<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#f92672">{</span>
+    a<span style="color:#f92672">+</span>b
+  <span style="color:#f92672">}</span>
+</code></pre></div><blockquote>
+<p>嵌套函数</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#75715e">/**
+</span><span style="color:#75715e">    * 6. 嵌套函数 : 在函数体里面又定义了一个函数
+</span><span style="color:#75715e">    */</span>
+  <span style="color:#66d9ef">def</span> fun5<span style="color:#f92672">(</span>num<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)={</span>
+    <span style="color:#66d9ef">def</span> fun6<span style="color:#f92672">(</span>a<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span>b<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">={</span>
+      <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>a<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span><span style="color:#f92672">){</span>
+        b
+      <span style="color:#f92672">}</span><span style="color:#66d9ef">else</span><span style="color:#f92672">{</span>
+        fun6<span style="color:#f92672">(</span>a<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span>a<span style="color:#f92672">*</span>b<span style="color:#f92672">)</span>
+      <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+    fun6<span style="color:#f92672">(</span>num<span style="color:#f92672">,</span><span style="color:#ae81ff">1</span><span style="color:#f92672">)</span>
+  <span style="color:#f92672">}</span>
+</code></pre></div><blockquote>
+<p>高阶函数</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">  <span style="color:#75715e">/**
+</span><span style="color:#75715e">    * 高阶函数 :
+</span><span style="color:#75715e">    * 函数的参数是函数,
+</span><span style="color:#75715e">    * 或者函数的返回类型是函数,
+</span><span style="color:#75715e">    * 或者函数的参数和函数的返回类型是函数的函数
+</span><span style="color:#75715e">    */</span>
+    <span style="color:#75715e">// 函数的参数是函数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">def</span> heightFun<span style="color:#f92672">(</span>f<span style="color:#66d9ef">:</span><span style="color:#f92672">(</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">=&gt;</span><span style="color:#a6e22e">Int</span><span style="color:#f92672">,</span>a<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span> <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+      f<span style="color:#f92672">(</span>a<span style="color:#f92672">,</span><span style="color:#ae81ff">100</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">def</span> f<span style="color:#f92672">(</span>v1<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span>v2<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)={</span>
+      v1<span style="color:#f92672">+</span>v2
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//println(heightFun(f, 100))
+</span><span style="color:#75715e"></span>     <span style="color:#75715e">// 函数的返回值是函数
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">def</span> highrtFun2<span style="color:#f92672">(</span> a<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span>b<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span> <span style="color:#f92672">)</span><span style="color:#66d9ef">:</span><span style="color:#f92672">(</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span><span style="color:#66d9ef">Int</span> <span style="color:#f92672">)</span><span style="color:#66d9ef">=&gt;</span><span style="color:#a6e22e">Int</span><span style="color:#f92672">={</span>
+    <span style="color:#66d9ef">def</span> f2 <span style="color:#f92672">(</span>v1<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span>v2<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)={</span>
+      v1<span style="color:#f92672">+</span>v2<span style="color:#f92672">+</span>a<span style="color:#f92672">+</span>b
+    <span style="color:#f92672">}</span>
+    f2
+  <span style="color:#f92672">}</span>
+  <span style="color:#75715e">//println(highrtFun2(1, 2)(3, 4))
+</span><span style="color:#75715e"></span>
+  <span style="color:#75715e">//函数的参数是函数,函数的返回值是函数
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">def</span> highrtFun3<span style="color:#f92672">(</span>f<span style="color:#66d9ef">:</span><span style="color:#f92672">(</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">=&gt;</span> <span style="color:#a6e22e">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span><span style="color:#f92672">(</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">=&gt;</span><span style="color:#a6e22e">Int</span><span style="color:#f92672">={</span>
+    f
+  <span style="color:#f92672">}</span>
+  <span style="color:#75715e">//println(highrtFun3(f)(100, 200))
+</span></code></pre></div><blockquote>
+<p>柯里化函数</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">    * 柯里化函数
+</span><span style="color:#75715e">    *       可以理解为高阶函数的简化
+</span><span style="color:#75715e">    *       柯里化函数就是对嵌套函数这种情况的高阶函数的简化版
+</span><span style="color:#75715e">    */</span>
+  <span style="color:#66d9ef">def</span> klhFun<span style="color:#f92672">(</span>a<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)(</span>b<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">=</span> a <span style="color:#f92672">*</span> b
+
+  <span style="color:#75715e">// 具体
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">def</span> klhAllFun<span style="color:#f92672">(</span>a<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span><span style="color:#f92672">(</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)=&gt;</span><span style="color:#a6e22e">Int</span><span style="color:#f92672">={</span>
+    <span style="color:#66d9ef">val</span> fun <span style="color:#66d9ef">=</span> <span style="color:#f92672">(</span>b<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">=&gt;</span>a<span style="color:#f92672">*</span>b
+    fun
+  <span style="color:#f92672">}</span>
+
+</code></pre></div><h3 id="常用">常用</h3>
+<h4 id="yield">yield</h4>
+<p>for循环中的 yield 会把当前的元素记下来，
+保存在集合中，循环结束后将返回该集合。
+Scala中for循环是有返回值的。如果被循环的是Map，返回的就是Map，
+被循环的是List，返回的就是List</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"> <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>i <span style="color:#66d9ef">&lt;-</span> <span style="color:#ae81ff">1</span> to <span style="color:#ae81ff">5</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">yield</span> i
+scala<span style="color:#f92672">.</span>collection<span style="color:#f92672">.</span>immutable<span style="color:#f92672">.</span><span style="color:#a6e22e">IndexedSeq</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Vector</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">4</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">5</span><span style="color:#f92672">)</span>
+
+</code></pre></div><h4 id="getorelse">getOrElse</h4>
+<p>getOrElse用于当集合或者option中有可能存在空值或不存在要查找的值的情况，其作用类似于</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">val</span> result <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Option</span><span style="color:#f92672">(</span>myType<span style="color:#f92672">)</span> <span style="color:#66d9ef">match</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">Some</span><span style="color:#f92672">(</span>value<span style="color:#f92672">)</span> <span style="color:#66d9ef">=&gt;</span>
+    <span style="color:#75715e">// 有值
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// todo
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">None</span> <span style="color:#66d9ef">=&gt;</span>
+    <span style="color:#75715e">// 没有值时的处理
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li>Map中的用法</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">myMap<span style="color:#f92672">.</span>getOrElse<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;myKey&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;no such key&#34;</span><span style="color:#f92672">)</span>
+</code></pre></div><p>当不存在&quot;myKey&quot;时，则直接返回&quot;no such key&rdquo;</p>
+<ul>
+<li>Option中的用法</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">val</span> op1 <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">](</span><span style="color:#e6db74">&#34;value exists&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">val</span> op2 <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">None</span>
+println<span style="color:#f92672">(</span>op1<span style="color:#f92672">.</span>getOrElse<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;no value here&#34;</span><span style="color:#f92672">))</span>
+println<span style="color:#f92672">(</span>op2<span style="color:#f92672">.</span>getOrElse<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;no value here&#34;</span><span style="color:#f92672">))</span>
+</code></pre></div><p>则，上面会输出value exists而下面则输出no value here.</p>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

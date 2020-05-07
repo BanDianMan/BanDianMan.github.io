@@ -3,17 +3,32 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://BanDianMan.github.io/post/hive%E7%9A%84%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/</loc>
-    <lastmod>2020-05-07T10:03:48+08:00</lastmod>
+    <loc>https://BanDianMan.github.io/post/</loc>
+    <lastmod>2020-05-07T10:32:42+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://BanDianMan.github.io/post/</loc>
-    <lastmod>2020-05-07T10:03:48+08:00</lastmod>
+    <loc>https://BanDianMan.github.io/post/scala%E7%AC%94%E8%AE%B0%E4%B8%80/</loc>
+    <lastmod>2020-05-07T10:32:42+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://BanDianMan.github.io/</loc>
+    <lastmod>2020-05-07T10:32:42+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://BanDianMan.github.io/post/spark%E7%AC%94%E8%AE%B0%E4%B8%80/</loc>
+    <lastmod>2020-05-07T10:27:18+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://BanDianMan.github.io/post/hadoop%E7%94%9F%E6%80%81%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/</loc>
+    <lastmod>2020-05-07T10:26:30+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://BanDianMan.github.io/post/hive%E7%9A%84%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/</loc>
     <lastmod>2020-05-07T10:03:48+08:00</lastmod>
   </url>
   

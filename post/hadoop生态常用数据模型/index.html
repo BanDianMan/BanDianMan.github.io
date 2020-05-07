@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Hadoop生态常用数据模型 // 我的个人空间</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="He Jia Hao" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://BanDianMan.github.io/css/main.min.f90f5edd436ec7b74ad05479a05705770306911f721193e7845948fb07fe1335.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Hadoop生态常用数据模型"/>
+<meta name="twitter:description" content="Hadoop常用数据模型 TextFile  文本文件通常采用CSV,JSON等固定长度的纯文本格式 优点  便于与其他应用程序(生成或读取分隔文件)或脚本进行数据交换 易读性好,便于理解   缺点  数据存储量非常庞大 查询效率不高 不支持块压缩     SequenceFile  按行存储键值对为二进制数据格式，以&lt;Key,Value&gt;形式序列化为二进制文件，HDFS自带  支持压缩和分割 Hadoop中的小文件合并 常用于在MapReduce作业之间传输数据   SequenceFile中的Key和Value可以是任意类型的Writable(org.apache.hadoop.io.Writable) Java API : org.apache.hadoop.io.SequenceFile   记录级压缩是如何存储的 ？
+ A：记录级仅压缩value数据，按byte的偏移量索引数据。每个记录头为两个固定长度为4的数据量，一个代表本条Record的长度，一个代表Key值的长度，随后依次存储key值和压缩的value值。
+模拟读取过程如下，首先偏移4获得本条记录长度r，然后偏移4获得key类型的长度k，再偏移k读入key的值，最后偏移到位置r，获取压缩后的value值，本条记录读完。
+ 块级压缩是如何存储的 ?
+ A：块级压缩同时压缩key和value，相同特性的记录将会被归为同一块。块头为定长4byte的代表本块所含的记录数目n、定长4byte的代表压缩后的key的长度的k、压缩后的key值组、定长4byte的达标压缩后的value的长度的v、压缩后的value值组。（n,k_length,k, v_length,v）
+模拟读取过程如下，首先偏移4byte，获取当前块存储的记录数目n；偏移4byte，获取压缩后的key类型的长度k，再偏移nk读入多个key值分别存储；偏移4byte，获取压缩后的value类型的长度v，再偏移nv读入多个value值分别对应key值。
+读写操作  读写操作  SequenceFile.Writer （指定为块压缩） SequenceFile.Reader（读取时能够自动解压）   在Hive中使用SequenceFile 方式一  STORED AS sequencefile   方式二显示指定  STORED AS INPUTFORMAT &#39;org.apache.hadoop.mapred.SequenceFileInputFormat&#39; OUTPUTFORMAT &#39;org."/>
+
+    <meta property="og:title" content="Hadoop生态常用数据模型" />
+<meta property="og:description" content="Hadoop常用数据模型 TextFile  文本文件通常采用CSV,JSON等固定长度的纯文本格式 优点  便于与其他应用程序(生成或读取分隔文件)或脚本进行数据交换 易读性好,便于理解   缺点  数据存储量非常庞大 查询效率不高 不支持块压缩     SequenceFile  按行存储键值对为二进制数据格式，以&lt;Key,Value&gt;形式序列化为二进制文件，HDFS自带  支持压缩和分割 Hadoop中的小文件合并 常用于在MapReduce作业之间传输数据   SequenceFile中的Key和Value可以是任意类型的Writable(org.apache.hadoop.io.Writable) Java API : org.apache.hadoop.io.SequenceFile   记录级压缩是如何存储的 ？
+ A：记录级仅压缩value数据，按byte的偏移量索引数据。每个记录头为两个固定长度为4的数据量，一个代表本条Record的长度，一个代表Key值的长度，随后依次存储key值和压缩的value值。
+模拟读取过程如下，首先偏移4获得本条记录长度r，然后偏移4获得key类型的长度k，再偏移k读入key的值，最后偏移到位置r，获取压缩后的value值，本条记录读完。
+ 块级压缩是如何存储的 ?
+ A：块级压缩同时压缩key和value，相同特性的记录将会被归为同一块。块头为定长4byte的代表本块所含的记录数目n、定长4byte的代表压缩后的key的长度的k、压缩后的key值组、定长4byte的达标压缩后的value的长度的v、压缩后的value值组。（n,k_length,k, v_length,v）
+模拟读取过程如下，首先偏移4byte，获取当前块存储的记录数目n；偏移4byte，获取压缩后的key类型的长度k，再偏移nk读入多个key值分别存储；偏移4byte，获取压缩后的value类型的长度v，再偏移nv读入多个value值分别对应key值。
+读写操作  读写操作  SequenceFile.Writer （指定为块压缩） SequenceFile.Reader（读取时能够自动解压）   在Hive中使用SequenceFile 方式一  STORED AS sequencefile   方式二显示指定  STORED AS INPUTFORMAT &#39;org.apache.hadoop.mapred.SequenceFileInputFormat&#39; OUTPUTFORMAT &#39;org." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://BanDianMan.github.io/post/hadoop%E7%94%9F%E6%80%81%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/" />
+<meta property="article:published_time" content="2020-05-07T10:26:30+08:00" />
+<meta property="article:modified_time" content="2020-05-07T10:26:30+08:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://BanDianMan.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="He Jia Hao" /></a>
+      <h1>我的个人空间</h1>
+      <p>一个记录日常的博客网站.</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://github.com/BanDianMan/BanDianMan.github.io" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Hadoop生态常用数据模型</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          May 7, 2020
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          2 min read
+        </div></div>
+    </header>
+    <div class="post-content">
+      <h2 id="hadoop常用数据模型">Hadoop常用数据模型</h2>
+<h3 id="textfile">TextFile</h3>
+<ul>
+<li>文本文件通常采用CSV,JSON等固定长度的纯文本格式</li>
+<li>优点
+<ul>
+<li>便于与其他应用程序(生成或读取分隔文件)或脚本进行数据交换</li>
+<li>易读性好,便于理解</li>
+</ul>
+</li>
+<li>缺点
+<ul>
+<li>数据存储量非常庞大</li>
+<li>查询效率不高</li>
+<li>不支持块压缩</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="sequencefile">SequenceFile</h3>
+<ul>
+<li>按行存储键值对为二进制数据格式，以&lt;Key,Value&gt;形式序列化为二进制文件，HDFS自带
+<ul>
+<li>支持压缩和分割</li>
+<li>Hadoop中的小文件合并</li>
+<li>常用于在MapReduce作业之间传输数据</li>
+</ul>
+</li>
+<li>SequenceFile中的Key和Value可以是任意类型的Writable(org.apache.hadoop.io.Writable)</li>
+<li>Java API : org.apache.hadoop.io.SequenceFile</li>
+</ul>
+<blockquote>
+<p>记录级压缩是如何存储的 ？</p>
+</blockquote>
+<p>A：记录级仅压缩value数据，按byte的偏移量索引数据。每个记录头为两个固定长度为4的数据量，一个代表本条Record的长度，一个代表Key值的长度，随后依次存储key值和压缩的value值。</p>
+<p>模拟读取过程如下，首先偏移4获得本条记录长度r，然后偏移4获得key类型的长度k，再偏移k读入key的值，最后偏移到位置r，获取压缩后的value值，本条记录读完。</p>
+<blockquote>
+<p>块级压缩是如何存储的 ?</p>
+</blockquote>
+<p>A：块级压缩同时压缩key和value，相同特性的记录将会被归为同一块。块头为定长4byte的代表本块所含的记录数目n、定长4byte的代表压缩后的key的长度的k、压缩后的key值组、定长4byte的达标压缩后的value的长度的v、压缩后的value值组。（n,k_length,k, v_length,v）</p>
+<p>模拟读取过程如下，首先偏移4byte，获取当前块存储的记录数目n；偏移4byte，获取压缩后的key类型的长度k，再偏移n<em>k读入多个key值分别存储；偏移4byte，获取压缩后的value类型的长度v，再偏移n</em>v读入多个value值分别对应key值。</p>
+<h4 id="读写操作">读写操作</h4>
+<ul>
+<li>读写操作
+<ul>
+<li>SequenceFile.Writer （指定为块压缩）</li>
+<li>SequenceFile.Reader（读取时能够自动解压）</li>
+</ul>
+</li>
+<li>在Hive中使用SequenceFile</li>
+<li>方式一
+<ul>
+<li>STORED AS sequencefile</li>
+</ul>
+</li>
+<li>方式二显示指定</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#a6e22e">STORED</span> <span style="color:#a6e22e">AS</span> <span style="color:#a6e22e">INPUTFORMAT</span>   &#39;org<span style="color:#f92672">.</span>apache<span style="color:#f92672">.</span>hadoop<span style="color:#f92672">.</span>mapred<span style="color:#f92672">.</span><span style="color:#a6e22e">SequenceFileInputFormat</span><span style="color:#960050;background-color:#1e0010">&#39;</span> 
+<span style="color:#a6e22e">OUTPUTFORMAT</span>  &#39;org<span style="color:#f92672">.</span>apache<span style="color:#f92672">.</span>hadoop<span style="color:#f92672">.</span>hive<span style="color:#f92672">.</span>ql<span style="color:#f92672">.</span>io<span style="color:#f92672">.</span><span style="color:#a6e22e">HiveSequenceFileOutputFormat</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
+</code></pre></div><ul>
+<li>在Spark中使用SequenceFile</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">val</span> rdd<span style="color:#66d9ef">=</span>sc<span style="color:#f92672">.</span>sequenceFile<span style="color:#f92672">[</span><span style="color:#66d9ef">Int</span>,<span style="color:#66d9ef">String</span><span style="color:#f92672">](</span><span style="color:#e6db74">&#34;/tmp/myseqfile.seq&#34;</span><span style="color:#f92672">)</span>		<span style="color:#75715e">//装载
+</span><span style="color:#75715e"></span>rdd<span style="color:#f92672">.</span>saveAsSequenceFile<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/tmp/seq&#34;</span><span style="color:#f92672">)</span>					<span style="color:#75715e">//存储
+</span></code></pre></div><hr>
+<h3 id="avro">Avro</h3>
+<h4 id="特性">特性</h4>
+<p>Apache Avro是一个数据系列化系统,数据定义以JSON格式存储,数据内容以二进制格式存储</p>
+<ul>
+<li>丰富的数据结构,被设计用于满足Schema Evolution</li>
+<li>Schema和数据分开保存</li>
+<li>基于行存储</li>
+<li>快速可压缩的二进制数据格式</li>
+<li>容器文件用于持久化数据</li>
+<li>自带远程过程调用RPC</li>
+<li>动态语言可以方便地处理Avro数据</li>
+</ul>
+<h4 id="优点">优点</h4>
+<ul>
+<li>高扩展的Schema,为Schema Evolution而生</li>
+<li>数据压缩快</li>
+</ul>
+<h4 id="数据类型">数据类型</h4>
+<p>基本数据类型 : Null,Boolean,Int,Long,Float,Double,Bytes,String
+复杂数据类型 : Record,Enum,Aaary,Map,Union,Fixed</p>
+<h4 id="arvo-应用">Arvo 应用</h4>
+<blockquote>
+<p>user.json</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{<span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Alyssa&#34;</span>, <span style="color:#f92672">&#34;favorite_number&#34;</span>: <span style="color:#ae81ff">256</span>, <span style="color:#f92672">&#34;favorite_color&#34;</span>: <span style="color:#e6db74">&#34;black&#34;</span>}
+{<span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Ben&#34;</span>, <span style="color:#f92672">&#34;favorite_number&#34;</span>: <span style="color:#ae81ff">7</span>, <span style="color:#f92672">&#34;favorite_color&#34;</span>: <span style="color:#e6db74">&#34;red&#34;</span>}
+{<span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Charlie&#34;</span>, <span style="color:#f92672">&#34;favorite_number&#34;</span>: <span style="color:#ae81ff">12</span>, <span style="color:#f92672">&#34;favorite_color&#34;</span>: <span style="color:#e6db74">&#34;blue&#34;</span>}
+</code></pre></div><blockquote>
+<p>user.avsc : 定义了User对象的Schema</p>
+</blockquote>
+<pre><code class="language-acsc" data-lang="acsc">{
+&quot;namespace&quot;: &quot;example.avro&quot;,
+ &quot;type&quot;: &quot;record&quot;,
+ &quot;name&quot;: &quot;User&quot;,
+ &quot;fields&quot;: [
+    {&quot;name&quot;: &quot;name&quot;, &quot;type&quot;: &quot;string&quot;},
+     {&quot;name&quot;: &quot;favorite_number&quot;,  &quot;type&quot;: &quot;int&quot;},
+     {&quot;name&quot;: &quot;favorite_color&quot;, &quot;type&quot;: &quot;string&quot;}
+ ]}
+</code></pre><blockquote>
+<p>使用Schema+data生成avro文件</p>
+</blockquote>
+<pre><code class="language-linux" data-lang="linux">java -jar avro-tools-1.8.2.jar fromjson --schema-file user.avsc user.json &gt; user.avro
+java -jar avro-tools-1.8.2.jar fromjson --codec snappy --schema-file user.avsc user.json &gt; user.avro
+</code></pre><blockquote>
+<p>avro转json 读取</p>
+</blockquote>
+<pre><code class="language-linux" data-lang="linux">java -jar avro-tools-1.8.2.jar tojson user.avro
+java -jar avro-tools-1.8.2.jar tojson user.avro --pretty
+</code></pre><blockquote>
+<p>获取avro元数据</p>
+</blockquote>
+<pre><code class="language-linux" data-lang="linux">java -jar avro-tools-1.8.2.jar getmeta user.avro
+</code></pre><h4 id="在hive中使用arvo">在hive中使用arvo</h4>
+<pre><code class="language-hive" data-lang="hive">create table CUSTOMERS 
+row format serde 'org.apache.hadoop.hive.serde2.avro.AvroSerDe' 
+stored as inputformat 'org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat' 
+outputformat 'org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat' 
+tblproperties ('avro.schema.literal'='{ 
+	     &quot;name&quot;: &quot;customer&quot;, &quot;type&quot;: &quot;record&quot;, 
+              &quot;fields&quot;: [ 
+	    {&quot;name&quot;:&quot;firstName&quot;, &quot;type&quot;:&quot;string&quot;}, {&quot;name&quot;:&quot;lastName&quot;, &quot;type&quot;:&quot;string&quot;}, 
+              {&quot;name&quot;:&quot;age&quot;, &quot;type&quot;:&quot;int&quot;}, {&quot;name&quot;:&quot;salary&quot;, &quot;type&quot;:&quot;double&quot;}, 
+              {&quot;name&quot;:&quot;department&quot;, &quot;type&quot;:&quot;string&quot;}, {&quot;name&quot;:&quot;title&quot;, &quot;type&quot;:&quot;string&quot;},
+              {&quot;name&quot;: &quot;address&quot;, &quot;type&quot;: &quot;string&quot;}]}'); 
+</code></pre><blockquote>
+<p>外部表</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">create external table user_avro_ext<span style="color:#f92672">(</span>name string<span style="color:#f92672">,</span>favorite_number int<span style="color:#f92672">,</span>favorite_color string<span style="color:#f92672">)</span> 
+stored as avro 
+location <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">/</span>tmp<span style="color:#f92672">/</span>avro<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">;</span> 
+</code></pre></div><h4 id="在spark中使用avro">在Spark中使用Avro</h4>
+<blockquote>
+<p>拷贝spark-avro_2.11-4.0.0.jar包到Spark目录下的jars目录下。或使用IDEA导依赖</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#75715e">//需要spark-avro
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> com.databricks.spark.avro._
+<span style="color:#75715e">//装载
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> df <span style="color:#66d9ef">=</span> spark<span style="color:#f92672">.</span>read<span style="color:#f92672">.</span>format<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;com.databricks.spark.avro&#34;</span><span style="color:#f92672">).</span>load<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;input dir&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#75715e">//存储  
+</span><span style="color:#75715e"></span>df<span style="color:#f92672">.</span>filter<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;age &gt; 5&#34;</span><span style="color:#f92672">).</span>write<span style="color:#f92672">.</span>format<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;com.databricks.spark.avro&#34;</span><span style="color:#f92672">).</span>save<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;output dir&#34;</span><span style="color:#f92672">)</span>
+</code></pre></div><h3 id="parquet">Parquet</h3>
+<h3 id="rcorc">RC&amp;ORC</h3>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
