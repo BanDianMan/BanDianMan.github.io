@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Hive的环境部署 // 我的个人空间</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://BanDianMan.github.io/css/main.min.f90f5edd436ec7b74ad05479a05705770306911f721193e7845948fb07fe1335.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Hive的环境部署"/>
+<meta name="twitter:description" content="Hive安装文档 hive的安装部署  由于hive是依赖于hadoop的, 所以先把hadoop相关的服务启动 配置hive &ndash;&gt;解压 tar -zxvf apache-hive-1.2.1-bin.tar.gz -C [一个安装目录] &ndash;&gt;创建目录用于保存hive的所有数据, 便于管理   bin/hdfs dfs -mkdir /tmp bin/hdfs dfs -mkdir /user/hive/warehouse &ndash;&gt;修改权限
+ bin/hdfs dfs -chmod g&#43;w /tmp bin/hdfs dfs -chmod g&#43;w /user/hive/warehouse  hive在HDFS上的默认路径
+ &lt;property&gt; &lt;name&gt;hive.metastore.warehouse.dir&lt;/name&gt; &lt;value&gt;/user/hive/warehouse&lt;/value&gt; &lt;description&gt;location of default database for the warehouse&lt;/description&gt; &lt;/property&gt;   修改hive-env.sh(改名)
+   # Set HADOOP_HOME to point to a specific hadoop install directory HADOOP_HOME=/opt/moduels/hadoop-2.5.0 # Hive Configuration Directory can be controlled by: export HIVE_CONF_DIR=/opt/moduels/hive-0."/>
+
+    <meta property="og:title" content="Hive的环境部署" />
+<meta property="og:description" content="Hive安装文档 hive的安装部署  由于hive是依赖于hadoop的, 所以先把hadoop相关的服务启动 配置hive &ndash;&gt;解压 tar -zxvf apache-hive-1.2.1-bin.tar.gz -C [一个安装目录] &ndash;&gt;创建目录用于保存hive的所有数据, 便于管理   bin/hdfs dfs -mkdir /tmp bin/hdfs dfs -mkdir /user/hive/warehouse &ndash;&gt;修改权限
+ bin/hdfs dfs -chmod g&#43;w /tmp bin/hdfs dfs -chmod g&#43;w /user/hive/warehouse  hive在HDFS上的默认路径
+ &lt;property&gt; &lt;name&gt;hive.metastore.warehouse.dir&lt;/name&gt; &lt;value&gt;/user/hive/warehouse&lt;/value&gt; &lt;description&gt;location of default database for the warehouse&lt;/description&gt; &lt;/property&gt;   修改hive-env.sh(改名)
+   # Set HADOOP_HOME to point to a specific hadoop install directory HADOOP_HOME=/opt/moduels/hadoop-2.5.0 # Hive Configuration Directory can be controlled by: export HIVE_CONF_DIR=/opt/moduels/hive-0." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://BanDianMan.github.io/post/hive%E7%9A%84%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/" />
+<meta property="article:published_time" content="2020-05-07T10:03:48+08:00" />
+<meta property="article:modified_time" content="2020-05-07T10:03:48+08:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://BanDianMan.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <h1>我的个人空间</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium.</p>
+      <div class="app-header-social">
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Hive的环境部署</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          May 7, 2020
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          4 min read
+        </div></div>
+    </header>
+    <div class="post-content">
+      <h1 id="hive安装文档">Hive安装文档</h1>
+<h2 id="hive的安装部署">hive的安装部署</h2>
+<ol>
+<li>由于hive是依赖于hadoop的, 所以先把hadoop相关的服务启动</li>
+<li>配置hive
+&ndash;&gt;解压 tar -zxvf apache-hive-1.2.1-bin.tar.gz -C [一个安装目录]
+&ndash;&gt;创建目录用于保存hive的所有数据, 便于管理</li>
+</ol>
+<pre><code>  bin/hdfs dfs -mkdir       /tmp
+  bin/hdfs dfs -mkdir       /user/hive/warehouse
+</code></pre><p>&ndash;&gt;修改权限</p>
+<pre><code>  bin/hdfs dfs -chmod g+w   /tmp
+  bin/hdfs dfs -chmod g+w   /user/hive/warehouse
+</code></pre><ol start="4">
+<li>
+<p>hive在HDFS上的默认路径</p>
+<pre><code> &lt;property&gt;
+   &lt;name&gt;hive.metastore.warehouse.dir&lt;/name&gt;
+   &lt;value&gt;/user/hive/warehouse&lt;/value&gt;
+   &lt;description&gt;location of default database for the warehouse&lt;/description&gt;
+ &lt;/property&gt;
+</code></pre></li>
+<li>
+<p>修改hive-env.sh(改名)</p>
+</li>
+</ol>
+<pre><code>  # Set HADOOP_HOME to point to a specific hadoop install directory
+  HADOOP_HOME=/opt/moduels/hadoop-2.5.0
+  # Hive Configuration Directory can be controlled by:
+  export HIVE_CONF_DIR=/opt/moduels/hive-0.13.1-bin/conf
+</code></pre><ol start="6">
+<li>启动hive</li>
+</ol>
+<pre><code>  ${HIVE_HOME}/bin/hive
+</code></pre><h2 id="安装配置mysql">安装配置mysql</h2>
+<p>由于hive中默认的元数据保存在derby中只能单用户访问hive , 则另一用户无法访问, 会出现以下错误信息:</p>
+<pre><code>Caused by: ERROR XSDB6: Another instance of Derby may have already booted the database /opt/app/apache-hive-1.2.1-bin/metastore_db.
+</code></pre><p>为了解决以上的问题, 可以把hive的元数据保存在mysql中.</p>
+<h3 id="mysql的安装步骤">mysql的安装步骤</h3>
+<ol>
+<li>在Linux系统中,可能存在mysql的安装包, 所以第一步先检查是否安装过mysql</li>
+</ol>
+<pre><code>[hadoop@hadoop apache-hive-1.2.1-bin]$ rpm -qa | grep -i mysql
+mysql-libs-5.1.73-5.el6_6.x86_64
+</code></pre><p>执行该命令可以查看是否安装mysql</p>
+<ol start="2">
+<li>卸载已有的mysql安装包</li>
+</ol>
+<pre><code>[hadoop@hadoop apache-hive-1.2.1-bin]$ sudo rpm -e --nodeps mysql-libs-5.1.73-5.el6_6.x86_64
+[sudo] password for hadoop:  
+</code></pre><ol start="3">
+<li>查看是否卸载成功</li>
+</ol>
+<pre><code>[hadoop@hadoop apache-hive-1.2.1-bin]$ rpm -qa | grep -i mysql  
+[hadoop@hadoop apache-hive-1.2.1-bin]$ 
+</code></pre><ol start="4">
+<li>mysql分为server端和client端</li>
+</ol>
+<pre><code> MySQL-client-5.5.47-1.linux2.6.x86_64.rpm
+ MySQL-server-5.5.47-1.linux2.6.x86_64.rpm
+</code></pre><pre><code>依次运行
+yum install numact1
+yum install libaio
+yum install perl
+</code></pre><pre><code>&gt; 解压Mysql包
+```
+tar xvf MySQL-5.6.26-1.linux_glibc2.5.x86_64.rpm-bundle.tar -C /opt/
+```
+</code></pre>
+<ol start="5">
+<li>
+<p>安装mysql软件</p>
+<p>通过rpm安装server</p>
+</li>
+</ol>
+<pre><code> rpm -ivh MySQL-server-5.5.47-1.linux2.6.x86_64.rpm 
+</code></pre><pre><code>通过rpm安装client
+</code></pre>
+<pre><code> rpm -ivh MySQL-client-5.5.47-1.linux2.6.x86_64.rpm
+</code></pre><ol start="6">
+<li>查看mysql的运行状态</li>
+</ol>
+<pre><code>sudo service mysql status
+</code></pre><ol start="7">
+<li>启动mysql服务</li>
+</ol>
+<pre><code>[root@hadoop mysql]# service mysql start
+Starting MySQL.. SUCCESS!
+</code></pre><ol start="8">
+<li>再次查看mysql运行状态</li>
+</ol>
+<pre><code> SUCCESS! MySQL running (5094)
+</code></pre><h3 id="设置密码远程授权">设置密码,远程授权</h3>
+<h4 id="设置密码">设置密码</h4>
+<ol>
+<li>mysql安装好之后进入mysql</li>
+</ol>
+<pre><code>mysql -uroot
+</code></pre><ol start="2">
+<li>查询数据库</li>
+</ol>
+<pre><code>mysql&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| test               |
++--------------------+
+4 rows in set (0.01 sec)
+</code></pre><ol start="3">
+<li>切换mysql数据库</li>
+</ol>
+<pre><code>mysql&gt; use mysql;
+Database changed
+</code></pre><ol start="4">
+<li>查看user, host, passWord信息</li>
+</ol>
+<pre><code>mysql&gt; select user,host,password from user;
++------+-----------+----------+
+| user | host      | password |
++------+-----------+----------+
+| root | localhost |          |
+| root | hadoop    |          |
+| root | 127.0.0.1 |          |
+| root | ::1       |          |
+|      | localhost |          |
+|      | hadoop    |          |
++------+-----------+----------+
+6 rows in set (0.00 sec)
+</code></pre><ol start="5">
+<li>设置mysql密码</li>
+</ol>
+<pre><code>mysql&gt; update user set password=PASSWORD('root') where user='root';
+Query OK, 4 rows affected (0.00 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+</code></pre><ol start="6">
+<li>修改密码之后, 查询user表内容如下,说明在本地已经成功设置好了密码</li>
+</ol>
+<pre><code>mysql&gt; select user,host,password from user;
++------+-----------+-------------------------------------------+
+| user | host      | password                                  |
++------+-----------+-------------------------------------------+
+| root | localhost | *81F5E21E35407D884A6CD4A731AEBFB6AF209E1B |
+| root | hadoop    | *81F5E21E35407D884A6CD4A731AEBFB6AF209E1B |
+| root | 127.0.0.1 | *81F5E21E35407D884A6CD4A731AEBFB6AF209E1B |
+| root | ::1       | *81F5E21E35407D884A6CD4A731AEBFB6AF209E1B |
+|      | localhost |                                           |
+|      | hadoop    |                                           |
++------+-----------+-------------------------------------------+
+6 rows in set (0.00 sec)
+</code></pre><h4 id="设置远程授权">设置远程授权</h4>
+<ol>
+<li>通过新设置的密码登录mysql, 发现遇到如下问题, 说明用户名或密码不正确</li>
+</ol>
+<pre><code>[root@hadoop mysql]# mysql -uroot -proot
+ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+</code></pre><pre><code>在user表中存在字段**host** , 该字段表示可以访问mysql的路径地址, 从哪个节点可以访问, 有这个字段来决定
+</code></pre>
+<ol start="2">
+<li>所以要授权远程登录, 则需要修改host字段, 增加一条信息, 表示任意节点都可以访问mysql, 用%来表示任意</li>
+</ol>
+<pre><code>mysql&gt; update user set host='%' where user='root' and host='127.0.0.1';
+</code></pre><ol start="3">
+<li>完成以上语句后, 需要对修改的user进行刷新来生效语句操作</li>
+</ol>
+<pre><code>mysql&gt; flush privileges;
+</code></pre><ol start="4">
+<li>完成以上操作之后验证mysql用户登录,可以登录成功</li>
+</ol>
+<pre><code>[root@hadoop mysql]# mysql -uroot -proot
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 6
+Server version: 5.5.47 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2015, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql&gt;
+</code></pre><h2 id="配置hive元数据保存在mysql">配置hive元数据保存在mysql</h2>
+<p>需要在hive-site.xml配置文件总进行配置</p>
+<ol>
+<li>设置hive链接mysql</li>
+</ol>
+<pre><code>  &lt;property&gt;
+    &lt;name&gt;javax.jdo.option.ConnectionURL&lt;/name&gt;
+    &lt;value&gt;jdbc:mysql://192.168.91.100:3306/metastore?createDatabaseIfNotExist=true&lt;/value&gt;
+    &lt;description&gt;JDBC connect string for a JDBC metastore&lt;/description&gt;
+  &lt;/property&gt;
+</code></pre><pre><code>metastore: 默认保存hive中的元数据, 是一个数据库的名字
+</code></pre>
+<ol start="2">
+<li>设置jdbc的驱动类</li>
+</ol>
+<pre><code>  &lt;property&gt;
+    &lt;name&gt;javax.jdo.option.ConnectionDriverName&lt;/name&gt;
+    &lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;
+    &lt;description&gt;Driver class name for a JDBC metastore&lt;/description&gt;
+  &lt;/property&gt;
+</code></pre><ol start="3">
+<li>设置mysql的用户名</li>
+</ol>
+<pre><code>  &lt;property&gt;
+    &lt;name&gt;javax.jdo.option.ConnectionUserName&lt;/name&gt;
+    &lt;value&gt;root&lt;/value&gt;
+    &lt;description&gt;Username to use against metastore database&lt;/description&gt;
+  &lt;/property&gt;
+</code></pre><ol start="4">
+<li>设置mysql的密码</li>
+</ol>
+<pre><code>  &lt;property&gt;
+    &lt;name&gt;javax.jdo.option.ConnectionPassword&lt;/name&gt;
+    &lt;value&gt;root&lt;/value&gt;
+    &lt;description&gt;password to use against metastore database&lt;/description&gt;
+  &lt;/property&gt;
+</code></pre><ol start="5">
+<li>完成以上的配置之后, 需要在hive/lib下边存放jdbc的驱动包, 上传好驱动包之后最好修改权限</li>
+</ol>
+<pre><code>
+</code></pre><ol start="6">
+<li>将驱动包拷贝到hive目录下的lib文件夹</li>
+</ol>
+<pre><code>cp mysql-connector-java-5.1.31.jar /opt/app/apache-hive-1.2.1-bin/lib/
+</code></pre><ol start="7">
+<li>
+<p>到hive的lib下检查是否拷贝成功</p>
+</li>
+<li>
+<p>配置完成, 退出hive重新进入, 检查mysql中是否创建了metastore数据库, 如果创建成功, 则说明配置成功</p>
+</li>
+</ol>
+<pre><code>mysql&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| metastore          |
+| mysql              |
+| performance_schema |
+| test               |
++--------------------+
+</code></pre><h2 id="hiveserver2">hiveserver2</h2>
+<h3 id="1-beeline方式的连接">1. beeline方式的连接</h3>
+<p>相当于在hive中启动一个服务器端, 客户端可以远程连接该hive, hiveserver2不用安装, 直接在hive/bin目录下启动</p>
+<pre><code>bin/hiveserver2
+</code></pre><p>hiveserver2的服务启动之后, 可以通过bin/beeline客户端进行连接</p>
+<p>官方实例:</p>
+<pre><code>!connect jdbc:hive2://localhost:10000 scott tiger
+</code></pre><p>按照官方提供实例, 连接hiveserver2 测试能否连接成功</p>
+<pre><code>!connect jdbc:hive2://hadoop:10000 hadoop 123456
+</code></pre><pre><code>./beeline -u jdbc:hive2://hadoop:10000 -n hadoop 123456
+
+</code></pre><h3 id="2-jdbc的方式连接">2. jdbc的方式连接</h3>
+<pre><code>package org.hive.server;
+
+import java.sql.SQLException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.DriverManager;
+
+public class HiveJdbcClient {
+
+	 private static String driverName = &quot;&quot;org.apache.hive.jdbc.HiveDriver&quot;&quot;;
+	 
+	  /**
+	   * @param args
+	   * @throws SQLException
+	   */
+	  public static void main(String[] args) throws SQLException {
+	      try {
+	      Class.forName(driverName);
+	    } catch (ClassNotFoundException e) {
+	      // TODO Auto-generated catch block
+	      e.printStackTrace();
+	      System.exit(1);
+	    }
+	    //replace &quot;&quot;hive&quot;&quot; here with the name of the user the queries should run as
+	    Connection con = DriverManager.getConnection(&quot;&quot;jdbc:hive2://10.0.152.235:10000/default&quot;&quot;, &quot;&quot;hive&quot;&quot;, &quot;&quot;&quot;&quot;);
+	    Statement stmt = con.createStatement();
+	    
+	    String sql = &quot;&quot;show tables&quot;&quot;;
+	    System.out.println(&quot;&quot;Running: &quot;&quot; + sql);
+	    ResultSet res = stmt.executeQuery(sql);
+	    if (res.next()) {
+	      System.out.println(res.getString(1));
+	    }
+	 }
+}
+</code></pre>
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

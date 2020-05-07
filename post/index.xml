@@ -6,10 +6,39 @@
     <description>Recent content in Posts on 我的个人空间</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 07 May 2020 09:53:22 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 07 May 2020 10:03:48 +0800</lastBuildDate>
     
 	<atom:link href="https://BanDianMan.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hive的环境部署</title>
+      <link>https://BanDianMan.github.io/post/hive%E7%9A%84%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/</link>
+      <pubDate>Thu, 07 May 2020 10:03:48 +0800</pubDate>
+      
+      <guid>https://BanDianMan.github.io/post/hive%E7%9A%84%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/</guid>
+      <description>Hive安装文档 hive的安装部署  由于hive是依赖于hadoop的, 所以先把hadoop相关的服务启动 配置hive &amp;ndash;&amp;gt;解压 tar -zxvf apache-hive-1.2.1-bin.tar.gz -C [一个安装目录] &amp;ndash;&amp;gt;创建目录用于保存hive的所有数据, 便于管理   bin/hdfs dfs -mkdir /tmp bin/hdfs dfs -mkdir /user/hive/warehouse &amp;ndash;&amp;gt;修改权限
+ bin/hdfs dfs -chmod g+w /tmp bin/hdfs dfs -chmod g+w /user/hive/warehouse  hive在HDFS上的默认路径
+ &amp;lt;property&amp;gt; &amp;lt;name&amp;gt;hive.metastore.warehouse.dir&amp;lt;/name&amp;gt; &amp;lt;value&amp;gt;/user/hive/warehouse&amp;lt;/value&amp;gt; &amp;lt;description&amp;gt;location of default database for the warehouse&amp;lt;/description&amp;gt; &amp;lt;/property&amp;gt;   修改hive-env.sh(改名)
+   # Set HADOOP_HOME to point to a specific hadoop install directory HADOOP_HOME=/opt/moduels/hadoop-2.5.0 # Hive Configuration Directory can be controlled by: export HIVE_CONF_DIR=/opt/moduels/hive-0.</description>
+    </item>
+    
+    <item>
+      <title>Hive的调优</title>
+      <link>https://BanDianMan.github.io/post/hive%E7%9A%84%E8%B0%83%E4%BC%98/</link>
+      <pubDate>Thu, 07 May 2020 10:02:47 +0800</pubDate>
+      
+      <guid>https://BanDianMan.github.io/post/hive%E7%9A%84%E8%B0%83%E4%BC%98/</guid>
+      <description>表的优化   在表的优化中, 当数据量较大的时候常用的手段就是拆分表, 大表拆小表, 分区表, 临时表, 外部表
+  小表和大表的join, 要把数据量小的表放在join的左边, 先进行缓存, 这样会减少表join的时候内存的消耗量
+  数据倾斜 数据倾斜产生的原因为分区之后某一个reduce运算的数据量比较小, 而某一个reduce运行的数据量比较大, 造成两个reduce处理数据不平等
+合理设置map数量 可以影响map的数量的因素 在input文件夹中, 每一个文件就是一个map. 而input文件的数量, input文件的大小都会影响map的数量, 在mapreduce任务中, 一个切片就是一个map任务, 在Driver中设置如下:
+FileInputFormat.setMaxInputSplitSize(job, size); FileInputFormat.setMinInputSplitSize(job, size); 合理设置reduce数量 设置reduce个数:
+hive (default)&amp;gt; set mapreduce.job.reduces; mapreduce.job.reduces=-1 //默认为-1, 就是不设置reduce的个数 根据业务自定分区规则
+并行执行 并行执行与java多线程的异步和同步概念差不多, 在MR运行任务中, 存在很多的MR任务可以进行执行, 有些MR任务和下一个MR任务存在依赖关系, 但是有些MR任务没有依赖关系. 例如: 存在依赖关系的MR, 一个MR任务的输出就是下一个MR任务的输入. 对于没有依赖关系的MR任务可以使用并行执行, 在同一时间运行多个MR任务, 这样在运行的过程中效率就会得到提升.
+可以通过以下参数来设置
+ 开启并行任务  hive (default)&amp;gt; set hive.exec.parallel; hive.exec.parallel=false --------------------------------------- set hive.exec.parallel=true; 设置多少个任务可以同时运行  hive (default)&amp;gt; set hive.</description>
+    </item>
     
     <item>
       <title>ApacheKafka基础及开发</title>
