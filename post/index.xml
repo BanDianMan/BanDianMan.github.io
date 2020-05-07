@@ -6,10 +6,30 @@
     <description>Recent content in Posts on 我的个人空间</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 07 May 2020 09:34:52 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 07 May 2020 09:53:22 +0800</lastBuildDate>
     
 	<atom:link href="https://BanDianMan.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ApacheKafka基础及开发</title>
+      <link>https://BanDianMan.github.io/post/apachekafka%E5%9F%BA%E7%A1%80%E5%8F%8A%E5%BC%80%E5%8F%91/</link>
+      <pubDate>Thu, 07 May 2020 09:53:22 +0800</pubDate>
+      
+      <guid>https://BanDianMan.github.io/post/apachekafka%E5%9F%BA%E7%A1%80%E5%8F%8A%E5%BC%80%E5%8F%91/</guid>
+      <description>Apache Kafka 基础及开发 介绍   Apache Kafka是一个高吞吐量的分布式发布-订阅消息系统，它被设计成可快速扩展和持久的
+  Kafka经常被用来代替传统的消息代理，比如JMS和AMQP，因为它具有更高的吞吐量、可靠性和可复制性。
+  Kafika是用Scala写的。
+  特性  快 : 一个Kafka代理可以处理数千个客户端每秒数百兆的读写可 扩展 : Kafka集群可以弹性地、透明地扩展，而不需要停机。 经久耐用 : 消息被保存在磁盘上，并在集群内复制 实时 : Kafka用于构建实时数据管道和流媒体应用 容错性：允许集群中节点失败（若副本数量为n,则允许n-1个节点失败）  架构  Kafka在名为主题的类别中维护消息提要; 制作人将消息发布到一个Kafka主题; 使用者订阅主题并处理已发布消息的提要; Kafka集群中的服务器称为代理。  使用场景   日志收集：一个公司可以用Kafka可以收集各种服务的log，通过kafka以统一接口服务的方式开放给各种consumer，例如hadoop、Hbase、Solr等。
+  消息系统：解耦和生产者和消费者、缓存消息等。
+  用户活动跟踪：Kafka经常被用来记录web用户或者app用户的各种活动，如浏览网页、搜索、点击等活动，这些活动信息被各个服务器发布到kafka的topic中，然后订阅者通过订阅这些topic来做实时的监控分析，或者装载到hadoop、数据仓库中做离线分析和挖掘。
+  运营指标：Kafka也经常用来记录运营监控数据。包括收集各种分布式应用的数据，生产各种操作的集中反馈，比如报警和报告。
+  流式处理：比如spark streaming和storm
+  事件源
+  高吞吐量和低延迟 Kafka主要通过两个关键概念来实现高吞吐量和低延迟
+  分批处理单个消息以分摊网络开销和附加/消耗块
+  使用sendfile的零拷贝l/O, (Java的NIO FileChannel transferTo方法)</description>
+    </item>
     
     <item>
       <title>Hive笔记(一)</title>

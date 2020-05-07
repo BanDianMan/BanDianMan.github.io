@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>ApacheKafka基础及开发 // 我的个人空间</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://BanDianMan.github.io/css/main.min.f90f5edd436ec7b74ad05479a05705770306911f721193e7845948fb07fe1335.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ApacheKafka基础及开发"/>
+<meta name="twitter:description" content="Apache Kafka 基础及开发 介绍   Apache Kafka是一个高吞吐量的分布式发布-订阅消息系统，它被设计成可快速扩展和持久的
+  Kafka经常被用来代替传统的消息代理，比如JMS和AMQP，因为它具有更高的吞吐量、可靠性和可复制性。
+  Kafika是用Scala写的。
+  特性  快 : 一个Kafka代理可以处理数千个客户端每秒数百兆的读写可 扩展 : Kafka集群可以弹性地、透明地扩展，而不需要停机。 经久耐用 : 消息被保存在磁盘上，并在集群内复制 实时 : Kafka用于构建实时数据管道和流媒体应用 容错性：允许集群中节点失败（若副本数量为n,则允许n-1个节点失败）  架构  Kafka在名为主题的类别中维护消息提要; 制作人将消息发布到一个Kafka主题; 使用者订阅主题并处理已发布消息的提要; Kafka集群中的服务器称为代理。  使用场景   日志收集：一个公司可以用Kafka可以收集各种服务的log，通过kafka以统一接口服务的方式开放给各种consumer，例如hadoop、Hbase、Solr等。
+  消息系统：解耦和生产者和消费者、缓存消息等。
+  用户活动跟踪：Kafka经常被用来记录web用户或者app用户的各种活动，如浏览网页、搜索、点击等活动，这些活动信息被各个服务器发布到kafka的topic中，然后订阅者通过订阅这些topic来做实时的监控分析，或者装载到hadoop、数据仓库中做离线分析和挖掘。
+  运营指标：Kafka也经常用来记录运营监控数据。包括收集各种分布式应用的数据，生产各种操作的集中反馈，比如报警和报告。
+  流式处理：比如spark streaming和storm
+  事件源
+  高吞吐量和低延迟 Kafka主要通过两个关键概念来实现高吞吐量和低延迟
+  分批处理单个消息以分摊网络开销和附加/消耗块
+  使用sendfile的零拷贝l/O, (Java的NIO FileChannel transferTo方法)"/>
+
+    <meta property="og:title" content="ApacheKafka基础及开发" />
+<meta property="og:description" content="Apache Kafka 基础及开发 介绍   Apache Kafka是一个高吞吐量的分布式发布-订阅消息系统，它被设计成可快速扩展和持久的
+  Kafka经常被用来代替传统的消息代理，比如JMS和AMQP，因为它具有更高的吞吐量、可靠性和可复制性。
+  Kafika是用Scala写的。
+  特性  快 : 一个Kafka代理可以处理数千个客户端每秒数百兆的读写可 扩展 : Kafka集群可以弹性地、透明地扩展，而不需要停机。 经久耐用 : 消息被保存在磁盘上，并在集群内复制 实时 : Kafka用于构建实时数据管道和流媒体应用 容错性：允许集群中节点失败（若副本数量为n,则允许n-1个节点失败）  架构  Kafka在名为主题的类别中维护消息提要; 制作人将消息发布到一个Kafka主题; 使用者订阅主题并处理已发布消息的提要; Kafka集群中的服务器称为代理。  使用场景   日志收集：一个公司可以用Kafka可以收集各种服务的log，通过kafka以统一接口服务的方式开放给各种consumer，例如hadoop、Hbase、Solr等。
+  消息系统：解耦和生产者和消费者、缓存消息等。
+  用户活动跟踪：Kafka经常被用来记录web用户或者app用户的各种活动，如浏览网页、搜索、点击等活动，这些活动信息被各个服务器发布到kafka的topic中，然后订阅者通过订阅这些topic来做实时的监控分析，或者装载到hadoop、数据仓库中做离线分析和挖掘。
+  运营指标：Kafka也经常用来记录运营监控数据。包括收集各种分布式应用的数据，生产各种操作的集中反馈，比如报警和报告。
+  流式处理：比如spark streaming和storm
+  事件源
+  高吞吐量和低延迟 Kafka主要通过两个关键概念来实现高吞吐量和低延迟
+  分批处理单个消息以分摊网络开销和附加/消耗块
+  使用sendfile的零拷贝l/O, (Java的NIO FileChannel transferTo方法)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://BanDianMan.github.io/post/apachekafka%E5%9F%BA%E7%A1%80%E5%8F%8A%E5%BC%80%E5%8F%91/" />
+<meta property="article:published_time" content="2020-05-07T09:53:22+08:00" />
+<meta property="article:modified_time" content="2020-05-07T09:53:22+08:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://BanDianMan.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <h1>我的个人空间</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium.</p>
+      <div class="app-header-social">
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">ApacheKafka基础及开发</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          May 7, 2020
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          1 min read
+        </div></div>
+    </header>
+    <div class="post-content">
+      <h3 id="apache-kafka-基础及开发">Apache Kafka 基础及开发</h3>
+<h4 id="介绍">介绍</h4>
+<ul>
+<li>
+<p>Apache Kafka是一个高吞吐量的分布式发布-订阅消息系统，它被设计成可快速扩展和持久的</p>
+</li>
+<li>
+<p>Kafka经常被用来代替传统的消息代理，比如JMS和AMQP，因为它具有更高的吞吐量、可靠性和可复制性。</p>
+</li>
+<li>
+<p>Kafika是用Scala写的。</p>
+</li>
+</ul>
+<h4 id="特性">特性</h4>
+<ul>
+<li>快 : 一个Kafka代理可以处理数千个客户端每秒数百兆的读写可</li>
+<li>扩展 : Kafka集群可以弹性地、透明地扩展，而不需要停机。</li>
+<li>经久耐用 : 消息被保存在磁盘上，并在集群内复制</li>
+<li>实时 : Kafka用于构建实时数据管道和流媒体应用</li>
+<li>容错性：允许集群中节点失败（若副本数量为n,则允许n-1个节点失败）</li>
+</ul>
+<h4 id="架构">架构</h4>
+<ul>
+<li>Kafka在名为主题的类别中维护消息提要;</li>
+<li>制作人将消息发布到一个Kafka主题;</li>
+<li>使用者订阅主题并处理已发布消息的提要;</li>
+<li>Kafka集群中的服务器称为代理。</li>
+</ul>
+<h4 id="使用场景">使用场景</h4>
+<ul>
+<li>
+<p>日志收集：一个公司可以用Kafka可以收集各种服务的log，通过kafka以统一接口服务的方式开放给各种consumer，例如hadoop、Hbase、Solr等。</p>
+</li>
+<li>
+<p>消息系统：解耦和生产者和消费者、缓存消息等。</p>
+</li>
+<li>
+<p>用户活动跟踪：Kafka经常被用来记录web用户或者app用户的各种活动，如浏览网页、搜索、点击等活动，这些活动信息被各个服务器发布到kafka的topic中，然后订阅者通过订阅这些topic来做实时的监控分析，或者装载到hadoop、数据仓库中做离线分析和挖掘。</p>
+</li>
+<li>
+<p>运营指标：Kafka也经常用来记录运营监控数据。包括收集各种分布式应用的数据，生产各种操作的集中反馈，比如报警和报告。</p>
+</li>
+<li>
+<p>流式处理：比如spark streaming和storm</p>
+</li>
+<li>
+<p>事件源</p>
+</li>
+</ul>
+<h4 id="高吞吐量和低延迟">高吞吐量和低延迟</h4>
+<p>Kafka主要通过两个关键概念来实现高吞吐量和低延迟</p>
+<ul>
+<li>
+<p>分批处理单个消息以分摊网络开销和附加/消耗块</p>
+</li>
+<li>
+<p>使用sendfile的零拷贝l/O, (Java的NIO FileChannel transferTo方法)</p>
+<ul>
+<li>实现linux sendfile()系统调用，它跳过不必要的副本</li>
+<li>严重依赖于Linux PageCache</li>
+</ul>
+</li>
+<li>
+<p>在一个消费者大致赶上成本估算关系的系统中，这是必要的是缓存中的数据。</p>
+<ul>
+<li>这使得端到端延迟非常低。</li>
+</ul>
+</li>
+</ul>
+<h4 id="kafka-roles---broker">Kafka Roles - Broker</h4>
+<ul>
+<li>
+<p>代理 :</p>
+<ul>
+<li>代理是Kafka集群中的服务器;</li>
+</ul>
+</li>
+<li>
+<p>每个分区都有一台服务器充当领导者，而没有一台或更多服务器作为追随者 / ISRS;</p>
+<ul>
+<li>leader处理所有的读和写请求</li>
+<li>追随者被动地模仿领导者</li>
+</ul>
+</li>
+<li>
+<p>每个服务器充当某些分区的领导者和其他分区的追随者，因此负载非常平衡。</p>
+</li>
+</ul>
+<h4 id="kafka-roles---producer">Kafka Roles - Producer</h4>
+<ul>
+<li>生产者将数据发布到他们选择的主题;
+<ul>
+<li>生产者负责选择将哪个消息分配给主题中的哪个分区;
+- 通常通过“循环”或“语义分区”的关键</li>
+</ul>
+</li>
+<li>异步发布(不太持久)</li>
+<li>所有节点都可以响应元数据请求:
+<ul>
+<li>哪些服务器是活动的</li>
+<li>.一个主题的领导者在哪里</li>
+</ul>
+</li>
+</ul>
+<h4 id="kafka-roles---consumer">Kafka Roles - Consumer</h4>
+<ul>
+<li>消费者
+<ul>
+<li>消费者通过订阅使用消息;</li>
+<li>多个使用者可以从相同的主题中读取内容</li>
+<li>消费者被组织成消费者群体;</li>
+<li>Kafka向消费者组提供消息，而不是消费者实例
+<ul>
+<li>因此，冲销管理是在消费者群体层面</li>
+</ul>
+</li>
+<li>消息仍然保留在Kafka上，在它们被消费后不会被删除</li>
+</ul>
+</li>
+</ul>
+<h4 id="consumer---rebalancing">Consumer - Rebalancing</h4>
+<ul>
+<li>再平衡(由组协调器)
+<ul>
+<li>和主题的分区被分配给组的使用者。</li>
+<li>当组中的使用者可用时，将重新分配分区,使每个消费者都能得到一定比例的份额
+<ul>
+<li>使用者的数量不能超过分区的数量</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Messaging Models
+<ul>
+<li>队列:消息传递给一个消费者。</li>
+<li>所有消费者都属于同一消费群体;</li>
+<li>发布-订阅:消息发送给所有消费者。
+<ul>
+<li>所有消费者被分配到不同的消费群体;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="the-role-of-zookeeper">The Role of ZooKeeper</h4>
+<ul>
+<li>Kafka使用Apache ZooKeeper作为分布式服务器</li>
+<li>它构成Kafka集群的主干，不断地监视代理/集群的健康状况</li>
+<li>Kafka的初始版本使用ZooKeeper来存储每个消费者的偏移信息;从0.10开始，Kafka有自己的内部偏移存储主题。</li>
+</ul>
+<h4 id="kafka-apis">Kafka APIs</h4>
+<ul>
+<li><a href="https://kafka.apache.org/documentation.html#producerapi">Producer API</a> 允许应用程序将记录流发布到一个或多个Kafka主题。</li>
+<li><a href="https://kafka.apache.org/documentation.html#consumerapi">Consumer APL </a>允许应用程序订阅一个或多个主题，并处理产生给它们的记录流。</li>
+<li><a href="https://kafka.apache.org/documentation/streams">Streams API </a>允许应用程序充当流处理器，使用一个或多个opics的输入流，并将输出流生成一个或多个输出主题，从而有效地将输入流转换为输出流。</li>
+<li><a href="https://kafka.apache.org/documentation.html#connect">Connector APl</a> 允许构建和运行将Kafka opics连接到现有应用程序或数据系统的reu sable生产者或消费者
+<ul>
+<li>到关系数据库的连接器可能捕获对表的每个更改。</li>
+</ul>
+</li>
+</ul>
+<h4 id="消息顺序">消息顺序</h4>
+<ul>
+<li>仅在一个主题的分区内保证排序</li>
+<li>确保一个主题的全局排序:
+<ul>
+<li>如果所有消息必须在一个主题内排序，那么使用一个分区</li>
+<li>如果消息可以按照某些属性排序
+<ul>
+<li>按键对分区中的消息分组(根据生成器中的属性定义)</li>
+<li>在一个使用者组中为每个分区配置一个使用者实例</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>注意
+<ul>
+<li>一个分区内的数据将按照写入的顺序存储，因此从一个分区读取的数据将按照该分区的顺序读取。</li>
+</ul>
+</li>
+</ul>
+<h4 id="消息复制">消息复制</h4>
+<ul>
+<li>
+<p>持久性可以使用“生产者配置请求”配置</p>
+<ul>
+<li>0 -  生产者从不等待ack</li>
+<li>1 -  在leader副本收到数据后，生产者得到一个ack</li>
+<li>-1 / all -在所有ISRs(同步复制)接收到数据后，生产者得到一个ack</li>
+</ul>
+</li>
+<li>
+<p>还可以配置最小可用ISR，以便在没有足够的副本可用来复制数据时返回错误</p>
+</li>
+</ul>
+<h4 id="数据丢失">数据丢失</h4>
+<ul>
+<li>
+<p>Kafka Producer API</p>
+<ul>
+<li>消息成批地在缓冲区中累积</li>
+<li>消息按分区批量处理，在批处理级别重试</li>
+<li>重试后丢弃的过期批</li>
+</ul>
+</li>
+<li>
+<p>Data Loss at Producer</p>
+<ul>
+<li>在终止时未能关闭/刷新生成器</li>
+<li>当acks =0或重试耗尽时，由于通信或其他错误而丢弃的批</li>
+</ul>
+</li>
+<li>
+<p>数据生成的速度比交付的速度快，导致buffer详尽异常</p>
+</li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
