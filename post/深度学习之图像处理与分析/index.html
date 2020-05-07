@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>深度学习之图像处理与分析 // 我的个人空间</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://BanDianMan.github.io/css/main.min.f90f5edd436ec7b74ad05479a05705770306911f721193e7845948fb07fe1335.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="深度学习之图像处理与分析"/>
+<meta name="twitter:description" content="深度学习之图像处理与分析  目录  人工智能和深度学习概论 图像基础 深度学习基础 深度学习的基本数学 理解的人工神经网络  人工智能和深度学习概论 中国的AI  2017年7月，国务院发布白皮书，使中国到2030年成为全球AI领导者，行业价值1500亿美元 到2030年投资70亿美元，其中包括在北京的一个研究园的20亿美元 全球AI资金占主导地位48％，而美国在2017年为38％ 中国的AI公司总数为23％，而美国2017年为42％  AI与ML与DL  Artificial intelligence(人工智能)  使人类通常执行的智力任务自动化的努力   Machine Learning(机器学习)  使系统无需进行显式编程即可自动从数据进行改进   Deep Learning(深度学习)  机器学习的特定子领域 侧重于学习越来越有意义的表示形式的连续层    人工神经网络  最初于1950年代进行调查，始于1980年代 不是真正的大脑模型 受到神经生物学研究的宽松启发  深度学习的深度如何？  深度学习是人工神经网络的重塑，具有两层以上 “深入”并不是指通过这种方法获得的更深刻的理解 它代表连续表示层的想法  深度学习框架 我们的深度学习技术堆栈 GPU和CUDA  GPU(Graphics Processing Unit):  数百个更简单的内核 数千个并发的硬件线程 最大化浮点吞吐量   CUDA(Compute Unified Device Architecture)  并行编程模型，可通过利用GPU显着提高计算性能   cuDNN（CUDA深度神经网络库）  GPU加速的神经网络原语库 它为以下方面提供了高度优化的实现：卷积，池化，规范化和激活层    设置深度学习环境  安装Anaconda3-5."/>
+
+    <meta property="og:title" content="深度学习之图像处理与分析" />
+<meta property="og:description" content="深度学习之图像处理与分析  目录  人工智能和深度学习概论 图像基础 深度学习基础 深度学习的基本数学 理解的人工神经网络  人工智能和深度学习概论 中国的AI  2017年7月，国务院发布白皮书，使中国到2030年成为全球AI领导者，行业价值1500亿美元 到2030年投资70亿美元，其中包括在北京的一个研究园的20亿美元 全球AI资金占主导地位48％，而美国在2017年为38％ 中国的AI公司总数为23％，而美国2017年为42％  AI与ML与DL  Artificial intelligence(人工智能)  使人类通常执行的智力任务自动化的努力   Machine Learning(机器学习)  使系统无需进行显式编程即可自动从数据进行改进   Deep Learning(深度学习)  机器学习的特定子领域 侧重于学习越来越有意义的表示形式的连续层    人工神经网络  最初于1950年代进行调查，始于1980年代 不是真正的大脑模型 受到神经生物学研究的宽松启发  深度学习的深度如何？  深度学习是人工神经网络的重塑，具有两层以上 “深入”并不是指通过这种方法获得的更深刻的理解 它代表连续表示层的想法  深度学习框架 我们的深度学习技术堆栈 GPU和CUDA  GPU(Graphics Processing Unit):  数百个更简单的内核 数千个并发的硬件线程 最大化浮点吞吐量   CUDA(Compute Unified Device Architecture)  并行编程模型，可通过利用GPU显着提高计算性能   cuDNN（CUDA深度神经网络库）  GPU加速的神经网络原语库 它为以下方面提供了高度优化的实现：卷积，池化，规范化和激活层    设置深度学习环境  安装Anaconda3-5." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://BanDianMan.github.io/post/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E4%B8%8E%E5%88%86%E6%9E%90/" />
+<meta property="article:published_time" content="2020-05-07T09:09:34+08:00" />
+<meta property="article:modified_time" content="2020-05-07T09:09:34+08:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://BanDianMan.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <h1>我的个人空间</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium.</p>
+      <div class="app-header-social">
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">深度学习之图像处理与分析</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          May 7, 2020
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          2 min read
+        </div></div>
+    </header>
+    <div class="post-content">
+      <h2 id="深度学习之图像处理与分析">深度学习之图像处理与分析</h2>
+<hr>
+<h3 id="目录">目录</h3>
+<ul>
+<li>人工智能和深度学习概论</li>
+<li>图像基础</li>
+<li>深度学习基础</li>
+<li>深度学习的基本数学</li>
+<li>理解的人工神经网络</li>
+</ul>
+<h3 id="人工智能和深度学习概论">人工智能和深度学习概论</h3>
+<h4 id="中国的ai">中国的AI</h4>
+<ul>
+<li>2017年7月，国务院发布白皮书，使中国到2030年成为全球AI领导者，行业价值1500亿美元</li>
+<li>到2030年投资70亿美元，其中包括在北京的一个研究园的20亿美元</li>
+<li>全球AI资金占主导地位48％，而美国在2017年为38％</li>
+<li>中国的AI公司总数为23％，而美国2017年为42％</li>
+</ul>
+<h4 id="ai与ml与dl">AI与ML与DL</h4>
+<ul>
+<li>Artificial intelligence(人工智能)
+<ul>
+<li>使人类通常执行的智力任务自动化的努力</li>
+</ul>
+</li>
+<li>Machine Learning(机器学习)
+<ul>
+<li>使系统无需进行显式编程即可自动从数据进行改进</li>
+</ul>
+</li>
+<li>Deep Learning(深度学习)
+<ul>
+<li>机器学习的特定子领域</li>
+<li>侧重于学习越来越有意义的表示形式的连续层</li>
+</ul>
+</li>
+</ul>
+<h4 id="人工神经网络">人工神经网络</h4>
+<ul>
+<li>最初于1950年代进行调查，始于1980年代</li>
+<li>不是真正的大脑模型</li>
+<li>受到神经生物学研究的宽松启发</li>
+</ul>
+<h4 id="深度学习的深度如何">深度学习的深度如何？</h4>
+<ul>
+<li>深度学习是人工神经网络的重塑，具有两层以上</li>
+<li>“深入”并不是指通过这种方法获得的更深刻的理解</li>
+<li>它代表连续表示层的想法</li>
+</ul>
+<h3 id="深度学习框架">深度学习框架</h3>
+<!-- raw HTML omitted -->
+<h4 id="我们的深度学习技术堆栈">我们的深度学习技术堆栈</h4>
+<p><img src="https://i.loli.net/2020/05/07/j5DZMElh4ginTYp.png" alt="image-20200507091118194"></p>
+<h4 id="gpu和cuda">GPU和CUDA</h4>
+<ul>
+<li>GPU(Graphics Processing Unit):
+<ul>
+<li>数百个更简单的内核</li>
+<li>数千个并发的硬件线程</li>
+<li>最大化浮点吞吐量</li>
+</ul>
+</li>
+<li>CUDA(Compute Unified Device Architecture)
+<ul>
+<li>并行编程模型，可通过利用GPU显着提高计算性能</li>
+</ul>
+</li>
+<li>cuDNN（CUDA深度神经网络库）
+<ul>
+<li>GPU加速的神经网络原语库</li>
+<li>它为以下方面提供了高度优化的实现：卷积，池化，规范化和激活层</li>
+</ul>
+</li>
+</ul>
+<h4 id="设置深度学习环境">设置深度学习环境</h4>
+<ul>
+<li>安装Anaconda3-5.2.0</li>
+<li>安装DL框架
+<ul>
+<li>$ conda install -c conda-forge tensorflow</li>
+<li>$ conda install -c conda-forge keras</li>
+</ul>
+</li>
+<li>启动Jupyter Server
+<ul>
+<li>$ jupyter notebook</li>
+</ul>
+</li>
+</ul>
+<h3 id="图像处理基础">图像处理基础</h3>
+<h4 id="像素">像素</h4>
+<ul>
+<li>像素是图像的原始构建块。 每个图像都包含一组像素</li>
+<li>像素被认为是在图像中给定位置出现的光的“颜色”或“强度”</li>
+<li>图片的分辨率为1024x768，即1024像素</li>
+<li>宽768像素高</li>
+</ul>
+<h4 id="灰度与颜色">灰度与颜色</h4>
+<ul>
+<li>在灰度图像中，每个像素的标量值为0到255之间，其中零对应于黑色，而255为白色。 0到255之间的值是变化的灰色阴影</li>
+<li>RGB颜色空间中的像素由三个值的列表表示：红色代表一个值，绿色代表一个值，蓝色代表另一个值</li>
+<li>通过执行均值减法或缩放对输入图像进行预处理，这是将图像转换为浮点数据类型所必需的</li>
+</ul>
+<h4 id="图像表示">图像表示</h4>
+<ul>
+<li>我们可以将RGB图像概念化，该图像由宽度W和高度H的三个独立矩阵组成，每个RGB分量一个</li>
+<li>RGB图像中的给定像素是[0; 255]范围内的三个整数的列表：红色代表一个值，绿色代表第二个值，蓝色代表最终值</li>
+<li>RGB图像可以以形状（高度，宽度，深度）存储在3D NumPy多维数组中。</li>
+</ul>
+<h4 id="图像分类">图像分类</h4>
+<ul>
+<li>图像分类是从一组预定义的类别中为图像分配标签的任务</li>
+<li>假设计算机看到的只是一个很大的像素矩阵，那么如何以计算机可以理解的过程来表示图像</li>
+<li>应用特征提取以获取输入图像，应用算法并获得量化内容的特征向量</li>
+<li>我们的目标是应用深度学习算法来发现图像集合中的潜在模式，从而使我们能够正确分类算法尚未遇到的图像</li>
+</ul>
+<h3 id="深度学习基础">深度学习基础</h3>
+<h4 id="数据处理">数据处理</h4>
+<ul>
+<li>向量化
+<ul>
+<li>将原始数据转换为张量</li>
+</ul>
+</li>
+<li>正常化
+<ul>
+<li>所有特征值均在同一范围内，标准偏差为1，平均值为0</li>
+</ul>
+</li>
+<li>特征工程
+<ul>
+<li>通过在建模之前将人类知识应用于数据来使算法更好地工作</li>
+</ul>
+</li>
+</ul>
+<h4 id="什么是模型">什么是模型</h4>
+<ul>
+<li>在训练数据集上训练ML算法时生成的函数</li>
+<li>例如。 找出w和b的值，因此f（x）= wx + b紧密匹配数据点。
+<img src="https://i.loli.net/2020/05/07/oXVkl8pgTrnY7Wi.png" alt="image-20200507091131504"></li>
+</ul>
+<h4 id="模型重量">模型重量</h4>
+<ul>
+<li>模型权重=参数=内核
+<ul>
+<li>从训练数据中学到的模型的可学习部分</li>
+<li>学习开始之前，这些参数的值会随机初始化</li>
+<li>然后调整为具有最佳输出的值</li>
+</ul>
+</li>
+<li>模型超参数：
+<ul>
+<li>在实际优化模型参数之前手动设置变量</li>
+<li>例如 学习率，批量大小，时代等</li>
+</ul>
+</li>
+</ul>
+<h4 id="optimizer优化器">Optimizer(优化器)</h4>
+<ul>
+<li>通过动态调整学习率来确定如何更新网络权重</li>
+<li>热门优化器:
+<ul>
+<li>SGD（随机梯度下降）</li>
+<li>RMSProp（均方根传播）</li>
+<li>动量•Adam（自适应矩估计）</li>
+</ul>
+</li>
+</ul>
+<h4 id="loss-function损失函数">Loss Function(损失函数)</h4>
+<ul>
+<li>也称为误差函数或成本函数</li>
+<li>通过汇总整个数据集的误差并求平均值来量化模型预测与地面真实程度的接近程度</li>
+<li>查找权重组合以最小化损失函数</li>
+<li>广泛使用的损失函数
+<ul>
+<li>交叉熵（对数损失）</li>
+<li>均方误差（MSE）</li>
+<li>均值绝对误差（MAE）</li>
+</ul>
+</li>
+</ul>
+<h4 id="weight-updates">Weight Updates</h4>
+<p><img src="https://i.loli.net/2020/05/07/qmlv7QHCiSKobep.png" alt="image-20200507092156579"></p>
+<h4 id="学习率">学习率</h4>
+<ul>
+<li>控制我们在损耗梯度方面调整网络权重的程度</li>
+<li>系数，用于衡量模型在损失函数中权重的大小</li>
+<li>它确定算法的下一步要使用多少梯度。
+<img src="https://i.loli.net/2020/05/07/CU1of9DQE3uV2BK.png" alt="image-20200507092237039"></li>
+</ul>
+<h4 id="指标">指标</h4>
+<ul>
+<li>研究人员使用度量标准来在每个时期后根据验证集判断模型的性能</li>
+<li>分类指标
+<ul>
+<li>准确性</li>
+<li>精确</li>
+<li>召回</li>
+</ul>
+</li>
+<li>回归指标：
+<ul>
+<li>平均绝对误差</li>
+<li>均方误差</li>
+</ul>
+</li>
+</ul>
+<h4 id="深度学习的基本数学">深度学习的基本数学</h4>
+<ul>
+<li>线性代数：矩阵运算</li>
+<li>微积分：微分，梯度下降</li>
+<li>统计: 概率</li>
+</ul>
+<h4 id="tensors张量">Tensors(张量)</h4>
+<ul>
+<li>张量:
+<ul>
+<li>数值数据的容器</li>
+<li>多维数组</li>
+<li>机器学习的基本数据结构</li>
+<li>!<img src="https://i.loli.net/2020/05/07/M5WD6VopYdcA1Cn.png" alt="image-20200507092254611"></li>
+</ul>
+</li>
+</ul>
+<h4 id="tensor-operations张量运算">Tensor Operations(张量运算)</h4>
+<ul>
+<li><strong>Element-wise product</strong>
+<ul>
+<li>将一个元素的每个元素与另一个元素的每个元素相乘</li>
+<li><img src="https://i.loli.net/2020/05/07/tZTvgy97UlQEPYM.png" alt="image-20200507092301149"></li>
+</ul>
+</li>
+</ul>
+<h4 id="broadcasting广播">Broadcasting(广播)</h4>
+<ul>
+<li>广播较小的张量以匹配较大的张量的形状</li>
+<li><img src="https://i.loli.net/2020/05/07/JsVWmC6F1MUfwvz.png" alt="image-20200507092310225"></li>
+</ul>
+<h4 id="dot-product-example点积的例子">Dot Product Example(点积的例子)</h4>
+<ul>
+<li>第一个矩阵的列数必须等于第二个矩阵的行数</li>
+<li>A(m, n) x B(n, k) = C(m, k)</li>
+<li><img src="https://i.loli.net/2020/05/07/iCMNqAKEa4oWvw9.png" alt="image-20200507092316404"></li>
+</ul>
+<h4 id="derivative-vs-gradient-导数与梯度">Derivative vs. Gradient (导数与梯度)</h4>
+<ul>
+<li>导数测量标量值的函数的“变化率”</li>
+<li>梯度是张量的导数，导数的多维泛化</li>
+<li>在一个变量的函数上定义了导数，而梯度为 用于几个变量的函数。</li>
+<li><img src="https://i.loli.net/2020/05/07/Iu5gaZ6OflUdKLc.png" alt="image-20200507092328217"></li>
+<li><img src="https://i.loli.net/2020/05/07/lN9d4X8iocervjS.png" alt="image-20200507092336144"></li>
+</ul>
+<h4 id="梯度下降">梯度下降</h4>
+<ul>
+<li>梯度下降法是找到一个函数的局部最小值</li>
+<li>成本函数告诉我们离全局最小值有多远</li>
+<li><img src="https://i.loli.net/2020/05/07/nCdI9TKVL4Beqa6.png" alt="image-20200507092342268"></li>
+</ul>
+<h3 id="人工神经网络-1">人工神经网络</h3>
+<ul>
+<li>许多简单的单元在没有集中控制单元的情况下并行工作</li>
+<li>ANN由输入/输出层和隐藏层组成</li>
+<li>每层中的单元都完全连接到前馈神经网络中相邻层中的所有单元。</li>
+<li><img src="https://i.loli.net/2020/05/07/PYur1zgbXMdjGiy.png" alt="image-20200507092349416">D:\App\hugo\XiaoHe\content\post\F5A4DEA36C00496FB8D89212EC7BF2D7)</li>
+</ul>
+<h4 id="神经元">神经元</h4>
+<ul>
+<li>神经元是人工神经网络的数学功能和基本处理元素</li>
+<li>人工神经网络中的每个神经元都会对其所有输入进行加权求和，添加一个恒定的偏差，然后通过非线性激活函数提供结果</li>
+<li><img src="https://i.loli.net/2020/05/07/ELqThBntlwxpGIk.png" alt="image-20200507092355248"></li>
+</ul>
+<h4 id="层数">层数</h4>
+<ul>
+<li>一层是一个数据处理模块，使用张量作为输入和输出张量。</li>
+<li>隐藏层是网络外部无法观察到的层</li>
+<li>大多数层具有权重，而有些则没有权重</li>
+<li>每个层具有不同数量的单位</li>
+</ul>
+<h4 id="连接权重和偏差">连接权重和偏差</h4>
+<ul>
+<li>放大输入信号并抑制网络单元噪声的系数。</li>
+<li>通过减小某些权重，另一些权重较大，可以使某些功能有意义，并最小化其他功能，从而了解哪些结果有用。</li>
+<li>偏差为标量值 输入，以确保无论信号强度如何，每层至少激活几个单位</li>
+<li>本质上，ANN旨在优化权重和偏差以最小化误差</li>
+</ul>
+<h4 id="activation-functions激活函数">Activation Functions(激活函数)</h4>
+<ul>
+<li>当一个非零值从一个单元传递到另一个单元时，该值被激活</li>
+<li>激活功能将输入，权重和偏差的组合从一层转换到下一层</li>
+<li>将非线性引入网络的建模功能</li>
+</ul>
+<h4 id="流行的activation-functions">流行的Activation Functions</h4>
+<ul>
+<li>Sigmoid</li>
+<li>Tanh</li>
+<li>ReLU</li>
+<li>Leaky ReLU</li>
+<li>Softmax</li>
+<li>SoftPlus</li>
+</ul>
+<h4 id="案例研究手写数字分类">案例研究：手写数字分类</h4>
+<ul>
+<li>LeCun等在1980年代组装的MNIST数据集</li>
+<li>70,000个具有28 x 28像素正方形的样本图像</li>
+<li>多类分类问题</li>
+</ul>
+<h4 id="输入层">输入层</h4>
+<ul>
+<li>使用28 x 28 = 784像素作为前馈网络输入层中的输入向量</li>
+<li><img src="https://i.loli.net/2020/05/07/FLEKIyp97jWSxbh.png" alt="image-20200507092403828"></li>
+</ul>
+<h4 id="sigmoid-functions">Sigmoid Functions</h4>
+<ul>
+<li>逻辑函数，可通过将任意值转换为[0，1]来预测输出的可能性</li>
+<li>每次梯度信号流过S型门时，其幅值始终最多减少0.25</li>
+<li><img src="https://i.loli.net/2020/05/07/oVthPfwcCbv6Lsn.png" alt="image-20200507092409520"></li>
+</ul>
+<h4 id="softmax-functions">Softmax Functions</h4>
+<ul>
+<li>Softmax返回互斥输出类上的概率分布</li>
+<li>结果向量清楚地显示了max元素，该元素接近1，并保持顺序</li>
+<li><img src="https://i.loli.net/2020/05/07/EpV5rWyBjdRqYl6.png" alt="image-20200507092415547"></li>
+</ul>
+<h4 id="输出层">输出层</h4>
+<ul>
+<li>在输出层上使用Softmax将输出转换为类似概率的值</li>
+<li><img src="https://i.loli.net/2020/05/07/CjcpvEqV9Nagw1h.png" alt="image-20200507092428905"></li>
+</ul>
+<h4 id="classification-loss-function分类损失函数">Classification Loss Function(分类损失函数)</h4>
+<ul>
+<li>分类交叉熵衡量了多分类模型的性能</li>
+<li><img src="https://i.loli.net/2020/05/07/BekEvlgd5ZhHLTR.png" alt="image-20200507092434796"></li>
+<li>在以上示例中，Y&rsquo;是真实目标，而Y是模型的预测输出。 输出层由Sigmoid激活</li>
+</ul>
+<h4 id="sgd-batch-and-epoch">SGD, Batch and Epoch</h4>
+<ul>
+<li>随机梯度下降（SGD），用于计算梯度并更新每个单个训练样本上的权重矩阵</li>
+<li>SGD使计算速度更快，而使用整个数据集会使矢量化效率降低。</li>
+<li>而不是对整个数据集或单个样本计算梯度， 我们通常在mini-batch（16，32，64）上评估梯度，然后更新权重矩阵</li>
+<li>Epoch是所有训练样本的一个前向通过加一个向后通过</li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
