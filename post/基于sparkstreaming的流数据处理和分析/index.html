@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>基于SparkStreaming的流数据处理和分析 // My New Hugo Site</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://BanDianMan.github.io/css/main.min.f90f5edd436ec7b74ad05479a05705770306911f721193e7845948fb07fe1335.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="基于SparkStreaming的流数据处理和分析"/>
+<meta name="twitter:description" content="基于Spark Streaming的流数据处理和分析 一 Spark Streaming 1 Spark Streaming概述 1.1 实时数据处理的动机  以前所未有的速度创造数据  来自移动，网络，社交，物联网的指数数据增长&hellip; 联网设备：2012年为9B，到2020年将达到50B 到2020年，超过1万亿个传感器   我们如何实时利用数据的价值？  价值会迅速下降→立即获取价值 从被动分析到直接运营 解锁新的竞争优势 需要全新的方法    1.2 跨行业的用例 1.3 什么是Spark Streaming？ Apache Spark核心API的扩展，用于流处理。该框架提供具有良好的容错能力、可扩展性、高通量、低延迟的优点
+1.4 流引擎对比 1.5 流处理架构 1.6 微批量架构  传入数据作为离散流（DStream） 流被细分为微批。从Spark 2.3.1起延迟可达到1毫秒（在此之前大约100毫秒） 每个微批处理都是一个RDD –可以在批处理和流之间共享代码  2 Spark Streaming 操作 2.1 Streaming Context Streaming Context消费Spark中的数据流，数据流输入后， Streaming Context会将数据流分成批数据
+ 一个JVM中只能激活一个StreamingContext StreamingContext在停止后无法重新启动，但可以重新创建  2.2 DStream Discretized Stream（离散流）或DStream是Spark Streaming提供的基本抽象
+2.2.1 Input DStreams 和 Receivers Streaming Context只能在Driver端，Receiver可以在Executor端"/>
+
+    <meta property="og:title" content="基于SparkStreaming的流数据处理和分析" />
+<meta property="og:description" content="基于Spark Streaming的流数据处理和分析 一 Spark Streaming 1 Spark Streaming概述 1.1 实时数据处理的动机  以前所未有的速度创造数据  来自移动，网络，社交，物联网的指数数据增长&hellip; 联网设备：2012年为9B，到2020年将达到50B 到2020年，超过1万亿个传感器   我们如何实时利用数据的价值？  价值会迅速下降→立即获取价值 从被动分析到直接运营 解锁新的竞争优势 需要全新的方法    1.2 跨行业的用例 1.3 什么是Spark Streaming？ Apache Spark核心API的扩展，用于流处理。该框架提供具有良好的容错能力、可扩展性、高通量、低延迟的优点
+1.4 流引擎对比 1.5 流处理架构 1.6 微批量架构  传入数据作为离散流（DStream） 流被细分为微批。从Spark 2.3.1起延迟可达到1毫秒（在此之前大约100毫秒） 每个微批处理都是一个RDD –可以在批处理和流之间共享代码  2 Spark Streaming 操作 2.1 Streaming Context Streaming Context消费Spark中的数据流，数据流输入后， Streaming Context会将数据流分成批数据
+ 一个JVM中只能激活一个StreamingContext StreamingContext在停止后无法重新启动，但可以重新创建  2.2 DStream Discretized Stream（离散流）或DStream是Spark Streaming提供的基本抽象
+2.2.1 Input DStreams 和 Receivers Streaming Context只能在Driver端，Receiver可以在Executor端" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://BanDianMan.github.io/post/%E5%9F%BA%E4%BA%8Esparkstreaming%E7%9A%84%E6%B5%81%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E5%92%8C%E5%88%86%E6%9E%90/" />
+<meta property="article:published_time" content="2020-05-06T20:11:44+08:00" />
+<meta property="article:modified_time" content="2020-05-06T20:11:44+08:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://BanDianMan.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <h1>My New Hugo Site</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium.</p>
+      <div class="app-header-social">
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">基于SparkStreaming的流数据处理和分析</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          May 6, 2020
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          6 min read
+        </div></div>
+    </header>
+    <div class="post-content">
+      <h1 id="基于spark-streaming的流数据处理和分析">基于Spark Streaming的流数据处理和分析</h1>
+<h2 id="一-spark-streaming">一 Spark Streaming</h2>
+<h3 id="1-spark-streaming概述">1 Spark Streaming概述</h3>
+<h4 id="11-实时数据处理的动机">1.1 实时数据处理的动机</h4>
+<ul>
+<li>以前所未有的速度创造数据
+<ul>
+<li>来自移动，网络，社交，物联网的指数数据增长&hellip;</li>
+<li>联网设备：2012年为9B，到2020年将达到50B</li>
+<li>到2020年，超过1万亿个传感器</li>
+</ul>
+</li>
+<li>我们如何实时利用数据的价值？
+<ul>
+<li>价值会迅速下降→立即获取价值</li>
+<li>从被动分析到直接运营</li>
+<li>解锁新的竞争优势</li>
+<li>需要全新的方法</li>
+</ul>
+</li>
+</ul>
+<h4 id="12-跨行业的用例">1.2 跨行业的用例</h4>
+<p><img src="https://i.loli.net/2020/05/06/2C6k9gL8jyb1pHw.png" alt="image-20200322183944594"></p>
+<h4 id="13-什么是spark-streaming">1.3 什么是Spark Streaming？</h4>
+<p>Apache Spark核心API的扩展，用于流处理。该框架提供具有<strong>良好的容错能力、可扩展性、高通量、低延迟</strong>的优点</p>
+<p><img src="https://i.loli.net/2020/05/06/zdUueB3I5rHYZTQ.png" alt="image-20200322184037733"></p>
+<h4 id="14-流引擎对比">1.4 流引擎对比</h4>
+<p><img src="https://i.loli.net/2020/05/06/TxOeXtEFHR1bqK3.png" alt="image-20200322190351215"></p>
+<h4 id="15-流处理架构">1.5 流处理架构</h4>
+<p><img src="https://i.loli.net/2020/05/06/4cmkMbWVePyqYLj.png" alt="image-20200322184057591"></p>
+<h4 id="16-微批量架构">1.6 微批量架构</h4>
+<ul>
+<li>传入数据作为离散流（DStream）</li>
+<li>流被细分为微批。从Spark 2.3.1起延迟可达到1毫秒（在此之前大约100毫秒）</li>
+<li>每个微批处理都是一个RDD –可以在批处理和流之间共享代码</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/06/sj9ZiQLy4RzNpUT.png" alt="image-20200322184204654"></p>
+<h3 id="2-spark-streaming-操作">2 Spark Streaming 操作</h3>
+<h4 id="21-streaming-context">2.1 Streaming Context</h4>
+<p>Streaming Context消费Spark中的数据流，数据流输入后， Streaming Context会将数据流分成批数据</p>
+<ul>
+<li>一个JVM中只能激活一个StreamingContext</li>
+<li>StreamingContext在停止后无法重新启动，但可以重新创建</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/06/4LKgO9wuxhI68o2.png" alt="image-20200322184247007"></p>
+<h4 id="22-dstream">2.2 DStream</h4>
+<p>Discretized Stream（离散流）或DStream是Spark Streaming提供的基本抽象</p>
+<p><img src="https://i.loli.net/2020/05/06/p9hbCWfLU3KsvIz.png" alt="image-20200322184315079"></p>
+<h5 id="221-input-dstreams-和-receivers">2.2.1 Input DStreams 和 Receivers</h5>
+<p>Streaming Context只能在Driver端，Receiver可以在Executor端</p>
+<p><img src="https://i.loli.net/2020/05/06/kFX7bDJMd32GQSc.png" alt="image-20200322184404471"></p>
+<ul>
+<li>Input DStreams 表示从streaming sources接收的输入数据流</li>
+<li>每个Input DStreams（文件流除外）与一个Receiver对象相关联，该对象从源接收数据并将其存储在Spark的内存中以进行处理，<strong>可以并行处理后使用union，将分开的数据集在进行合并</strong></li>
+<li>可以在同一StreamingContext下创建多个输入DStream</li>
+<li>Streaming Sources
+<ul>
+<li>基本Sources。可从Streaming API获得
+<ul>
+<li>sc.fileStream</li>
+<li>sc.socketStream</li>
+</ul>
+</li>
+<li>高级Sources
+<ul>
+<li>Kafka, , Flume, etc.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="222-inputstream的重点">2.2.2 InputStream的重点</h5>
+<ul>
+<li>在本地运行Spark-Streaming程序时，请始终使用“ local [n]”作为主URL，其中==n&gt;receivers==，需要留下来一个线程用于处理数据</li>
+<li>在集群上运行时，分配给Spark Streaming应用程序的==核心数必须大于接收者数==</li>
+</ul>
+<h5 id="223-spark-streaming的sources">2.2.3 Spark Streaming的Sources</h5>
+<ul>
+<li>
+<p>Spark StreamingContext具有以下两种内置的创建Streaming Sources的方式</p>
+<ul>
+<li>第一种</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">def</span> textFileStream<span style="color:#f92672">(</span>directory<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">DStream</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">]</span>
+<span style="color:#75715e">// Process files in directory – hdfs://namenode:8020/logs/
+</span></code></pre></div><ul>
+<li>第二种</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">def</span> socketTextStream<span style="color:#f92672">(</span>hostname<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span> port<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span> storageLevel<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">StorageLevel</span>
+<span style="color:#a6e22e">StorageLevel</span><span style="color:#f92672">.</span><span style="color:#a6e22e">MEMORY_AND_DISK_SER_2</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">ReceiverInputDStream</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">]</span>
+<span style="color:#75715e">// Create an input stream from a TCP source
+</span></code></pre></div></li>
+<li>
+<p>Flume Sink for Spark Streaming</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">val</span> ds <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">FlumeUtils</span><span style="color:#f92672">.</span>createPollingStream<span style="color:#f92672">(</span>streamCtx<span style="color:#f92672">,</span> <span style="color:#f92672">[</span><span style="color:#66d9ef">sink</span> <span style="color:#66d9ef">hostname</span><span style="color:#f92672">],</span> <span style="color:#f92672">[</span><span style="color:#66d9ef">sink</span> <span style="color:#66d9ef">port</span><span style="color:#f92672">]);</span>
+</code></pre></div></li>
+<li>
+<p>Kafka Consumer for Spark Streaming</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">val</span> ds <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">KafkaUtils</span><span style="color:#f92672">.</span>createStream<span style="color:#f92672">(</span>streamCtx<span style="color:#f92672">,</span> zooKeeper<span style="color:#f92672">,</span> consumerGrp<span style="color:#f92672">,</span> topicMap<span style="color:#f92672">);</span>
+</code></pre></div></li>
+</ul>
+<h5 id="224-示例wordcount">2.2.4 示例Wordcount</h5>
+<ul>
+<li>
+<p>使用nc打开socket连接</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">nc -lk <span style="color:#ae81ff">9999</span>
+</code></pre></div></li>
+<li>
+<p>使用spark-shell输入代码</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">import</span> org.apache.spark._
+<span style="color:#66d9ef">import</span> org.apache.spark.streaming._
+  
+<span style="color:#75715e">// 创建SparkConf配置
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> conf <span style="color:#66d9ef">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">SparkConf</span><span style="color:#f92672">().</span>setMaster<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;local[2]&#34;</span><span style="color:#f92672">).</span>setAppName<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;NetworkWC&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#75715e">// shell中只能有一个context，所以需要停掉原来的
+</span><span style="color:#75715e"></span>sc<span style="color:#f92672">.</span>stop<span style="color:#f92672">()</span>
+<span style="color:#75715e">// 创建StreamingContext
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> ssc <span style="color:#66d9ef">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">StreamingContext</span><span style="color:#f92672">(</span>conf<span style="color:#f92672">,</span><span style="color:#a6e22e">Seconds</span><span style="color:#f92672">(</span><span style="color:#ae81ff">3</span><span style="color:#f92672">))</span>
+<span style="color:#75715e">// 执行Wordcount
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> lines <span style="color:#66d9ef">=</span> ssc<span style="color:#f92672">.</span>socketTextStream<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;localhost&#34;</span><span style="color:#f92672">,</span><span style="color:#ae81ff">9999</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">val</span> words <span style="color:#66d9ef">=</span> lines<span style="color:#f92672">.</span>flatMap<span style="color:#f92672">(</span><span style="color:#66d9ef">_</span><span style="color:#f92672">.</span>split<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;\\s+&#34;</span><span style="color:#f92672">))</span>
+<span style="color:#66d9ef">val</span> pairs <span style="color:#66d9ef">=</span> words<span style="color:#f92672">.</span>map<span style="color:#f92672">(</span>w<span style="color:#f92672">=&gt;(</span>w<span style="color:#f92672">,</span><span style="color:#ae81ff">1</span><span style="color:#f92672">))</span>
+<span style="color:#66d9ef">val</span> wordCounts <span style="color:#66d9ef">=</span> pairs<span style="color:#f92672">.</span>reduceByKey<span style="color:#f92672">(</span><span style="color:#66d9ef">_</span><span style="color:#f92672">+</span><span style="color:#66d9ef">_</span><span style="color:#f92672">)</span>
+<span style="color:#75715e">// 打印输出（默认前10行）
+</span><span style="color:#75715e"></span>wordCounts<span style="color:#f92672">.</span>print<span style="color:#f92672">()</span>
+<span style="color:#75715e">// 启动程序
+</span><span style="color:#75715e"></span>ssc<span style="color:#f92672">.</span>start<span style="color:#f92672">()</span>
+</code></pre></div></li>
+</ul>
+<h5 id="225-foreachrdd">2.2.5 foreachRDD</h5>
+<p>使用foreachRDD算子创建数据库连接时，创建的连接是在Driver端的，如果直接使用rdd.foreach去进行发送消息是发送不出去的，因为RDD会执行在不同的Executor端，所以需要使用foreachPartition查找到每个RDD分区所在的Executor，然后再每个Executor端上创建连接，之后再进行操作</p>
+<p><img src="https://i.loli.net/2020/05/06/tfaZyhv5mdbJV4M.png" alt="image-20200322184741272"></p>
+<h4 id="23-transformation">2.3 Transformation</h4>
+<h5 id="231-transformations-算子">2.3.1 Transformations 算子</h5>
+<ol>
+<li>map, flatMap</li>
+<li>filter</li>
+<li>count, countByValue</li>
+<li>repartition</li>
+<li>union, join, cogroup（cogroup会对结果进行分组，即结果中相同的key只会出现一次，value值会都放在一个组里，join却不会）</li>
+<li>reduce, reduceByKey</li>
+<li>transform</li>
+<li>updateStateByKey</li>
+</ol>
+<p><img src="https://i.loli.net/2020/05/06/H2jbwEPqJeUpCNh.png" alt="image-20200322184618632"></p>
+<h5 id="232-transform操作">2.3.2 Transform操作</h5>
+<p>Transform操作（以及它的诸如transformWith之类的变体）==允许将任意RDD-to-RDD函数应用于Dstream==</p>
+<p><img src="https://i.loli.net/2020/05/06/qFlLyG5gn3RM6jE.png" alt="image-20200322184652572"></p>
+<h5 id="233-updatestatebykey操作">2.3.3 UpdateStateByKey操作</h5>
+<p>updateStateByKey操作允许维持任意状态，同时不断用新信息更新它</p>
+<ul>
+<li>定义状态-状态可以是任何数据类型</li>
+<li></li>
+<li>定义状态更新功能</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/06/vTEgZ8ahm4cBit3.png" alt="image-20200322184719826"></p>
+<h4 id="24-dataframes和sql操作">2.4 DataFrames和SQL操作</h4>
+<p>在流数据上使用DataFrames和SQL操作时， 一个SparkSession需要通过使用StreamingContext使用的SparkContext创建</p>
+<p><img src="https://i.loli.net/2020/05/06/YoF2DWLM7SITRl3.png" alt="image-20200322184844595"></p>
+<p>SQL查询可以在来自不同线程的流数据定义的表上执行。因为StreamingContext不了解任何异步SQL查询，它将在查询完成之前删除旧的流数据，所以在使用SQL时，StreamingContext需要记住足够的流数据</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#75715e">// 最后5分钟在批处理之间共享数据
+</span><span style="color:#75715e"></span>streamingContext<span style="color:#f92672">.</span>remember<span style="color:#f92672">(</span><span style="color:#a6e22e">Minutes</span><span style="color:#f92672">(</span><span style="color:#ae81ff">5</span><span style="color:#f92672">))</span>
+</code></pre></div><h4 id="25-窗口操作">2.5 窗口操作</h4>
+<h5 id="251-窗口操作概述">2.5.1 窗口操作概述</h5>
+<ul>
+<li>任何窗口操作都需要指定两个参数
+<ul>
+<li>窗口长度-窗口的持续时间</li>
+<li>滑动间隔-窗口操作的间隔</li>
+</ul>
+</li>
+<li>countByWindow</li>
+<li>reduceByWindow</li>
+<li>reduceByKeyAndWindow</li>
+<li>countByValueAndWindow</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/06/VdAHjPReTCXqKxf.png" alt="image-20200322184954897"></p>
+<h5 id="252-窗口操作说明">2.5.2 窗口操作说明</h5>
+<p><img src="https://i.loli.net/2020/05/06/aGj238SeXPtYdl5.png" alt="image-20200322185021726"></p>
+<h4 id="26-dstream的输出操作">2.6 DStream的输出操作</h4>
+<ul>
+<li>DStream的print（）方法在运行流应用程序的驱动程序节点上打印DStream中每批数据的前十个元素。这对于开发和调试很有用。</li>
+<li>saveAsTextFiles</li>
+<li>saveAsHadoopFiles</li>
+<li>saveAsObjectFiles
+<ul>
+<li>每个批次间隔保存一次文件</li>
+</ul>
+</li>
+</ul>
+<h4 id="27-dstream缓存和持久化">2.7 DStream缓存和持久化</h4>
+<p>DStream中的数据可以保留在内存中</p>
+<ul>
+<li>调用persist（）方法将RDD持久保存在DStream中</li>
+<li>基于窗口或基于状态的操作生成的DStream会自动保存在内存中</li>
+<li>与RDD不同，DStream的默认持久性级别将数据序列化在内存中</li>
+</ul>
+<h4 id="28-spark-streaming-检查点">2.8 Spark Streaming 检查点</h4>
+<p>Spark Streaming Checkpointing是一种容错机制</p>
+<ul>
+<li>检查点将保存DAG和RDD，当Spark应用程序从故障中重新启动时，它将继续进行计算</li>
+<li>有两种检查点的数据
+<ul>
+<li>元数据检查点
+<ul>
+<li>配置-用于创建流应用程序的配置，当程序挂掉之后，从checkpoint中加载配置信息创建Streaming context</li>
+<li>Stream DStream操作-定义流应用程序的DStream操作集</li>
+<li>不完整的批次-作业排队但尚未完成的批次</li>
+</ul>
+</li>
+<li>数据检查点
+<ul>
+<li>将生成的RDD保存到可靠的存储中</li>
+<li>有状态转换的中间RDD定期检查点到可靠的存储（例如HDFS），以切断依赖关系链</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="281-何时启用检查点">2.8.1 何时启用检查点</h5>
+<ul>
+<li>使用状态转换。<strong>如果使用updateStateByKey或reduceByKeyAndWindow，则必须提供检查点目录以允许定期的RDD检查点</strong></li>
+<li>从运行应用程序的驱动程序故障中恢复-元数据检查点用于恢复进度信息</li>
+</ul>
+<h5 id="282-如何配置检查点">2.8.2 如何配置检查点</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">streamingContext<span style="color:#f92672">.</span>checkpoint<span style="color:#f92672">(</span>checkpointDirectory<span style="color:#f92672">)</span>
+dstream<span style="color:#f92672">.</span>checkpoint<span style="color:#f92672">(</span>checkpointInterval<span style="color:#f92672">)</span>
+</code></pre></div><p>通常，DStream的5-10个滑动间隔的检查点间隔是一个不错的尝试</p>
+<p><img src="https://i.loli.net/2020/05/06/Hm6qQbuwxRKefJU.png" alt="image-20200322185222764"></p>
+<h5 id="283-累加器广播变量">2.8.3 累加器，广播变量</h5>
+<p>累加器，广播变量无法从Spark Streaming中的检查点恢复</p>
+<p><img src="https://i.loli.net/2020/05/06/fwGv61YEQhN5eVo.png" alt="image-20200322185246950"></p>
+<h2 id="二-spark-structured-streaming">二 Spark Structured Streaming</h2>
+<ul>
+<li>Structured Streaming是基于Spark SQL引擎构建的可伸缩且容错的流处理引擎</li>
+<li>Spark SQL引擎将负责连续不断地运行流计算，并在流数据继续到达时更新最终结果</li>
+<li>系统通过检查点和预写日志来确保端到端的一次容错保证</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/06/TcYmO9iIPaZwC43.png" alt="image-20200322185327859"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">val</span> lines <span style="color:#66d9ef">=</span> spark<span style="color:#f92672">.</span>readStream<span style="color:#f92672">.</span>format<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;socket&#34;</span><span style="color:#f92672">).</span>option<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;host&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;localhost&#34;</span><span style="color:#f92672">).</span>option<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;port&#34;</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">9999</span><span style="color:#f92672">).</span>load<span style="color:#f92672">()</span>  <span style="color:#75715e">// 这里返回的是一个DataFrame
+</span><span style="color:#75715e">// Split the lines into words
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> words <span style="color:#66d9ef">=</span> lines<span style="color:#f92672">.</span>as<span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">].</span>flatMap<span style="color:#f92672">(</span><span style="color:#66d9ef">_</span><span style="color:#f92672">.</span>split<span style="color:#f92672">(</span><span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">))</span>  <span style="color:#75715e">// as[String]会将DataFrame转化为DataSet[DataSet]
+</span><span style="color:#75715e">// Generate running word count
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> wordCounts <span style="color:#66d9ef">=</span> words<span style="color:#f92672">.</span>groupBy<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;value&#34;</span><span style="color:#f92672">).</span>count<span style="color:#f92672">()</span>
+</code></pre></div><h3 id="1-程式设计模型">1 程式设计模型</h3>
+<ul>
+<li>在每个触发时间间隔内，新行都会追加到input table中</li>
+<li>输出模式
+<ul>
+<li>完整模式（Complete Mode）：整个更新结果将被写入外部存储器</li>
+<li>追加模式（Append Mode&ndash;默认）：自最后一次触发以来，只会在结果表中追加新行</li>
+<li>更新模式（Update Mode）：仅写入自上次触发以来结果表中已更新的行</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/06/GqyBJ9mKwbQ41Yr.png" alt="image-20200322185448310"></p>
+<h4 id="11-input-table-是无界的">1.1 Input Table 是无界的</h4>
+<p><img src="https://i.loli.net/2020/05/06/vtQgIN4uARz6smD.png" alt="image-20200322185345185"></p>
+<h4 id="12-in-action">1.2 In Action</h4>
+<p><img src="https://i.loli.net/2020/05/06/LwiYsFCaz8tH3Kn.png" alt="image-20200322185512326"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#75715e">// nc -lk 9999 // 打开netcat
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">val</span> lines <span style="color:#66d9ef">=</span> spark<span style="color:#f92672">.</span>readStream<span style="color:#f92672">.</span>format<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;socket&#34;</span><span style="color:#f92672">).</span>option<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;host&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;localhost&#34;</span><span style="color:#f92672">).</span>option<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;port&#34;</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">9999</span><span style="color:#f92672">).</span>load<span style="color:#f92672">()</span>
+<span style="color:#75715e">// Split the lines into words
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> words <span style="color:#66d9ef">=</span> lines<span style="color:#f92672">.</span>as<span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">].</span>flatMap<span style="color:#f92672">(</span><span style="color:#66d9ef">_</span><span style="color:#f92672">.</span>split<span style="color:#f92672">(</span><span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">))</span>
+<span style="color:#75715e">// Generate running word count
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> wordCounts <span style="color:#66d9ef">=</span> words<span style="color:#f92672">.</span>groupBy<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;value&#34;</span><span style="color:#f92672">).</span>count<span style="color:#f92672">()</span>
+<span style="color:#75715e">// Start running the query that prints the running counts to the console
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> query <span style="color:#66d9ef">=</span> wordCounts<span style="color:#f92672">.</span>writeStream<span style="color:#f92672">.</span>outputMode<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;complete&#34;</span><span style="color:#f92672">).</span>format<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;console&#34;</span><span style="color:#f92672">).</span>start<span style="color:#f92672">()</span>
+query<span style="color:#f92672">.</span>awaitTermination<span style="color:#f92672">()</span>
+</code></pre></div><h3 id="2-处理-event-time">2 处理 Event-time</h3>
+<h4 id="21-event-time概述">2.1 Event-time概述</h4>
+<ul>
+<li>事件时间是数据本身产生的时间，而不是接收数据的时间。事件时间是每一行中的列值</li>
+<li>基于窗口的聚合</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/06/2QjPTAxJErnR46p.png" alt="image-20200322185538325"></p>
+<h4 id="22-示例">2.2 示例</h4>
+<p><img src="https://i.loli.net/2020/05/06/U7yBm6jR3D9FrEV.png" alt="image-20200322185558711"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">val</span> lines <span style="color:#66d9ef">=</span> spark<span style="color:#f92672">.</span>readStream<span style="color:#f92672">.</span>format<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;socket&#34;</span><span style="color:#f92672">).</span>option<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;host&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;localhost&#34;</span><span style="color:#f92672">).</span>option<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;port&#34;</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">9999</span><span style="color:#f92672">).</span>load<span style="color:#f92672">()</span>
+<span style="color:#75715e">// Split the lines into words
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> words <span style="color:#66d9ef">=</span> lines<span style="color:#f92672">.</span>as<span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">].</span>flatMap<span style="color:#f92672">(</span><span style="color:#66d9ef">_</span><span style="color:#f92672">.</span>split<span style="color:#f92672">(</span><span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">)).</span>withColumnRenamed<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;value&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;word&#34;</span><span style="color:#f92672">).</span>withColumn<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;timestamp&#34;</span><span style="color:#f92672">,</span> current_timestamp<span style="color:#f92672">())</span>
+<span style="color:#66d9ef">val</span> windowedCounts <span style="color:#66d9ef">=</span> words<span style="color:#f92672">.</span>groupBy<span style="color:#f92672">(</span>
+window<span style="color:#f92672">(</span>$<span style="color:#e6db74">&#34;timestamp&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;10 minutes&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;5 minutes&#34;</span><span style="color:#f92672">),</span> $<span style="color:#e6db74">&#34;word&#34;</span><span style="color:#f92672">).</span>count<span style="color:#f92672">()</span>
+<span style="color:#75715e">// Start running the query that prints the running counts to the console
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> query <span style="color:#66d9ef">=</span> windowedCounts<span style="color:#f92672">.</span>writeStream<span style="color:#f92672">.</span>outputMode<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;complete&#34;</span><span style="color:#f92672">).</span>format<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;console&#34;</span><span style="color:#f92672">).</span>start<span style="color:#f92672">()</span>
+query<span style="color:#f92672">.</span>awaitTermination<span style="color:#f92672">()</span>
+</code></pre></div><h3 id="3-处理late-data">3 处理Late Data</h3>
+<ul>
+<li>事件时间模型允许处理晚于预期到达的数据
+<ul>
+<li>有较晚的数据时更新旧的聚合</li>
+<li>清理旧的聚合</li>
+</ul>
+</li>
+<li>Watermarking
+<ul>
+<li>一个时间阈值，用于指示如何仍可处理晚期数据</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/06/uekXidP4yGWYjav.png" alt="image-20200322185703576"></p>
+<h3 id="4-使用-dataframe-和-dataset">4 使用 DataFrame 和 Dataset</h3>
+<p><img src="https://i.loli.net/2020/05/06/vmNzkWPGn4FLd2l.png" alt="image-20200322185823704"></p>
+<h3 id="5-join-操作">5 Join 操作</h3>
+<h4 id="51-join-operations">5.1 Join Operations</h4>
+<p><img src="https://i.loli.net/2020/05/06/SkaTDlPhYFR3GNe.png" alt="image-20200322185842801"></p>
+<h4 id="52-legal-join-types">5.2 Legal Join Types</h4>
+<p><img src="https://i.loli.net/2020/05/06/ZPwk6EM8aHz31FK.png" alt="image-20200322185907535"></p>
+<ol>
+<li>join可以级联&ndash;df1.join(df2, &hellip;).join(df3, &hellip;)</li>
+<li>从Spark 2.3开始，仅当查询处于Append输出模式时才能应用join</li>
+<li>从Spark 2.3开始，无法在联接之前使用非类map操作
+<ul>
+<li>加入前不能使用流式聚合</li>
+<li>联接之前，不能在更新模式下使用mapGroupsWithState和flatMapGroupsWithState</li>
+</ul>
+</li>
+</ol>
+<h3 id="6-streaming去重">6 Streaming去重</h3>
+<h4 id="61-streaming-deduplication">6.1 Streaming Deduplication</h4>
+<p>可以使用事件中的唯一标识符将重复的记录放入数据流中</p>
+<p><img src="https://i.loli.net/2020/05/06/7A5cWhNekrHaCxO.png" alt="image-20200322185932920"></p>
+<h4 id="62-不支持更改的操作">6.2 不支持/更改的操作</h4>
+<ul>
+<li>不支持的操作
+<ul>
+<li>多个流聚合（即流DF上的聚合链）</li>
+<li>Limit 或者 take 前N行</li>
+<li>streaming对流数据集的distinct操作</li>
+<li>streaming流数据集上很少类型的outer join</li>
+<li>仅在聚合之后且在“完整输出”模式下，流数据集才支持排序操作</li>
+</ul>
+</li>
+<li>改变使用方式
+<ul>
+<li>count() → ds.groupBy().count</li>
+<li>foreach() → ds.writeStream.foreach( … )</li>
+<li>show() → use the console sink</li>
+</ul>
+</li>
+</ul>
+<h3 id="7-结构化流的输入源">7 结构化流的输入源</h3>
+<ul>
+<li>
+<p>File source</p>
+<p><img src="https://i.loli.net/2020/05/06/CpmlEVL2sM9Q3n6.png" alt="image-20200322190027640"></p>
+</li>
+<li>
+<p>Kafka source</p>
+</li>
+<li>
+<p>Socket source (test only)</p>
+</li>
+<li>
+<p>Rate source (test only)</p>
+</li>
+</ul>
+<h2 id="三-spark-streaming集成kafka">三 Spark Streaming集成Kafka</h2>
+<ul>
+<li>自从Kafka 0.10或更高版本，仅支持Direct DStream</li>
+<li>Kafka分区和Spark分区之间的一一对应</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/06/MGiQdfw46tvYpBy.png" alt="image-20200322190055025"></p>
+<h3 id="1-区位策略">1 区位策略</h3>
+<ul>
+<li>
+<p>新的Kafka consumer API 将messages预取到缓冲区中</p>
+</li>
+<li>
+<p>Spark集成将缓存的consumers保留在执行程序上</p>
+<ul>
+<li>LocationStrategies.PreferConsistent：在可用的Spark执行程序之间平均分配分区</li>
+<li>LocationStragegies.PreferBrokers：Spark执行程序与Kafka brokers位于同一主机上</li>
+<li>LocationStrategies.PreferFixed：固定的Kafka分区到Spark executors之间的映射</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-消费者策略">2 消费者策略</h3>
+<p>使用ConsumerStrategies，即使从检查点重新启动后，Spark仍可以获取配置正确的使用者</p>
+<ul>
+<li>
+<p>ConsumerStrategies.Subscribe：允许订阅固定的主题集合</p>
+</li>
+<li>
+<p>ConsumerStrategies.Assign：允许指定固定的分区集合</p>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/06/pDdu7tNY3eExHh4.png" alt="image-20200322190153235"></p>
+<h3 id="3-存储offset">3 存储Offset</h3>
+<ul>
+<li>通过启用Spark检查点。由于重复输出，因此输出操作必须是幂等的</li>
+<li>通过调用Kafka偏移提交API</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/06/WPOIAhd1KBaSt7b.png" alt="image-20200322190233593"></p>
+<h3 id="4-structured-streaming与kafka">4 Structured Streaming与Kafka</h3>
+<h4 id="41-使用structured-streaming查询kafka">4.1 使用Structured Streaming查询Kafka</h4>
+<p><img src="https://i.loli.net/2020/05/06/j9cBEDrLQTuWfAa.png" alt="image-20200322190249386"></p>
+<h4 id="42-使用structured-streaming写入kafka">4.2 使用Structured Streaming写入Kafka</h4>
+<p><img src="https://i.loli.net/2020/05/06/fdktnTylKbwJ3C9.png" alt="image-20200322190306188"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#75715e">// 相当于StreamingContext(sparkContext,&#34;2 seconds&#34;)
+</span><span style="color:#75715e"></span>wordCounts<span style="color:#f92672">.</span>writeStream<span style="color:#f92672">.</span>trigger<span style="color:#f92672">(</span>processingTime <span style="color:#66d9ef">=</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#ae81ff">2</span> seconds<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">)</span> 
+</code></pre></div><h3 id="kafka消费模型">Kafka消费模型</h3>
+<h4 id="高级apihigh-level-consumer-api">高级API（High Level Consumer API）</h4>
+<ol>
+<li>不需要自己管理offset</li>
+<li>默认实现最少一次消息传递语义（At least once）</li>
+</ol>
+<h4 id="低级apilow-level-consumer-api">低级API（Low Level Consumer API）</h4>
+<ol>
+<li>需要自己手动管理Offset</li>
+<li>可以实现各种消息传递语义</li>
+</ol>
+<h3 id="receiver-和-direct">Receiver 和 Direct</h3>
+<h4 id="receiver">Receiver</h4>
+<p>Kafka的topic分区和Spark Streaming中生成的RDD分区<strong>没有关系</strong>。 在KafkaUtils.createStream中增加
+分区数量只会增加单个receiver的线程数， 不会增加Spark的并行度
+可以创建多个的Kafka的输入DStream， 使用不同的group和topic， 使用多个receiver并行接收数据。
+如果启用了HDFS等有容错的存储系统， 并且启用了写入日志，则接收到的数据已经被复制到日志中。
+因此，输入流的存储级别设置StorageLevel.MEMORY_AND_DISK_SER（即使用
+KafkaUtils.createStream（&hellip;，StorageLevel.MEMORY_AND_DISK_SER））的存储级别</p>
+<h4 id="direct">Direct</h4>
+<p><strong>简化的并行性</strong>：不需要创建多个输入Kafka流并将其合并。 使用directStream，Spark Streaming将创建
+与使用Kafka分区一样多的RDD分区，这些分区将全部从Kafka并行读取数据。 所以在Kafka和RDD分
+区之间有一对一的映射关系。
+<strong>效率</strong>：在第一种方法中实现零数据丢失需要将数据存储在预写日志中，这会进一步复制数据。 这实际
+上是效率低下的，因为数据被有效地复制了两次 - 一次是Kafka，另一次是由预先写入日志（Write
+Ahead Log）复制。 这个第二种方法消除了这个问题，因为没有接收器，因此不需要预先写入日志。
+只要Kafka数据保留时间足够长。
+<strong>正好一次（Exactly-once）的语义</strong>：第一种方法使用Kafka的高级API来在Zookeeper中存储消耗的偏移
+量。传统上这是从Kafka消费数据的方式。虽然这种方法（结合预写日志）可以确保零数据丢失
+（即至少一次语义），但是在某些失败情况下，有一些记录可能会消费两次。发生这种情况是因为
+<!-- raw HTML omitted -->Spark Streaming可靠接收到的数据与Zookeeper跟踪的偏移之间的不一致<!-- raw HTML omitted -->。因此，在第二种方法中，
+我们可以不使用Zookeeper的简单Kafka API。<!-- raw HTML omitted -->在其检查点内，Spark Streaming跟踪偏移量<!-- raw HTML omitted -->。这消除了
+Spark Streaming和Zookeeper / Kafka之间的不一致，因此Spark Streaming每次记录都会在发生故障的
+情况下有效地收到一次。为了实现输出结果的一次语义，将数据保存到外部数据存储区的输出操作必须
+是幂等的，或者是保存结果和偏移量的原子事务。</p>
+<h3 id="kafka-offset管理">Kafka Offset管理</h3>
+<h4 id="checkpoint管理">Checkpoint管理</h4>
+<ol>
+<li>启用Spark Streaming的checkpoint是存储偏移量最简单的方法。</li>
+<li>流式checkpoint专门用于保存应用程序的状态， 比如保存在HDFS上，在故障时能恢复。</li>
+<li>Spark Streaming的checkpoint无法跨越应用程序进行恢复。</li>
+<li>Spark 升级也将导致无法恢复。</li>
+<li>在关键生产应用， 不建议使用spark检查点的管理offset方式。</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#75715e">/**
+</span><span style="color:#75715e">  * 用checkpoint记录offset
+</span><span style="color:#75715e">  * 优点：实现过程简单
+</span><span style="color:#75715e">  * 缺点：如果streaming的业务更改，或别的作业也需要获取该offset，是获取不到的
+</span><span style="color:#75715e">  */</span>
+<span style="color:#66d9ef">import</span> kafka.serializer.StringDecoder
+<span style="color:#66d9ef">import</span> org.apache.spark.SparkConf
+<span style="color:#66d9ef">import</span> org.apache.spark.streaming.kafka.KafkaUtils
+<span style="color:#66d9ef">import</span> org.apache.spark.streaming.<span style="color:#f92672">{</span><span style="color:#a6e22e">Duration</span><span style="color:#f92672">,</span> <span style="color:#a6e22e">Seconds</span><span style="color:#f92672">,</span> <span style="color:#a6e22e">StreamingContext</span><span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">object</span> <span style="color:#a6e22e">StreamingWithCheckpoint</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">def</span> main<span style="color:#f92672">(</span>args<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Array</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">])</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">//val Array(brokers, topics) = args
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> processingInterval <span style="color:#66d9ef">=</span> <span style="color:#ae81ff">2</span>
+    <span style="color:#66d9ef">val</span> brokers <span style="color:#66d9ef">=</span> <span style="color:#e6db74">&#34;singleNode:9092&#34;</span>
+    <span style="color:#66d9ef">val</span> topics <span style="color:#66d9ef">=</span> <span style="color:#e6db74">&#34;mytest1&#34;</span>
+    <span style="color:#75715e">// Create context with 2 second batch interval
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> sparkConf <span style="color:#66d9ef">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">SparkConf</span><span style="color:#f92672">().</span>setAppName<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ConsumerWithCheckPoint&#34;</span><span style="color:#f92672">).</span>setMaster<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;local[2]&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#75715e">// Create direct kafka stream with brokers and topics
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> topicsSet <span style="color:#66d9ef">=</span> topics<span style="color:#f92672">.</span>split<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">).</span>toSet
+    <span style="color:#66d9ef">val</span> kafkaParams <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Map</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">String</span><span style="color:#f92672">](</span><span style="color:#e6db74">&#34;metadata.broker.list&#34;</span> <span style="color:#f92672">-&gt;</span> brokers<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;auto.offset.reset&#34;</span> <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">&#34;smallest&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">val</span> checkpointPath <span style="color:#66d9ef">=</span> <span style="color:#e6db74">&#34;hdfs://singleNode:9000/spark_checkpoint1&#34;</span>
+
+    <span style="color:#66d9ef">def</span> functionToCreateContext<span style="color:#f92672">()</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">StreamingContext</span> <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">val</span> ssc <span style="color:#66d9ef">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">StreamingContext</span><span style="color:#f92672">(</span>sparkConf<span style="color:#f92672">,</span> <span style="color:#a6e22e">Seconds</span><span style="color:#f92672">(</span>processingInterval<span style="color:#f92672">))</span>
+      <span style="color:#66d9ef">val</span> messages <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">KafkaUtils</span><span style="color:#f92672">.</span>createDirectStream<span style="color:#f92672">[</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">StringDecoder</span>, <span style="color:#66d9ef">StringDecoder</span><span style="color:#f92672">](</span>ssc<span style="color:#f92672">,</span> kafkaParams<span style="color:#f92672">,</span> topicsSet<span style="color:#f92672">)</span>
+
+      ssc<span style="color:#f92672">.</span>checkpoint<span style="color:#f92672">(</span>checkpointPath<span style="color:#f92672">)</span>
+      messages<span style="color:#f92672">.</span>checkpoint<span style="color:#f92672">(</span><span style="color:#a6e22e">Duration</span><span style="color:#f92672">(</span><span style="color:#ae81ff">8</span> <span style="color:#f92672">*</span> processingInterval<span style="color:#f92672">.</span>toInt <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span><span style="color:#f92672">))</span>
+      messages<span style="color:#f92672">.</span>foreachRDD<span style="color:#f92672">(</span>rdd <span style="color:#66d9ef">=&gt;</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>rdd<span style="color:#f92672">.</span>isEmpty<span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+          println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;################################&#34;</span> <span style="color:#f92672">+</span> rdd<span style="color:#f92672">.</span>count<span style="color:#f92672">())</span>
+        <span style="color:#f92672">}</span>
+
+      <span style="color:#f92672">})</span>
+      ssc
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">// 如果没有checkpoint信息，则新建一个StreamingContext
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// 如果有checkpoint信息，则从checkpoint中记录的信息恢复StreamingContext
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// createOnError参数：如果在读取检查点数据时出错，是否创建新的流上下文。
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// 默认情况下，将在错误上引发异常。
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> context <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">StreamingContext</span><span style="color:#f92672">.</span>getOrCreate<span style="color:#f92672">(</span>checkpointPath<span style="color:#f92672">,</span> functionToCreateContext <span style="color:#66d9ef">_</span><span style="color:#f92672">)</span>
+    context<span style="color:#f92672">.</span>start<span style="color:#f92672">()</span>
+    context<span style="color:#f92672">.</span>awaitTermination<span style="color:#f92672">()</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+<span style="color:#75715e">// 以上案例测试过程：
+</span><span style="color:#75715e">// 模拟消费者向mytest1插入10条数据，
+</span><span style="color:#75715e">// 强制停止streaming，
+</span><span style="color:#75715e">// 再插入20条数据并启动streaming查看读取的条数为20条
+</span></code></pre></div><h4 id="zookeeper管理">Zookeeper管理</h4>
+<pre><code>1. 路径：
+   val zkPath = s&quot;{kakfaOffsetRootPath}/{groupName}/{o.topic}/{o.partition}&quot;
+2. 如果Zookeeper中未保存offset,根据kafkaParam的配置使用最新或者最旧的offset
+3. 如果 zookeeper中有保存offset,我们会利用这个offset作为kafkaStream的起始位置
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">import</span> kafka.common.TopicAndPartition
+<span style="color:#66d9ef">import</span> kafka.message.MessageAndMetadata
+<span style="color:#66d9ef">import</span> kafka.serializer.StringDecoder
+<span style="color:#66d9ef">import</span> org.apache.curator.framework.CuratorFrameworkFactory
+<span style="color:#66d9ef">import</span> org.apache.curator.retry.ExponentialBackoffRetry
+<span style="color:#66d9ef">import</span> org.apache.spark.SparkConf
+<span style="color:#66d9ef">import</span> org.apache.spark.streaming.dstream.InputDStream
+<span style="color:#66d9ef">import</span> org.apache.spark.streaming.kafka.<span style="color:#f92672">{</span><span style="color:#a6e22e">HasOffsetRanges</span><span style="color:#f92672">,</span> <span style="color:#a6e22e">KafkaUtils</span><span style="color:#f92672">,</span> <span style="color:#a6e22e">OffsetRange</span><span style="color:#f92672">}</span>
+<span style="color:#66d9ef">import</span> org.apache.spark.streaming.<span style="color:#f92672">{</span><span style="color:#a6e22e">Seconds</span><span style="color:#f92672">,</span> <span style="color:#a6e22e">StreamingContext</span><span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">import</span> scala.collection.JavaConversions._
+
+<span style="color:#66d9ef">object</span> <span style="color:#a6e22e">KafkaZKManager</span>  <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">Serializable</span><span style="color:#f92672">{</span>
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">    * 创建zookeeper客户端
+</span><span style="color:#75715e">    */</span>
+  <span style="color:#66d9ef">val</span> client <span style="color:#66d9ef">=</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">val</span> client <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">CuratorFrameworkFactory</span>
+      <span style="color:#f92672">.</span>builder
+      <span style="color:#f92672">.</span>connectString<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;node01:2181/kafka0.9&#34;</span><span style="color:#f92672">)</span> <span style="color:#75715e">// zk中kafka的路径
+</span><span style="color:#75715e"></span>      <span style="color:#f92672">.</span>retryPolicy<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> <span style="color:#a6e22e">ExponentialBackoffRetry</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1000</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">))</span> <span style="color:#75715e">// 重试指定的次数, 且每一次重试之间停顿的时间逐渐增加
+</span><span style="color:#75715e"></span>      <span style="color:#f92672">.</span>namespace<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;mykafka&#34;</span><span style="color:#f92672">)</span> <span style="color:#75715e">// 命名空间:mykafka
+</span><span style="color:#75715e"></span>      <span style="color:#f92672">.</span>build<span style="color:#f92672">()</span>
+    client<span style="color:#f92672">.</span>start<span style="color:#f92672">()</span>
+    client
+  <span style="color:#f92672">}</span>
+
+  <span style="color:#66d9ef">val</span> kafkaOffsetRootPath <span style="color:#66d9ef">=</span> <span style="color:#e6db74">&#34;/consumers/offsets&#34;</span>
+
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">    * 确保zookeeper中的路径是存在的
+</span><span style="color:#75715e">    * @param path
+</span><span style="color:#75715e">    */</span>
+  <span style="color:#66d9ef">def</span> ensureZKPathExists<span style="color:#f92672">(</span>path<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Unit</span> <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>client<span style="color:#f92672">.</span>checkExists<span style="color:#f92672">().</span>forPath<span style="color:#f92672">(</span>path<span style="color:#f92672">)</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      client<span style="color:#f92672">.</span>create<span style="color:#f92672">().</span>creatingParentsIfNeeded<span style="color:#f92672">().</span>forPath<span style="color:#f92672">(</span>path<span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+  <span style="color:#f92672">}</span>
+
+  <span style="color:#66d9ef">def</span> storeOffsets<span style="color:#f92672">(</span>offsetsRanges<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Array</span><span style="color:#f92672">[</span><span style="color:#66d9ef">OffsetRange</span><span style="color:#f92672">],</span> groupName<span style="color:#66d9ef">:</span><span style="color:#66d9ef">String</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">=</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>o <span style="color:#66d9ef">&lt;-</span> offsetsRanges<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">val</span> zkPath <span style="color:#66d9ef">=</span> <span style="color:#e6db74">s&#34;</span><span style="color:#e6db74">${</span>kafkaOffsetRootPath<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span>groupName<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span>o<span style="color:#f92672">.</span>topic<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span>o<span style="color:#f92672">.</span>partition<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+      ensureZKPathExists<span style="color:#f92672">(</span>zkPath<span style="color:#f92672">)</span>
+      <span style="color:#75715e">// 保存offset到zk
+</span><span style="color:#75715e"></span>      client<span style="color:#f92672">.</span>setData<span style="color:#f92672">().</span>forPath<span style="color:#f92672">(</span>zkPath<span style="color:#f92672">,</span> o<span style="color:#f92672">.</span>untilOffset<span style="color:#f92672">.</span>toString<span style="color:#f92672">.</span>getBytes<span style="color:#f92672">())</span>
+    <span style="color:#f92672">}</span>
+  <span style="color:#f92672">}</span>
+
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">    * 用于获取offset
+</span><span style="color:#75715e">    * @param topic
+</span><span style="color:#75715e">    * @param groupName
+</span><span style="color:#75715e">    * @return
+</span><span style="color:#75715e">    */</span>
+  <span style="color:#66d9ef">def</span> getFromOffsets<span style="color:#f92672">(</span>topic <span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span>groupName <span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">Map</span><span style="color:#f92672">[</span><span style="color:#66d9ef">TopicAndPartition</span>, <span style="color:#66d9ef">Long</span><span style="color:#f92672">],</span> <span style="color:#a6e22e">Int</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">=</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// 如果 zookeeper中有保存offset,我们会利用这个offset作为kafkaStream 的起始位置
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> fromOffsets<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Map</span><span style="color:#f92672">[</span><span style="color:#66d9ef">TopicAndPartition</span>, <span style="color:#66d9ef">Long</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Map</span><span style="color:#f92672">()</span>
+    <span style="color:#66d9ef">val</span> zkTopicPath <span style="color:#66d9ef">=</span> <span style="color:#e6db74">s&#34;</span><span style="color:#e6db74">${</span>kafkaOffsetRootPath<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span>groupName<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span>topic<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+    <span style="color:#75715e">// 确保zookeeper中的路径是否存在
+</span><span style="color:#75715e"></span>    ensureZKPathExists<span style="color:#f92672">(</span>zkTopicPath<span style="color:#f92672">)</span>
+ 	<span style="color:#75715e">// 获取topic中，各分区对应的offset
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> offsets<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">mutable.Buffer</span><span style="color:#f92672">[(</span><span style="color:#66d9ef">TopicAndPartition</span>, <span style="color:#66d9ef">Long</span><span style="color:#f92672">)]</span> <span style="color:#66d9ef">=</span> <span style="color:#66d9ef">for</span> <span style="color:#f92672">{</span>
+      <span style="color:#75715e">// 获取分区
+</span><span style="color:#75715e"></span>      p <span style="color:#66d9ef">&lt;-</span> client<span style="color:#f92672">.</span>getChildren<span style="color:#f92672">.</span>forPath<span style="color:#f92672">(</span>zkTopicPath<span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span> <span style="color:#66d9ef">yield</span> <span style="color:#f92672">{</span>
+      <span style="color:#75715e">//遍历路径下面的partition中的offset
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">val</span> data <span style="color:#66d9ef">=</span> client<span style="color:#f92672">.</span>getData<span style="color:#f92672">.</span>forPath<span style="color:#f92672">(</span><span style="color:#e6db74">s&#34;</span><span style="color:#e6db74">$zkTopicPath</span><span style="color:#e6db74">/</span><span style="color:#e6db74">$p</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">)</span>
+      <span style="color:#75715e">//将data变成Long类型
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">val</span> offset <span style="color:#66d9ef">=</span> java<span style="color:#f92672">.</span>lang<span style="color:#f92672">.</span><span style="color:#a6e22e">Long</span><span style="color:#f92672">.</span>valueOf<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> <span style="color:#a6e22e">String</span><span style="color:#f92672">(</span>data<span style="color:#f92672">)).</span>toLong
+      println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;offset:&#34;</span> <span style="color:#f92672">+</span> offset<span style="color:#f92672">)</span>
+      <span style="color:#f92672">(</span><span style="color:#a6e22e">TopicAndPartition</span><span style="color:#f92672">(</span>topic<span style="color:#f92672">,</span> <span style="color:#a6e22e">Integer</span><span style="color:#f92672">.</span>parseInt<span style="color:#f92672">(</span>p<span style="color:#f92672">)),</span> offset<span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>offsets<span style="color:#f92672">.</span>isEmpty<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      <span style="color:#f92672">(</span>offsets<span style="color:#f92672">.</span>toMap<span style="color:#f92672">,</span><span style="color:#ae81ff">0</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span><span style="color:#66d9ef">else</span><span style="color:#f92672">{</span>
+      <span style="color:#f92672">(</span>offsets<span style="color:#f92672">.</span>toMap<span style="color:#f92672">,</span><span style="color:#ae81ff">1</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+  <span style="color:#f92672">}</span>
+
+  <span style="color:#66d9ef">def</span> main<span style="color:#f92672">(</span>args<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Array</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">])</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Unit</span> <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">val</span> processingInterval <span style="color:#66d9ef">=</span> <span style="color:#ae81ff">2</span>
+    <span style="color:#66d9ef">val</span> brokers <span style="color:#66d9ef">=</span> <span style="color:#e6db74">&#34;singleNode:9092&#34;</span>
+    <span style="color:#66d9ef">val</span> topic <span style="color:#66d9ef">=</span> <span style="color:#e6db74">&#34;mytest1&#34;</span>
+    <span style="color:#66d9ef">val</span> sparkConf <span style="color:#66d9ef">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">SparkConf</span><span style="color:#f92672">().</span>setAppName<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;KafkaZKManager&#34;</span><span style="color:#f92672">).</span>setMaster<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;local[2]&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#75715e">// Create direct kafka stream with brokers and topics
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> topicsSet <span style="color:#66d9ef">=</span> topic<span style="color:#f92672">.</span>split<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">).</span>toSet
+    <span style="color:#66d9ef">val</span> kafkaParams <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Map</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">String</span><span style="color:#f92672">](</span><span style="color:#e6db74">&#34;metadata.broker.list&#34;</span> <span style="color:#f92672">-&gt;</span> brokers<span style="color:#f92672">,</span>
+      <span style="color:#e6db74">&#34;auto.offset.reset&#34;</span> <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">&#34;smallest&#34;</span><span style="color:#f92672">)</span>
+
+    <span style="color:#66d9ef">val</span> ssc <span style="color:#66d9ef">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">StreamingContext</span><span style="color:#f92672">(</span>sparkConf<span style="color:#f92672">,</span> <span style="color:#a6e22e">Seconds</span><span style="color:#f92672">(</span>processingInterval<span style="color:#f92672">))</span>
+
+    <span style="color:#75715e">// 读取kafka数据
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> messages <span style="color:#66d9ef">=</span> createMyDirectKafkaStream<span style="color:#f92672">(</span>ssc<span style="color:#f92672">,</span> kafkaParams<span style="color:#f92672">,</span> topic<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;group01&#34;</span><span style="color:#f92672">)</span>
+
+    messages<span style="color:#f92672">.</span>foreachRDD<span style="color:#f92672">((</span>rdd<span style="color:#f92672">,</span>btime<span style="color:#f92672">)</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">if</span><span style="color:#f92672">(!</span>rdd<span style="color:#f92672">.</span>isEmpty<span style="color:#f92672">()){</span>
+        println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;==========================:&#34;</span> <span style="color:#f92672">+</span> rdd<span style="color:#f92672">.</span>count<span style="color:#f92672">()</span> <span style="color:#f92672">)</span>
+        println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;==========================btime:&#34;</span> <span style="color:#f92672">+</span> btime <span style="color:#f92672">)</span>
+      <span style="color:#f92672">}</span>
+      <span style="color:#75715e">// 消费到数据后，将offset保存到zk
+</span><span style="color:#75715e"></span>      storeOffsets<span style="color:#f92672">(</span>rdd<span style="color:#f92672">.</span>asInstanceOf<span style="color:#f92672">[</span><span style="color:#66d9ef">HasOffsetRanges</span><span style="color:#f92672">].</span>offsetRanges<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;group01&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">})</span>
+
+    ssc<span style="color:#f92672">.</span>start<span style="color:#f92672">()</span>
+    ssc<span style="color:#f92672">.</span>awaitTermination<span style="color:#f92672">()</span>
+   <span style="color:#f92672">}</span>
+
+  <span style="color:#66d9ef">def</span> createMyDirectKafkaStream<span style="color:#f92672">(</span>ssc<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">StreamingContext</span><span style="color:#f92672">,</span> kafkaParams<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Map</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">String</span><span style="color:#f92672">],</span> topic<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span> groupName<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">InputDStream</span><span style="color:#f92672">[(</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">String</span><span style="color:#f92672">)]</span> <span style="color:#66d9ef">=</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// 获取offset
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> <span style="color:#f92672">(</span>fromOffsets<span style="color:#f92672">,</span> flag<span style="color:#f92672">)</span> <span style="color:#66d9ef">=</span> getFromOffsets<span style="color:#f92672">(</span> topic<span style="color:#f92672">,</span> groupName<span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">var</span> kafkaStream <span style="color:#66d9ef">:</span> <span style="color:#66d9ef">InputDStream</span><span style="color:#f92672">[(</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">String</span><span style="color:#f92672">)]</span> <span style="color:#66d9ef">=</span> <span style="color:#66d9ef">null</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>flag <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      <span style="color:#75715e">// 这个会将kafka的消息进行transform,最终kafak的数据都会变成(topic_name, message)这样的tuple
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">val</span> messageHandler <span style="color:#66d9ef">=</span> <span style="color:#f92672">(</span>mmd <span style="color:#66d9ef">:</span> <span style="color:#66d9ef">MessageAndMetadata</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">String</span><span style="color:#f92672">])</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#f92672">(</span>mmd<span style="color:#f92672">.</span>topic<span style="color:#f92672">,</span> mmd<span style="color:#f92672">.</span>message<span style="color:#f92672">())</span>
+      println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;fromOffsets:&#34;</span> <span style="color:#f92672">+</span> fromOffsets<span style="color:#f92672">)</span>
+      kafkaStream <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">KafkaUtils</span><span style="color:#f92672">.</span>createDirectStream<span style="color:#f92672">[</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">StringDecoder</span>, <span style="color:#66d9ef">StringDecoder</span>, <span style="color:#f92672">(</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">String</span><span style="color:#f92672">)](</span>ssc<span style="color:#f92672">,</span> kafkaParams<span style="color:#f92672">,</span> fromOffsets<span style="color:#f92672">,</span> messageHandler<span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+      <span style="color:#75715e">// 如果未保存,根据kafkaParam的配置使用最新或者最旧的offset
+</span><span style="color:#75715e"></span>      kafkaStream <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">KafkaUtils</span><span style="color:#f92672">.</span>createDirectStream<span style="color:#f92672">[</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">StringDecoder</span>, <span style="color:#66d9ef">StringDecoder</span><span style="color:#f92672">](</span>ssc<span style="color:#f92672">,</span> kafkaParams<span style="color:#f92672">,</span> topic<span style="color:#f92672">.</span>split<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">).</span>toSet<span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+    kafkaStream
+  <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><p>启动zk命令：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">zkCli.sh  -timeout <span style="color:#ae81ff">5000</span>  -r  -server  singleNode:2181
+</code></pre></div><p><img src="https://i.loli.net/2020/05/06/JhKgDZ9ank6UQle.png" alt=""></p>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
