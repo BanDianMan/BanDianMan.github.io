@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>ApacheFulme基础及案例 // 我的个人空间</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="He Jia Hao" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://BanDianMan.github.io/css/main.min.f90f5edd436ec7b74ad05479a05705770306911f721193e7845948fb07fe1335.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ApacheFulme基础及案例"/>
+<meta name="twitter:description" content="Apache Flume 基础及使用案例 什么是Flume ?   Flume 是用于从多个源将日志流到Hadoop和其他目标的服务。
+  一种分布式的、可靠的、可用的服务，用于有效地收集、聚合和移动大量的流数据到Hadoop分布式文件系统(HDFS)。
+  Apache Flume具有简单灵活的基于流数据流的体系结构;并且具有可调的故障转移和恢复可靠性机制，具有健壮性和容错性。
+  Apahe Flume是做什么的   流数据
+ 从多个源获取流式数据到Hadoop中存储和分析    隔离系统
+ 缓冲存储平台的暂态峰值，当传入数据的速率超过数据可以写入目的地的速率    保证数据交付
+ 使用基于通道的事务来保证可靠的消息传递。    规模水平
+ 根据需要摄取新的数据流和额外的数据量。    简单的流动  Apache Flume最初是由Cloudera开发的，目的是提供一种快速、可靠地将web服务器生成的大量日志文件流到Hadoop中的方法。  Apahe Flume 架构  Flume作为一种或多种agents部署; Flume agents 是一个JVM进程，它承载组件，事件通过组件从外部源流向下一个目的地。 每个代理包含三个组件  Source(s) , Channel(s) and Sink    多个代理架构 事务  Transaction接口是Flume可靠性的基础 事务在通道中实现。  连接到通道的每个源和接收器都必须获得一个事务对象    Apache Flume 事件   事件是通过系统传递的单个数据包(源&ndash;&gt;信道&ndash;&gt;接收器);"/>
+
+    <meta property="og:title" content="ApacheFulme基础及案例" />
+<meta property="og:description" content="Apache Flume 基础及使用案例 什么是Flume ?   Flume 是用于从多个源将日志流到Hadoop和其他目标的服务。
+  一种分布式的、可靠的、可用的服务，用于有效地收集、聚合和移动大量的流数据到Hadoop分布式文件系统(HDFS)。
+  Apache Flume具有简单灵活的基于流数据流的体系结构;并且具有可调的故障转移和恢复可靠性机制，具有健壮性和容错性。
+  Apahe Flume是做什么的   流数据
+ 从多个源获取流式数据到Hadoop中存储和分析    隔离系统
+ 缓冲存储平台的暂态峰值，当传入数据的速率超过数据可以写入目的地的速率    保证数据交付
+ 使用基于通道的事务来保证可靠的消息传递。    规模水平
+ 根据需要摄取新的数据流和额外的数据量。    简单的流动  Apache Flume最初是由Cloudera开发的，目的是提供一种快速、可靠地将web服务器生成的大量日志文件流到Hadoop中的方法。  Apahe Flume 架构  Flume作为一种或多种agents部署; Flume agents 是一个JVM进程，它承载组件，事件通过组件从外部源流向下一个目的地。 每个代理包含三个组件  Source(s) , Channel(s) and Sink    多个代理架构 事务  Transaction接口是Flume可靠性的基础 事务在通道中实现。  连接到通道的每个源和接收器都必须获得一个事务对象    Apache Flume 事件   事件是通过系统传递的单个数据包(源&ndash;&gt;信道&ndash;&gt;接收器);" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://BanDianMan.github.io/post/apachefulme%E5%9F%BA%E7%A1%80%E5%8F%8A%E6%A1%88%E4%BE%8B/" />
+<meta property="article:published_time" content="2020-05-07T10:49:38+08:00" />
+<meta property="article:modified_time" content="2020-05-07T10:49:38+08:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://BanDianMan.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="He Jia Hao" /></a>
+      <h1>我的个人空间</h1>
+      <p>一个记录日常的博客网站.</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://github.com/BanDianMan/BanDianMan.github.io" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">ApacheFulme基础及案例</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          May 7, 2020
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          5 min read
+        </div></div>
+    </header>
+    <div class="post-content">
+      <h3 id="apache-flume-基础及使用案例">Apache Flume 基础及使用案例</h3>
+<h4 id="什么是flume-">什么是Flume ?</h4>
+<ul>
+<li>
+<p>Flume 是用于从多个源将日志流到Hadoop和其他目标的服务。</p>
+</li>
+<li>
+<p>一种分布式的、可靠的、可用的服务，用于有效地收集、聚合和移动大量的流数据到Hadoop分布式文件系统(HDFS)。</p>
+</li>
+<li>
+<p>Apache Flume具有简单灵活的基于流数据流的体系结构;并且具有可调的故障转移和恢复可靠性机制，具有健壮性和容错性。</p>
+</li>
+</ul>
+<h4 id="apahe-flume是做什么的">Apahe Flume是做什么的</h4>
+<ul>
+<li>
+<p>流数据</p>
+<ul>
+<li>从多个源获取流式数据到Hadoop中存储和分析</li>
+</ul>
+</li>
+<li>
+<p>隔离系统</p>
+<ul>
+<li>缓冲存储平台的暂态峰值，当传入数据的速率超过数据可以写入目的地的速率</li>
+</ul>
+</li>
+<li>
+<p>保证数据交付</p>
+<ul>
+<li>使用基于通道的事务来保证可靠的消息传递。</li>
+</ul>
+</li>
+<li>
+<p>规模水平</p>
+<ul>
+<li>根据需要摄取新的数据流和额外的数据量。</li>
+</ul>
+</li>
+</ul>
+<h4 id="简单的流动">简单的流动</h4>
+<pre><code>        Apache Flume最初是由Cloudera开发的，目的是提供一种快速、可靠地将web服务器生成的大量日志文件流到Hadoop中的方法。
+</code></pre>
+<p><img src="https://i.loli.net/2020/05/07/Qgus9J1zGxrba8D.png" alt="image-20200507105158243"></p>
+<h4 id="apahe-flume-架构">Apahe Flume 架构</h4>
+<ul>
+<li>Flume作为一种或多种agents部署;</li>
+<li>Flume agents 是一个JVM进程，它承载组件，事件通过组件从外部源流向下一个目的地。</li>
+<li>每个代理包含三个组件
+<ul>
+<li>Source(s) , Channel(s) and Sink</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/07/hAWpEbPJZ1Q8TIy.png" alt="image-20200507105204939"></p>
+<h4 id="多个代理架构">多个代理架构</h4>
+<p><img src="https://i.loli.net/2020/05/07/19IiXuGoDWTMKmB.png" alt="image-20200507105214267"></p>
+<h4 id="事务">事务</h4>
+<ul>
+<li>Transaction接口是Flume可靠性的基础</li>
+<li>事务在通道中实现。
+<ul>
+<li>连接到通道的每个源和接收器都必须获得一个事务对象</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/07/IP31ubUVlz7ySoX.png" alt="image-20200507105224278"></p>
+<h4 id="apache-flume-事件">Apache Flume 事件</h4>
+<ul>
+<li>
+<p>事件是通过系统传递的单个数据包(源&ndash;&gt;信道&ndash;&gt;接收器);</p>
+</li>
+<li>
+<p>在日志文件术语中，事件是后跟新行字符的文本行。</p>
+</li>
+</ul>
+<h4 id="apache-flume-源">Apache Flume 源</h4>
+<ul>
+<li>
+<p>一个Apache Flume源</p>
+<ul>
+<li>侦听来自外部应用程序的事件，如web服务器位置收集器、传感器:
+<ul>
+<li>读取数据</li>
+<li>翻译活动</li>
+<li>处理失败</li>
+</ul>
+</li>
+<li>不存储事件</li>
+<li>向通道发送事件</li>
+</ul>
+</li>
+<li>
+<p>内置api的资源</p>
+<ul>
+<li>Avro源码、Spooling-Directory源码、Syslog源码、HTTP源码、Twitter sNetcat源码等。</li>
+<li>Exec source—在STDOUT上生成数据的Unix命令</li>
+</ul>
+</li>
+</ul>
+<h4 id="假脱机目录源">假脱机目录源</h4>
+<ul>
+<li>假脱机目录源
+<ul>
+<li>监视新文件的指定目录;</li>
+<li>解析新文件中出现的事件;</li>
+<li>在一个文件被完全处理之后，它会被重命名以指示完成(或可选地删除)</li>
+</ul>
+</li>
+</ul>
+<h4 id="apache-flume-通道">Apache Flume 通道</h4>
+<ul>
+<li>一个通道
+<ul>
+<li>是代理之间的通信桥梁之间的通信桥梁。</li>
+<li>存储事件，直到它们被Flume消耗</li>
+</ul>
+</li>
+<li>与built-upport渠道:
+<ul>
+<li>内存通道</li>
+<li>文件通道(带检查点)</li>
+<li>JDBC通道</li>
+<li>Spill-able内存通道</li>
+<li>伪事务通道</li>
+</ul>
+</li>
+</ul>
+<h4 id="apache-flume-sink">Apache Flume Sink</h4>
+<ul>
+<li>一个Sink
+<ul>
+<li>从通道中移除事件</li>
+<li>将其放入外部存储库(如HDFS)或将其转发到流中的下一个Flume代理的Flume源</li>
+</ul>
+</li>
+<li>给定代理中的Flume源和接收器与通道中暂存的事件异步运行</li>
+<li>内置支持的Sink
+<ul>
+<li>
+<pre><code>  HDFS Sink, Logger Sink, Avro Sink, Thrift Sink, File-Roll Sink, Null Sink, HBaseSink, ElasticSearch Sink, IRC Sink, MorphlineSolr Sink, etc  
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="hdfs-sink">HDFS Sink</h4>
+<ul>
+<li>HDFS Sink :
+<ul>
+<li>将事件写入到HDFS</li>
+<li>支持多种文件格式-文本，Avro等。</li>
+</ul>
+</li>
+<li>翻转属性:</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/07/5XZP4UQC6avwVHi.png" alt="image-20200507105234382"></p>
+<h4 id="flume--kafka-1">Flume + Kafka (1)</h4>
+<ul>
+<li>Kafka Channels
+<ul>
+<li>在代理中，Kafka(一个主题)用作通道</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/07/lsWf8uyFzgbHqpE.png" alt="image-20200507105240196"></p>
+<ul>
+<li>Bottleneck : HDFS Sink</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/07/9cNrRmhgkTz6yCM.png" alt="image-20200507105250080"></p>
+<h4 id="flume--kafka2">Flume + Kafka(2)</h4>
+<ul>
+<li>Kafka Souce % Sink
+<ul>
+<li>在Flume 中，Kafka被用作源和/或接收器</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/07/y4YDHW7wU1CaS25.png" alt="image-20200507105259461"></p>
+<ul>
+<li>Bottleneck - Kafka Source &amp; HDFS Sink</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/07/rjzSw8OgIdCJikK.png" alt="image-20200507105305256"></p>
+<h4 id="apache-flume-拦截器">Apache Flume 拦截器</h4>
+<ul>
+<li>拦截器可以根据任何条件修改甚至删除事件。</li>
+<li>Flume 支持链接的拦截器。</li>
+<li>拦截器是指将。apache。flum。interceptor。interceptor</li>
+</ul>
+<h4 id="flume-自定义组件">Flume 自定义组件</h4>
+<ul>
+<li>除了内置组件外，还可以用Java创建自定义源、hannel和sink。</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/07/HvDz7pI2jghlVai.png" alt="image-20200507105315540"></p>
+<h4 id="sink处理器">Sink处理器</h4>
+<ul>
+<li>Sink 处理器 :
+<ul>
+<li>接收组允许用户将多个接收分组到一个实体中。</li>
+<li>接收器处理器可用于在组内所有接收器上提供负载平衡功能，或在临时故障时实现从一个接收器到另一个接收器的故障转移</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2020/05/07/cD4CjoMKsvp3Vyk.png" alt="image-20200507105321596"></p>
+<h4 id="当flume不合适--">当Flume不合适  ?</h4>
+<ul>
+<li>非常大的事件
+<ul>
+<li>事件不能大于代理机器上的内存或磁盘</li>
+</ul>
+</li>
+<li>罕见的健硕的负载
+<ul>
+<li>其他工具可能更好，例如HDFS文件Slurper</li>
+</ul>
+</li>
+</ul>
+<h4 id="适用场景">适用场景</h4>
+<ul>
+<li>在工厂里，有许多机器，每台机器生产大量的原木。Flume可以用来收集机器状态，产品质量分析的日志。</li>
+<li>在电子商务中，Flume可以用来收集web日志，以了解客户的浏览/购物行为。</li>
+<li>在社交网络中，Flume可用于收集tweet、聊天、信息以进行情感分析。</li>
+</ul>
+<h4 id="运行机制">运行机制</h4>
+<p>Flume系统中核心的角色是<strong>agent</strong>，agent本身是一个Java进程，一般运行在日志收集节点。
+每一个agent相当于一个数据传递员，内部有三个组件：
+Source：采集源，用于跟数据源对接，以获取数据；</p>
+<p>Sink：下沉地，采集数据的传送目的，用于往下一级agent传递数据或者往最终存储系统传递数据；
+Channel：agent内部的数据传输通道，用于从source将数据传递到sink；</p>
+<p>在整个数据的传输的过程中，流动的是<strong>event</strong>，它是Flume内部数据传输的最基本单元。event将传输的数据进行封装。如果是文本文件，通常是一行记录，event也是事务的基本单位。event从source，流向channel，再到sink，本身为一个字节数组，并可携带headers(头信息)信息。event代表着一个数据的最小完整单元，从外部数据源来，向外部的目的地去。</p>
+<p>一个完整的event包括：event headers、event body、event信息，其中event信息就是flume收集到的日记记录。</p>
+<h4 id="环境搭建">环境搭建</h4>
+<blockquote>
+<ol>
+<li>上传安装包</li>
+</ol>
+</blockquote>
+<p><img src="https://i.loli.net/2020/05/07/BKRPaiyq8UnIWGg.png" alt="image-20200507105330616"></p>
+<blockquote>
+<ol start="2">
+<li>解压 并 设置环境变量</li>
+</ol>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">tar -zxvf apache-flume-1.8.0-bin.tar.gz -C /opt
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vi /etc/profile
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># Flume</span>
+export FLUME_HOME<span style="color:#f92672">=</span>/opt/apache-flume-1.8.0-bin
+export PATH<span style="color:#f92672">=</span>$PATH:$FLUME_HOME/bin
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">source /etc/profile
+</code></pre></div><blockquote>
+<ol start="3">
+<li>设置JAVA_HOME</li>
+</ol>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cp flume-env.sh.template flume-env.sh
+</code></pre></div><p><img src="https://i.loli.net/2020/05/07/CBkWAmxKYqoQG3L.png" alt="image-20200507105336960"></p>
+<blockquote>
+<ol start="4">
+<li>查看版本号</li>
+</ol>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">flume-ng version
+</code></pre></div><p><img src="https://i.loli.net/2020/05/07/SFDod24RxB5AMLN.png" alt="image-20200507105342243"></p>
+<h4 id="flume监听端口--netcat">Flume监听端口  netcat</h4>
+<p>安装telnet</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum search telnet
+yum install telnet.x86_64
+</code></pre></div><p><img src="https://i.loli.net/2020/05/07/Vani8NpAFCxTvSc.png" alt="image-20200507105352845"></p>
+<p>写配置文件  flumejob_telnet.conf</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#smple.conf: A single-node Flume configuration</span>
+
+<span style="color:#75715e"># Name the components on this agent 定义变量方便调用 加s可以有多个此角色</span>
+a1.sources <span style="color:#f92672">=</span> r1
+a1.sinks <span style="color:#f92672">=</span> k1
+a1.channels <span style="color:#f92672">=</span> c1
+
+<span style="color:#75715e"># Describe/configure the source 描述source角色 进行内容定制</span>
+<span style="color:#75715e"># 此配置属于tcp source 必须是netcat类型</span>
+a1.sources.r1.type <span style="color:#f92672">=</span> netcat 
+a1.sources.r1.bind <span style="color:#f92672">=</span> localhost
+a1.sources.r1.port <span style="color:#f92672">=</span> <span style="color:#ae81ff">44444</span>
+
+<span style="color:#75715e"># Describe the sink 输出日志文件</span>
+a1.sinks.k1.type <span style="color:#f92672">=</span> logger
+
+<span style="color:#75715e"># Use a channel which buffers events in memory（file） 使用内存 总大小1000 每次传输100</span>
+a1.channels.c1.type <span style="color:#f92672">=</span> memory
+a1.channels.c1.capacity <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
+a1.channels.c1.transactionCapacity <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
+
+<span style="color:#75715e"># Bind the source and sink to the channel 一个source可以绑定多个channel</span> 
+<span style="color:#75715e"># 一个sinks可以只能绑定一个channel  使用的是图二的模型</span>
+a1.sources.r1.channels <span style="color:#f92672">=</span> c1
+a1.sinks.k1.channel <span style="color:#f92672">=</span> c1
+</code></pre></div><blockquote>
+<p>放置在flume/conf/下</p>
+</blockquote>
+<p>启动</p>
+<pre><code>flume-ng agent --conf conf/ --name a1 --conf-file conf/flumejob_telnet.conf -Dflume.root.logger=INFO,console
+</code></pre><p>发送数据</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">telnet localhost <span style="color:#ae81ff">44444</span>
+</code></pre></div><p><img src="https://i.loli.net/2020/05/07/abgyxK9wip1L6WQ.png" alt="image-20200507105400992"></p>
+<p>查看数据</p>
+<p><img src="https://i.loli.net/2020/05/07/gZ6XKqfoeBrS1wn.png" alt="image-20200507105406182"></p>
+<h4 id="实时的采集文件到hdfs--exec-sourece">实时的采集文件到HDFS  exec sourece</h4>
+<p>写配置文件 flumejob_hdfs.conf</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># Name the components on this agent</span> 
+a1.sources <span style="color:#f92672">=</span> r1
+a1.sinks <span style="color:#f92672">=</span> k1
+a1.channels <span style="color:#f92672">=</span> c1
+
+<span style="color:#75715e"># Describe/configure the source</span> 
+<span style="color:#75715e"># exec 执行一个命令的方式去查看文件 tail -F 实时查看</span>
+a1.sources.r1.type <span style="color:#f92672">=</span> exec
+<span style="color:#75715e"># 要执行的脚本command tail -F 默认10行 man tail  查看帮助</span>
+a1.sources.r1.command <span style="color:#f92672">=</span> tail -F /tmp/root/hive.log
+a1.sources.r1.channels <span style="color:#f92672">=</span> c1
+
+<span style="color:#75715e"># Describe the sink</span> 
+a1.sinks.k1.type <span style="color:#f92672">=</span> hdfs
+a1.sinks.k1.hdfs.path <span style="color:#f92672">=</span> hdfs://192.168.229.100:9000/flume/%Y%m%d/%H
+<span style="color:#75715e">#上传文件的前缀</span>
+a1.sinks.k1.hdfs.filePrefix <span style="color:#f92672">=</span> logs-
+<span style="color:#75715e">#是否按照时间滚动文件夹</span>
+a1.sinks.k1.hdfs.round <span style="color:#f92672">=</span> true
+<span style="color:#75715e">#多少时间单位创建一个新的文件夹  秒 （默认30s）</span>
+a1.sinks.k1.hdfs.roundValue <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+<span style="color:#75715e">#重新定义时间单位（每小时滚动一个文件夹）</span>
+a1.sinks.k1.hdfs.roundUnit <span style="color:#f92672">=</span> minute
+<span style="color:#75715e">#是否使用本地时间戳</span>
+a1.sinks.k1.hdfs.useLocalTimeStamp <span style="color:#f92672">=</span> true
+<span style="color:#75715e">#积攒多少个 Event 才 flush 到 HDFS 一次</span>
+a1.sinks.k1.hdfs.batchSize <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>
+<span style="color:#75715e">#设置文件类型，可支持压缩</span>
+a1.sinks.k1.hdfs.fileType <span style="color:#f92672">=</span> DataStream
+<span style="color:#75715e">#多久生成一个新的文件 秒</span>
+a1.sinks.k1.hdfs.rollInterval <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>
+<span style="color:#75715e">#设置每个文件的滚动大小 字节（最好128M）</span>
+a1.sinks.k1.hdfs.rollSize <span style="color:#f92672">=</span> <span style="color:#ae81ff">134217700</span>
+<span style="color:#75715e">#文件的滚动与 Event 数量无关</span>
+a1.sinks.k1.hdfs.rollCount <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+<span style="color:#75715e">#最小冗余数(备份数 生成滚动功能则生效roll hadoop本身有此功能 无需配置) 1份 不冗余</span>
+a1.sinks.k1.hdfs.minBlockReplicas <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+
+<span style="color:#75715e"># Use a channel which buffers events in memory</span> 
+a1.channels.c1.type <span style="color:#f92672">=</span> memory 
+a1.channels.c1.capacity <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
+a1.channels.c1.transactionCapacity <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
+
+<span style="color:#75715e"># Bind the source and sink to the channel</span>
+a1.sources.r1.channels <span style="color:#f92672">=</span> c1
+a1.sinks.k1.channel <span style="color:#f92672">=</span> c1
+</code></pre></div><p>启动</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">flume-ng agent --conf conf/ --name a1 --conf-file conf/flumejob_hdfs.conf
+</code></pre></div><p>操作Hive端</p>
+<p><img src="https://i.loli.net/2020/05/07/JVmfCXyw2MeOoZp.png" alt="image-20200507105414554"></p>
+<p>报错日志将存储到hdfs中</p>
+<p><img src="https://i.loli.net/2020/05/07/MkV5L6tEXw9CsFK.png" alt="image-20200507105420468"></p>
+<p>再次查看</p>
+<pre><code>hdfs dfs -cat /flume/20200214/13/logs-.1581657539898.tmp
+</code></pre><p><img src="https://i.loli.net/2020/05/07/bfOZkJ6FiEqoAN1.png" alt="image-20200507105429432"></p>
+<h4 id="exec-source">Exec source</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">agent.sources <span style="color:#f92672">=</span> s1
+agent.channels <span style="color:#f92672">=</span> c1
+agent.sinks <span style="color:#f92672">=</span> sk1
+<span style="color:#75715e"># 配置source为exec,命令为tail -F</span>
+agent.sources.s1.type <span style="color:#f92672">=</span> exec
+agent.sources.s1.command <span style="color:#f92672">=</span> tail -F /root/b.txt
+agent.sources.s1.channels <span style="color:#f92672">=</span> c1
+<span style="color:#75715e"># 配置channel为内存</span>
+agent.channels.c1.type <span style="color:#f92672">=</span> memory
+<span style="color:#75715e"># 配置sink为logger形式，使用的channel为c1</span>
+agent.sinks.sk1.type <span style="color:#f92672">=</span> logger
+agent.sinks.sk1.channel <span style="color:#f92672">=</span> c1
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">flume-ng agent --name agent -f flumeExec.cof -Dflume.root.logger<span style="color:#f92672">=</span>INFO,console
+</code></pre></div><h4 id="spooling-directory-source">spooling directory source</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">agent.sources <span style="color:#f92672">=</span> s1
+agent.channels <span style="color:#f92672">=</span> c1
+agent.sinks <span style="color:#f92672">=</span> sk1
+<span style="color:#75715e"># 配置source为exec,命令为tail -F</span>
+agent.sources.s1.type <span style="color:#f92672">=</span> spooldir
+agent.sources.s1.spoolDir <span style="color:#f92672">=</span> /root/spooldir
+agent.sources.s1.channels <span style="color:#f92672">=</span> c1
+<span style="color:#75715e"># 配置channel为内存</span>
+agent.channels.c1.type <span style="color:#f92672">=</span> memory
+<span style="color:#75715e"># 配置sink为logger形式，使用的channel为c1</span>
+agent.sinks.sk1.type <span style="color:#f92672">=</span> logger
+agent.sinks.sk1.channel <span style="color:#f92672">=</span> c1
+
+----------------------------------
+flume-ng agent --name agent -f flumeExec2.cof -Dflume.root.logger<span style="color:#f92672">=</span>INFO,console
+</code></pre></div><h4 id="实时监听文件夹">实时监听文件夹</h4>
+<p>写配置文件 flumejob_dir.conf</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 定义</span>
+a1.sources <span style="color:#f92672">=</span> r1
+a1.sinks <span style="color:#f92672">=</span> k1
+a1.channels <span style="color:#f92672">=</span> c1
+
+<span style="color:#75715e"># Describe/configure the source</span>
+a1.sources.r1.type <span style="color:#f92672">=</span> spooldir
+<span style="color:#75715e"># 监控的文件夹</span>
+a1.sources.r1.spoolDir <span style="color:#f92672">=</span> /root/spooldir
+<span style="color:#75715e"># 上传成功后显示后缀名</span> 
+a1.sources.r1.fileSuffix <span style="color:#f92672">=</span> .COMPLETED
+<span style="color:#75715e"># 如论如何 加绝对路径的文件名 默认false</span>
+a1.sources.r1.fileHeader <span style="color:#f92672">=</span> true
+
+<span style="color:#75715e">#忽略所有以.tmp 结尾的文件（正在被写入），不上传</span>
+<span style="color:#75715e"># ^以任何开头 出现无限次 以.tmp结尾的</span>
+a1.sources.r1.ignorePattern <span style="color:#f92672">=</span> <span style="color:#f92672">([</span>^ <span style="color:#f92672">]</span>*<span style="color:#ae81ff">\.</span>tmp<span style="color:#f92672">)</span>
+
+<span style="color:#75715e"># Describe the sink</span> 
+a1.sinks.k1.type <span style="color:#f92672">=</span> hdfs
+a1.sinks.k1.hdfs.path <span style="color:#f92672">=</span> hdfs://192.168.229.100:9000/flume/spooldir/%Y%m%d/%H
+<span style="color:#75715e">#上传文件的前缀</span>
+a1.sinks.k1.hdfs.filePrefix <span style="color:#f92672">=</span> spooldir-
+<span style="color:#75715e">#是否按照时间滚动文件夹</span>
+a1.sinks.k1.hdfs.round <span style="color:#f92672">=</span> true
+<span style="color:#75715e">#多少时间单位创建一个新的文件夹</span>
+a1.sinks.k1.hdfs.roundValue <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+<span style="color:#75715e">#重新定义时间单位</span>
+a1.sinks.k1.hdfs.roundUnit <span style="color:#f92672">=</span> hour
+<span style="color:#75715e">#是否使用本地时间戳</span>
+a1.sinks.k1.hdfs.useLocalTimeStamp <span style="color:#f92672">=</span> true
+<span style="color:#75715e">#积攒多少个 Event 才 flush 到 HDFS 一次</span>
+a1.sinks.k1.hdfs.batchSize <span style="color:#f92672">=</span> <span style="color:#ae81ff">50</span>
+
+<span style="color:#75715e">#设置文件类型，可支持压缩</span>
+a1.sinks.k1.hdfs.fileType <span style="color:#f92672">=</span> DataStream
+<span style="color:#75715e">#多久生成一个新的文件</span>
+a1.sinks.k1.hdfs.rollInterval <span style="color:#f92672">=</span> <span style="color:#ae81ff">600</span>
+<span style="color:#75715e">#设置每个文件的滚动大小大概是 128M</span> 
+a1.sinks.k1.hdfs.rollSize <span style="color:#f92672">=</span> <span style="color:#ae81ff">134217700</span>
+<span style="color:#75715e">#文件的滚动与 Event 数量无关</span>
+a1.sinks.k1.hdfs.rollCount <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+<span style="color:#75715e">#最小副本数</span>
+a1.sinks.k1.hdfs.minBlockReplicas <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+
+<span style="color:#75715e"># Use a channel which buffers events in memory</span> 
+a1.channels.c1.type <span style="color:#f92672">=</span> memory 
+a1.channels.c1.capacity <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
+a1.channels.c1.transactionCapacity <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
+
+<span style="color:#75715e"># Bind the source and sink to the channel</span>
+a1.sources.r1.channels <span style="color:#f92672">=</span> c1 
+a1.sinks.k1.channel <span style="color:#f92672">=</span> c1
+</code></pre></div><p>创建/root/spooldir文件夹</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd /root
+mkdir spooldir
+</code></pre></div><p>启动</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">flume-ng agent --conf conf/ --name a1 --conf-file conf/flumejob_dir.conf
+</code></pre></div><p>将/root下的b.txt复制到spooldir目录下</p>
+<pre><code>cp -rf /root/b.txt /root/spooldir/
+</code></pre><p><img src="https://i.loli.net/2020/05/07/HIsWjREgJQpdz8x.png" alt="image-20200507105441028"></p>
+<p>然后查看hdfs</p>
+<p><img src="https://i.loli.net/2020/05/07/DpAQCzPFZYT5nS9.png" alt="image-20200507105446080"></p>
+<p>此时/flume/spooldir/20181125/20/spooldir-.1543147878160.tmp 文件中的内容就是a.txt文件中的内容，</p>
+<p>如果此时关闭监听命令，那么spooldir-.1543147878160.tmp文件就变成spooldir-.1543147878160文件持久化到hdfs中。</p>
+<p><img src="https://i.loli.net/2020/05/07/DmlG5azCHtyF9Nj.png" alt="image-20200507105455732"></p>
+<h4 id="flume--kafka">Flume + Kafka</h4>
+<p>配置文件 kafka_netcat.conf</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#example.conf: A single-node flume configuration</span>
+<span style="color:#75715e">#Test Kafka Sink in netcat Source</span>
+ 
+<span style="color:#75715e">#Name the components on this agent</span>
+a1.sources <span style="color:#f92672">=</span> r1
+a1.sinks <span style="color:#f92672">=</span> k1
+a1.channels <span style="color:#f92672">=</span> c1
+ 
+<span style="color:#75715e">#Describe/configue the source</span>
+a1.sources.r1.type <span style="color:#f92672">=</span> netcat
+a1.sources.r1.bind <span style="color:#f92672">=</span> localhost
+a1.sources.r1.port <span style="color:#f92672">=</span> <span style="color:#ae81ff">44444</span>
+ 
+<span style="color:#75715e">#Describe the sink</span>
+<span style="color:#75715e">#设置kafkaSink 注意大小写</span>
+a1.sinks.k1.type <span style="color:#f92672">=</span> org.apache.flume.sink.kafka.KafkaSink
+<span style="color:#75715e">#设置kafka的主题topic</span>
+a1.sinks.k1.topic <span style="color:#f92672">=</span> kafka_netcat_test
+<span style="color:#75715e">#设置kafka 的 broker地址以及端口号</span>
+a1.sinks.k1.kafka.bootstrap.servers <span style="color:#f92672">=</span> localhost:9092
+<span style="color:#75715e">#设置kafka序列化方式</span>
+a1.sinks.k1.serializer.class <span style="color:#f92672">=</span> kafka.serializer.StringEncoder
+ 
+<span style="color:#75715e">#use a channel which buffers events in memory</span>
+a1.channels.c1.type <span style="color:#f92672">=</span> memory
+a1.channels.c1.capacity <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
+a1.channels.c1.transactionCapacity <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
+ 
+<span style="color:#75715e">#Bind the source and sink to the channel</span>
+a1.sources.r1.channels <span style="color:#f92672">=</span> c1
+a1.sinks.k1.channel <span style="color:#f92672">=</span> c1
+</code></pre></div><p>创建kafka topic kafka_netcat_test，保证测试的数据是发送到指定的topic中</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor <span style="color:#ae81ff">1</span> --partitions <span style="color:#ae81ff">1</span> --topic kafka_netcat_test
+</code></pre></div><p><img src="https://i.loli.net/2020/05/07/bEZiPhXcdeWCsMu.png" alt="image-20200507105503080"></p>
+<p>启动Kafka Consumer，指定topic是kafka_netcat_test</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic kafka_netcat_test --from-beginning
+</code></pre></div><p>启动Flume</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">flume-ng agent --conf conf/ --name a1 --conf-file conf/kafka_netcat.conf -Dflume.root.logger<span style="color:#f92672">=</span>INFO,console
+</code></pre></div><p>向44444端口发送信息</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">nc localhost <span style="color:#ae81ff">4444</span>
+</code></pre></div><p><img src="https://i.loli.net/2020/05/07/HXN2olwDJhMQAU5.png" alt="image-20200507105512656"></p>
+<p>检查Kafka consummer端能不能获取到信息</p>
+<p><img src="https://i.loli.net/2020/05/07/TFixWy8Db5XZzhH.png" alt="image-20200507105523096"></p>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
