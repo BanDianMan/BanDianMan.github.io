@@ -6,10 +6,26 @@
     <description>Recent content in Posts on 我的个人空间</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 07 May 2020 10:57:14 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2020 15:40:51 +0800</lastBuildDate>
     
 	<atom:link href="https://BanDianMan.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ApacheOFBiz  初级指南</title>
+      <link>https://BanDianMan.github.io/post/apacheofbiz-%E5%88%9D%E7%BA%A7%E6%8C%87%E5%8D%97/</link>
+      <pubDate>Thu, 11 Jun 2020 15:40:51 +0800</pubDate>
+      
+      <guid>https://BanDianMan.github.io/post/apacheofbiz-%E5%88%9D%E7%BA%A7%E6%8C%87%E5%8D%97/</guid>
+      <description>Apache OFBiz  介绍 Apache OFBiz是一套业务应用程序，足够灵活，可跨任何行业使用。通用体系结构允许开发人员轻松扩展或增强它以创建自定义功能。OFBiz作为Apache的一个开源项目，从2002年自今已有17年的历史，它每年都会发布一个大版本，中途更新多个小版本它是一个跨平台、跨数据库、跨应用服务器的分布式电子商务类web应用框架，包括实体引擎, 服务引擎, 消息引擎, 工作流引擎, 规则引擎等
+特性  强大的JavaWeb框架   OFBiz 是基于 Java 的 Web 框架，包括实体引擎、服务引擎和基于小部件的 UI，允许您快速原型设计和开发 Web 应用程序。
+  成熟的 CRM 和 ERP 解决方案   作为 Apache 顶级项目 10 年，OFBiz 已将其作为企业范围 ERP 解决方案的稳定性和成熟度，能够灵活应对您的业务进行更改。
+  开发人员友好   OFBiz 架构非常灵活，开发人员能够使用自定义功能快速轻松地扩展和增强框架。
+ 下载安装 可以采用zip解压的方式进行开发下载地址,也可以从源码仓库clone源码,参考地址
+自述文件 欢迎光临ApacheOFBiz一个强大的顶级Apache软件项目。OFBiz是一个用Java编写的企业资源计划(ERP)系统，包含大量的库、实体、服务和特性，以运行业务的各个方面。
+ OFBiz文档 OFBiz许可证  系统需求 运行OFBiz的唯一要求是在您的系统上安装了Java Development Kit(JDK) version 8(不仅仅是JRE,而是完整的JDK),您可以从下面的链接下载
+ JDK下载   注意 : 如果您正在使用Eclipse,请确保在使用Eclipse创建项目之前运行适当的Eclipse命令gradlew Eclipse,此命令将通过创建类路径和.</description>
+    </item>
     
     <item>
       <title>ApacheOozie架构及工作流程模型</title>
