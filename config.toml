@@ -1,13 +1,13 @@
 baseURL = "http://example.org/"
 languageCode = "en-us"
-title = "我的个人空间"
+title = "HejhBlogs"
 [params]
   author = "He Jia Hao"
-  description = "一个记录日常的博客网站."
+  description = "晚来天欲雪，能饮一杯无？"
   [[params.social]]
     name = "github"
     url = "https://github.com/BanDianMan/BanDianMan.github.io"
-  
+
   [params.style]
     darkestColor = "#463625"
     darkColor = "#2a3738"
