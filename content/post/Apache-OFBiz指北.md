@@ -1,5 +1,5 @@
 ---
-title: "Apache OFBiz指北"
+title: "ApacheOFBiz指北"
 date: 2020-08-11T16:34:36+08:00
 draft: true
 ---
