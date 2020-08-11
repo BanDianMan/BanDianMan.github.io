@@ -1,0 +1,16 @@
+baseURL = "http://example.org/"
+languageCode = "en-us"
+title = "我的个人空间"
+[params]
+  author = "He Jia Hao"
+  description = "一个记录日常的博客网站."
+  [[params.social]]
+    name = "github"
+    url = "https://github.com/BanDianMan/BanDianMan.github.io"
+  
+  [params.style]
+    darkestColor = "#463625"
+    darkColor = "#2a3738"
+    primaryColor = "#eeee6a"
+    lightColor = "#96a879"
+    lightestColor = "#ffffff"
