@@ -1,20 +1,20 @@
 <!doctype html>
 <html lang="en-us">
   <head>
-    <title>Cassandra基础及使用 // 我的个人空间</title>
+    <title>Cassandra基础及使用 // HejhBlogs</title>
     <meta charset="utf-8" />
     <meta name="generator" content="Hugo 0.69.2" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="He Jia Hao" />
     <meta name="description" content="" />
-    <link rel="stylesheet" href="https://BanDianMan.github.io/css/main.min.f90f5edd436ec7b74ad05479a05705770306911f721193e7845948fb07fe1335.css" />
+    <link rel="stylesheet" href="https://BanDianMan.github.io/css/main.min.88e7083eff65effb7485b6e6f38d10afbec25093a6fac42d734ce9024d3defbd.css" />
 
     
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Cassandra基础及使用"/>
 <meta name="twitter:description" content="Cassandra基础及使用  什么是Apache Cassandra？  Apache Cassandra是一个分布式数据库，用于管理许多商品服务器上的大量数据，同时提供高可用性服务，没有单点故障  分布式分区行存储 物理多数据中心本机支持 连续可用性 线性规模性能 操作简便 易于分发数据 &hellip;    谁在使用Cassandra？  eBay，GitHub，GoDaddy，Netflix，Reddit，Instagram，Intuit，The Weather Channel等超过1500多家公司 苹果的75,000多个节点存储了超过10 PB的数据 Netflix的2,500个节点，420 TB数据，每天超过1万亿个请求 中国搜索引擎Easou（270个节点，300 TB的数据，每天超过8亿个请求） eBay（超过100个节点，250 TB） &hellip;  安装并启动 touch /etc/yum.repos.d/cassandra.repo
 vi /etc/yum.repos.d/cassandra.repo
-[cassandra] name=Apache Cassandra baseurl=https://www.apache.org/dist/cassandra/redhat/311x/ gpgcheck=1 repo_gpgcheck=1 gpgkey=https://www.apache.org/dist/cassandra/KEYS sudo yum install cassandra
+[cassandra]name=Apache Cassandrabaseurl=https://www.apache.org/dist/cassandra/redhat/311x/gpgcheck=1repo_gpgcheck=1gpgkey=https://www.apache.org/dist/cassandra/KEYSsudo yum install cassandra
 service cassandra start
 chkconfig cassandra on # 使Cassandra重新启动后自动启动
 Cassandra Keyspaces(键空间)  键空间  是Cassandra中数据的最外层容器/分组，例如合理的数据库/架构 定义节点上的数据复制 列族–是行集合的容器，例如有理表  每行包含有序的列 每个键空间至少具有一个/多个列族   复制因子 复制品放置策略  简单策略 网络拓扑策略     keyspace -&gt; table –&gt; column，对应关系型数据库 database -&gt; table -&gt; column  创建 Cassandra Keyspace   cqlsh"/>
@@ -22,7 +22,7 @@ Cassandra Keyspaces(键空间)  键空间  是Cassandra中数据的最外层容�
     <meta property="og:title" content="Cassandra基础及使用" />
 <meta property="og:description" content="Cassandra基础及使用  什么是Apache Cassandra？  Apache Cassandra是一个分布式数据库，用于管理许多商品服务器上的大量数据，同时提供高可用性服务，没有单点故障  分布式分区行存储 物理多数据中心本机支持 连续可用性 线性规模性能 操作简便 易于分发数据 &hellip;    谁在使用Cassandra？  eBay，GitHub，GoDaddy，Netflix，Reddit，Instagram，Intuit，The Weather Channel等超过1500多家公司 苹果的75,000多个节点存储了超过10 PB的数据 Netflix的2,500个节点，420 TB数据，每天超过1万亿个请求 中国搜索引擎Easou（270个节点，300 TB的数据，每天超过8亿个请求） eBay（超过100个节点，250 TB） &hellip;  安装并启动 touch /etc/yum.repos.d/cassandra.repo
 vi /etc/yum.repos.d/cassandra.repo
-[cassandra] name=Apache Cassandra baseurl=https://www.apache.org/dist/cassandra/redhat/311x/ gpgcheck=1 repo_gpgcheck=1 gpgkey=https://www.apache.org/dist/cassandra/KEYS sudo yum install cassandra
+[cassandra]name=Apache Cassandrabaseurl=https://www.apache.org/dist/cassandra/redhat/311x/gpgcheck=1repo_gpgcheck=1gpgkey=https://www.apache.org/dist/cassandra/KEYSsudo yum install cassandra
 service cassandra start
 chkconfig cassandra on # 使Cassandra重新启动后自动启动
 Cassandra Keyspaces(键空间)  键空间  是Cassandra中数据的最外层容器/分组，例如合理的数据库/架构 定义节点上的数据复制 列族–是行集合的容器，例如有理表  每行包含有序的列 每个键空间至少具有一个/多个列族   复制因子 复制品放置策略  简单策略 网络拓扑策略     keyspace -&gt; table –&gt; column，对应关系型数据库 database -&gt; table -&gt; column  创建 Cassandra Keyspace   cqlsh" />
@@ -36,8 +36,8 @@ Cassandra Keyspaces(键空间)  键空间  是Cassandra中数据的最外层容�
   <body>
     <header class="app-header">
       <a href="https://BanDianMan.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="He Jia Hao" /></a>
-      <h1>我的个人空间</h1>
-      <p>一个记录日常的博客网站.</p>
+      <h1>HejhBlogs</h1>
+      <p>晚来天欲雪，能饮一杯无？</p>
       <div class="app-header-social">
         
           <a target="_blank" href="https://github.com/BanDianMan/BanDianMan.github.io" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">

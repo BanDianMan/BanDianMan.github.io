@@ -1,0 +1,1260 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Apache OFBiz指北 // HejhBlogs</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="He Jia Hao" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://BanDianMan.github.io/css/main.min.88e7083eff65effb7485b6e6f38d10afbec25093a6fac42d734ce9024d3defbd.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache OFBiz指北"/>
+<meta name="twitter:description" content="OFBiz进阶学习 1.准备 1.1环境及工具   Intellij IDEA 2020.1
+  JDK1.8.xx
+  MySQL5
+  OFBIZ版本 (当前发布最新版17.12.04-发布于2020-07-13) 这里使用16.11.05 下载链接
+  2.下载 Apache OfBiz 框架 下载链接
+ 下载之后解压   Apache OFBiz 自带的数据库为 Derby 后续可以配置成MySQL数据库  3.运行 Apache OFBiz gradlew cleanAll loadDefault ofbiz 以上命令将加载演示数据，（示例数据运行应用程序）
+ 浏览器上打开  用户名 : admin 密码 : ofbiz    4.创建一个应用程序 OFBiz 组件是一个文件夹，其中包含一个名为&quot;ofbiz-组件.xml&quot;的特殊 xml 文件，用于描述组件要加载和所需的资源。
+OFBiz 本身就是一组组件。
+ **框架组件：**这些是为应用程序组件提供技术层和工具的较低级别的组件;这些组件提供的功能通常是任何其他开发框架（数据层、业务逻辑层、事务处理、数据源池等）提供的功能。 **应用程序组件：**这些是 ERP 应用程序所需的通用业务组件，可以扩展/定制（产品、订单、一方、制造、会计等）;应用程序组件可以访问框架组件提供的服务和工具以及其他应用程序组件发布的服务。 特殊用途组件：这些组件类似于应用程序组件，但用于特殊用途的应用程序，如电子商务，谷歌基础集成，eBay  4."/>
+
+    <meta property="og:title" content="Apache OFBiz指北" />
+<meta property="og:description" content="OFBiz进阶学习 1.准备 1.1环境及工具   Intellij IDEA 2020.1
+  JDK1.8.xx
+  MySQL5
+  OFBIZ版本 (当前发布最新版17.12.04-发布于2020-07-13) 这里使用16.11.05 下载链接
+  2.下载 Apache OfBiz 框架 下载链接
+ 下载之后解压   Apache OFBiz 自带的数据库为 Derby 后续可以配置成MySQL数据库  3.运行 Apache OFBiz gradlew cleanAll loadDefault ofbiz 以上命令将加载演示数据，（示例数据运行应用程序）
+ 浏览器上打开  用户名 : admin 密码 : ofbiz    4.创建一个应用程序 OFBiz 组件是一个文件夹，其中包含一个名为&quot;ofbiz-组件.xml&quot;的特殊 xml 文件，用于描述组件要加载和所需的资源。
+OFBiz 本身就是一组组件。
+ **框架组件：**这些是为应用程序组件提供技术层和工具的较低级别的组件;这些组件提供的功能通常是任何其他开发框架（数据层、业务逻辑层、事务处理、数据源池等）提供的功能。 **应用程序组件：**这些是 ERP 应用程序所需的通用业务组件，可以扩展/定制（产品、订单、一方、制造、会计等）;应用程序组件可以访问框架组件提供的服务和工具以及其他应用程序组件发布的服务。 特殊用途组件：这些组件类似于应用程序组件，但用于特殊用途的应用程序，如电子商务，谷歌基础集成，eBay  4." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://BanDianMan.github.io/post/apache-ofbiz%E6%8C%87%E5%8C%97/" />
+<meta property="article:published_time" content="2020-08-11T16:34:36+08:00" />
+<meta property="article:modified_time" content="2020-08-11T16:34:36+08:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://BanDianMan.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="He Jia Hao" /></a>
+      <h1>HejhBlogs</h1>
+      <p>晚来天欲雪，能饮一杯无？</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://github.com/BanDianMan/BanDianMan.github.io" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Apache OFBiz指北</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Aug 11, 2020
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          11 min read
+        </div></div>
+    </header>
+    <div class="post-content">
+      <h2 id="ofbiz进阶学习">OFBiz进阶学习</h2>
+<h3 id="1准备">1.准备</h3>
+<h4 id="11环境及工具">1.1环境及工具</h4>
+<ul>
+<li>
+<p>Intellij IDEA 2020.1</p>
+</li>
+<li>
+<p>JDK1.8.xx</p>
+</li>
+<li>
+<p>MySQL5</p>
+</li>
+<li>
+<p>OFBIZ版本 (当前发布最新版17.12.04-发布于2020-07-13) 这里使用16.11.05 <a href="https://archive.apache.org/dist/ofbiz/apache-ofbiz-16.11.05.zip">下载链接</a></p>
+</li>
+</ul>
+<h3 id="2下载-apache-ofbiz-框架">2.下载 Apache OfBiz 框架</h3>
+<p><a href="https://archive.apache.org/dist/ofbiz/apache-ofbiz-16.11.05.zip">下载链接</a></p>
+<ul>
+<li>下载之后解压</li>
+</ul>
+<p><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727113101448.png" alt="image-20200727113101448"></p>
+<ul>
+<li>Apache OFBiz 自带的数据库为 <a href="http://db.apache.org/derby/">Derby</a>  后续可以配置成MySQL数据库</li>
+</ul>
+<h3 id="3运行-apache-ofbiz">3.运行 Apache OFBiz</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">gradlew cleanAll loadDefault ofbiz
+</code></pre></div><p>以上命令将加载演示数据，（示例数据运行应用程序）</p>
+<p><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727113617571.png" alt="image-20200727113617571"></p>
+<ul>
+<li><a href="https://localhost:8443/webtools">浏览器</a>上打开
+<ul>
+<li>用户名 : admin</li>
+<li>密码 : ofbiz</li>
+</ul>
+</li>
+</ul>
+<h3 id="4创建一个应用程序">4.创建一个应用程序</h3>
+<p>OFBiz 组件是一个文件夹，其中包含一个名为&quot;ofbiz-组件.xml&quot;的特殊 xml 文件，用于描述组件要加载和所需的资源。</p>
+<p>OFBiz 本身就是一组组件。</p>
+<ul>
+<li>**框架组件：**这些是为应用程序组件提供技术层和工具的较低级别的组件;这些组件提供的功能通常是任何其他开发框架（数据层、业务逻辑层、事务处理、数据源池等）提供的功能。</li>
+<li>**应用程序组件：**这些是 ERP 应用程序所需的通用业务组件，可以扩展/定制（产品、订单、一方、制造、会计等）;应用程序组件可以访问框架组件提供的服务和工具以及其他应用程序组件发布的服务。</li>
+<li><strong>特殊用途组件：这些</strong>组件类似于应用程序组件，但用于特殊用途的应用程序，如电子商务，谷歌基础集成，eBay</li>
+</ul>
+<h4 id="41创建插件组件">4.1创建插件/组件</h4>
+<p>使用命令行设置新的自定义组件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">./gradlew createPlugin -PpluginId<span style="color:#f92672">=</span>ofbizDemo
+
+</code></pre></div><p><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727114838915.png" alt="image-20200727114838915"></p>
+<h4 id="42运行应用程序">4.2运行应用程序</h4>
+<ul>
+<li>在运行第一个组件之前，显示“Hello World”</li>
+</ul>
+<ol>
+<li>打开  $OFBIZ_HOME/specialpurpose/ofbizDemo/widget/OfbizDemoScreens.xml</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;screens</span> <span style="color:#a6e22e">xmlns:xsi=</span><span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+        <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://ofbiz.apache.org/Widget-Screen&#34;</span> <span style="color:#a6e22e">xsi:schemaLocation=</span><span style="color:#e6db74">&#34;http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd&#34;</span><span style="color:#f92672">&gt;</span>
+
+    <span style="color:#f92672">&lt;screen</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;main&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;section&gt;</span>
+            <span style="color:#f92672">&lt;actions&gt;</span>
+                <span style="color:#f92672">&lt;set</span> <span style="color:#a6e22e">field=</span><span style="color:#e6db74">&#34;headerItem&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;main&#34;</span><span style="color:#f92672">/&gt;</span><span style="color:#75715e">&lt;!-- this highlights the selected menu-item with name &#34;main&#34; --&gt;</span>
+            <span style="color:#f92672">&lt;/actions&gt;</span>
+            <span style="color:#f92672">&lt;widgets&gt;</span>
+                <span style="color:#f92672">&lt;decorator-screen</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;OfbizDemoCommonDecorator&#34;</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;${parameters.mainDecoratorLocation}&#34;</span><span style="color:#f92672">&gt;</span>
+                    <span style="color:#f92672">&lt;decorator-section</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">&gt;</span>
+                        <span style="color:#f92672">&lt;label</span> <span style="color:#a6e22e">text=</span><span style="color:#e6db74">&#34;Hello World!! :)&#34;</span><span style="color:#f92672">&gt;&lt;/label&gt;</span>
+                    <span style="color:#f92672">&lt;/decorator-section&gt;</span>
+                <span style="color:#f92672">&lt;/decorator-screen&gt;</span>
+            <span style="color:#f92672">&lt;/widgets&gt;</span>
+        <span style="color:#f92672">&lt;/section&gt;</span>
+    <span style="color:#f92672">&lt;/screen&gt;</span>
+<span style="color:#f92672">&lt;/screens&gt;</span>
+</code></pre></div><ul>
+<li>只添加了 <code>&lt;label text =“ Hello World !! :)” /&gt;&lt;/label&gt;</code></li>
+</ul>
+<ol start="2">
+<li>
+<p>现在将需要通过重新加载数据 <code>./gradlew loadDefault ofbiz</code>来重新启动OFBiz。 这是必需的，因为您已经为组件创建了一些带有一些安全性数据的组件（默认情况下，在组件数据目录中将其设置为OfbizDemoSecurityGroupDemoData.xml），并且在重新启动它时，ofbizdemo组件也会被加载</p>
+</li>
+<li>
+<p>当OFBiz重新启动时，将浏览器定向到此处的应用程序中 https://localhost:8443/ofbizDemo</p>
+</li>
+<li>
+<p>您将被要求登录。 使用用户登录：admin 密码：ofbiz。</p>
+</li>
+<li>
+<p>登录时，您将看到ofbizdemo应用程序，并在屏幕上显示了hello world消息，如下图所示。就是这样，祝贺您的第一个组件已安装并正在运行。</p>
+</li>
+</ol>
+<ul>
+<li>
+<p>我这里进去报错 应该是国际化的问题</p>
+<ul>
+<li><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727122158832.png" alt="image-20200727122158832"></li>
+</ul>
+</li>
+<li>
+<p>解决办法 将apache-ofbiz-16.11.05\specialpurpose\ofbizDemo\widget\CommonScreens.xml 中的<strong>OfbizDemoUiLabels</strong>这行删除</p>
+<ul>
+<li><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727122827605.png" alt="image-20200727122827605"></li>
+</ul>
+</li>
+<li>
+<p>进去再次报错 原因  &ldquo;元素类型“label”必须以匹配的结束标签“<!-- raw HTML omitted -->”结束。&rdquo;</p>
+<ul>
+<li><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727123045492.png" alt="image-20200727123045492"></li>
+</ul>
+</li>
+<li>
+<p>最后加上 label标签 成功进入</p>
+<ul>
+<li><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727123212006.png" alt="image-20200727123212006"></li>
+<li><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727124448015.png" alt="image-20200727123203985"></li>
+</ul>
+</li>
+</ul>
+<h4 id="43创建第一个数据库实体表">4.3创建第一个数据库实体（表）</h4>
+<blockquote>
+<p>定义实体</p>
+</blockquote>
+<p>​	要在数据库中创建自定义实体/表，只需要在ofbizdemo应用程序的$ OFBIZ_HOME / specialpurpose / ofbizDemo / entitydef / entitymodel.xml文件中提供实体定义。 使用Gradle任务设置组件时，已经设置了此文件结构。 只需要进入并提供实体定义，如下所示。 在这里，我们将为ofbizdemo应用程序添加两个新实体。</p>
+<p><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727124742342.png" alt="image-20200727124128051"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;entitymodel</span> <span style="color:#a6e22e">xmlns:xsi=</span><span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+    <span style="color:#a6e22e">xsi:noNamespaceSchemaLocation=</span><span style="color:#e6db74">&#34;http://ofbiz.apache.org/dtds/entitymodel.xsd&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#75715e">&lt;!-- ========================================================= --&gt;</span>
+    <span style="color:#75715e">&lt;!-- ======================== Defaults ======================= --&gt;</span>
+    <span style="color:#75715e">&lt;!-- ========================================================= --&gt;</span>
+    <span style="color:#f92672">&lt;title&gt;</span>Entity of OfbizDemo Component<span style="color:#f92672">&lt;/title&gt;</span>
+    <span style="color:#f92672">&lt;description&gt;</span>None<span style="color:#f92672">&lt;/description&gt;</span>
+    <span style="color:#f92672">&lt;copyright&gt;&lt;/copyright&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;&lt;/version&gt;</span>
+
+    <span style="color:#f92672">&lt;entity</span> <span style="color:#a6e22e">entity-name=</span><span style="color:#e6db74">&#34;OfbizDemoType&#34;</span> <span style="color:#a6e22e">package-name=</span><span style="color:#e6db74">&#34;org.apache.ofbiz.ofbizdemo&#34;</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;OfbizDemo Type Entity&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;ofbizDemoTypeId&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;id&#34;</span><span style="color:#f92672">&gt;&lt;description&gt;</span>primary sequenced ID<span style="color:#f92672">&lt;/description&gt;&lt;/field&gt;</span>
+        <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;description&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;description&#34;</span><span style="color:#f92672">&gt;&lt;/field&gt;</span>
+        <span style="color:#f92672">&lt;prim-key</span> <span style="color:#a6e22e">field=</span><span style="color:#e6db74">&#34;ofbizDemoTypeId&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/entity&gt;</span>
+
+    <span style="color:#f92672">&lt;entity</span> <span style="color:#a6e22e">entity-name=</span><span style="color:#e6db74">&#34;OfbizDemo&#34;</span> <span style="color:#a6e22e">package-name=</span><span style="color:#e6db74">&#34;org.apache.ofbiz.ofbizdemo&#34;</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;OfbizDemo Entity&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;ofbizDemoId&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;id&#34;</span><span style="color:#f92672">&gt;&lt;description&gt;</span>primary sequenced ID<span style="color:#f92672">&lt;/description&gt;&lt;/field&gt;</span>
+        <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;ofbizDemoTypeId&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;id&#34;</span><span style="color:#f92672">&gt;&lt;/field&gt;</span>
+        <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;firstName&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">&gt;&lt;/field&gt;</span>
+        <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;lastName&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">&gt;&lt;/field&gt;</span>
+        <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;comments&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;comment&#34;</span><span style="color:#f92672">&gt;&lt;/field&gt;</span>
+        <span style="color:#f92672">&lt;prim-key</span> <span style="color:#a6e22e">field=</span><span style="color:#e6db74">&#34;ofbizDemoId&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;relation</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;one&#34;</span> <span style="color:#a6e22e">fk-name=</span><span style="color:#e6db74">&#34;ODEM_OD_TYPE_ID&#34;</span> <span style="color:#a6e22e">rel-entity-name=</span><span style="color:#e6db74">&#34;OfbizDemoType&#34;</span><span style="color:#f92672">&gt;</span>
+            <span style="color:#f92672">&lt;key-map</span> <span style="color:#a6e22e">field-name=</span><span style="color:#e6db74">&#34;ofbizDemoTypeId&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;/relation&gt;</span>
+    <span style="color:#f92672">&lt;/entity&gt;</span>
+    
+<span style="color:#f92672">&lt;/entitymodel&gt;</span>
+</code></pre></div><p>现在看一下$ OFBIZ_HOME / specialpurpose / ofbizDemo / ofbiz-component.xml文件。 已经在其中进行了资源输入，以便在加载组件时将这些实体从其定义加载到数据库。 如下所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;entity-resource</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;model&#34;</span> <span style="color:#a6e22e">reader-name=</span><span style="color:#e6db74">&#34;main&#34;</span> <span style="color:#a6e22e">loader=</span><span style="color:#e6db74">&#34;main&#34;</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;entitydef/entitymodel.xml&#34;</span><span style="color:#f92672">/&gt;</span>
+</code></pre></div><p><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727133535455.png" alt="image-20200727124448015"></p>
+<p>要检查，只需重新启动OFBiz（Ctrl + C后跟“ ./gradlew ofbiz”），然后将浏览器定向到https://localhost:8443/webtools/control/entitymaint 并搜索OfbizDemoType和OfbizDemo实体。 您将看到它，如下图所示</p>
+<p><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727124128051.png" alt="image-20200727124742342"></p>
+<h4 id="44为实体准备数据">4.4为实体准备数据</h4>
+<p>设置自定义实体后，现在该为它准备一些样本数据了。 您可以在组件的数据目录下已设置的数据XML文件中执行此操作，即$ OFBIZ_HOME / specialpurpose / ofbizDemo / data / <strong>OfbizDemoTypeData.xml</strong>和$ OFBIZ_HOME / specialpurpose / ofbizDemo / data / <strong>OfbizDemoDemoData.xml</strong>。 如下所示进行设置</p>
+<blockquote>
+<p><strong>OfbizDemoTypeData.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;entity-engine-xml&gt;</span>
+    <span style="color:#f92672">&lt;OfbizDemoType</span> <span style="color:#a6e22e">ofbizDemoTypeId=</span><span style="color:#e6db74">&#34;INTERNAL&#34;</span> <span style="color:#a6e22e">description=</span><span style="color:#e6db74">&#34;Internal Demo - Office&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;OfbizDemoType</span> <span style="color:#a6e22e">ofbizDemoTypeId=</span><span style="color:#e6db74">&#34;EXTERNAL&#34;</span> <span style="color:#a6e22e">description=</span><span style="color:#e6db74">&#34;External Demo - On Site&#34;</span><span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/entity-engine-xml&gt;</span>
+</code></pre></div><blockquote>
+<p><strong>OfbizDemoDemoData.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;entity-engine-xml&gt;</span>
+    <span style="color:#f92672">&lt;OfbizDemo</span> <span style="color:#a6e22e">ofbizDemoId=</span><span style="color:#e6db74">&#34;SAMPLE_DEMO_1&#34;</span> <span style="color:#a6e22e">ofbizDemoTypeId=</span><span style="color:#e6db74">&#34;INTERNAL&#34;</span> <span style="color:#a6e22e">firstName=</span><span style="color:#e6db74">&#34;Sample First 1&#34;</span> <span style="color:#a6e22e">lastName=</span><span style="color:#e6db74">&#34;Sample Last 1&#34;</span> <span style="color:#a6e22e">comments=</span><span style="color:#e6db74">&#34;This is test comment for first record.&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;OfbizDemo</span> <span style="color:#a6e22e">ofbizDemoId=</span><span style="color:#e6db74">&#34;SAMPLE_DEMO_2&#34;</span> <span style="color:#a6e22e">ofbizDemoTypeId=</span><span style="color:#e6db74">&#34;INTERNAL&#34;</span> <span style="color:#a6e22e">firstName=</span><span style="color:#e6db74">&#34;Sample First 2&#34;</span> <span style="color:#a6e22e">lastName=</span><span style="color:#e6db74">&#34;Sample last 2&#34;</span> <span style="color:#a6e22e">comments=</span><span style="color:#e6db74">&#34;This is test comment for second record.&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;OfbizDemo</span> <span style="color:#a6e22e">ofbizDemoId=</span><span style="color:#e6db74">&#34;SAMPLE_DEMO_3&#34;</span> <span style="color:#a6e22e">ofbizDemoTypeId=</span><span style="color:#e6db74">&#34;EXTERNAL&#34;</span> <span style="color:#a6e22e">firstName=</span><span style="color:#e6db74">&#34;Sample First 3&#34;</span> <span style="color:#a6e22e">lastName=</span><span style="color:#e6db74">&#34;Sample last 3&#34;</span> <span style="color:#a6e22e">comments=</span><span style="color:#e6db74">&#34;This is test comment for third record.&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;OfbizDemo</span> <span style="color:#a6e22e">ofbizDemoId=</span><span style="color:#e6db74">&#34;SAMPLE_DEMO_4&#34;</span> <span style="color:#a6e22e">ofbizDemoTypeId=</span><span style="color:#e6db74">&#34;EXTERNAL&#34;</span> <span style="color:#a6e22e">firstName=</span><span style="color:#e6db74">&#34;Sample First 4&#34;</span> <span style="color:#a6e22e">lastName=</span><span style="color:#e6db74">&#34;Sample last 4&#34;</span> <span style="color:#a6e22e">comments=</span><span style="color:#e6db74">&#34;This is test comment for fourth record.&#34;</span><span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/entity-engine-xml&gt;</span>
+</code></pre></div><p>现在再来看看$ OFBIZ_HOME / specialpurpose / ofbizDemo / ofbiz-component.xml文件。 您已经在其中进行了资源输入，以加载以下文件中准备的数据：</p>
+<blockquote>
+<p>在<strong>ofbiz-component.xml</strong>中可以看到</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;entity-resource</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;data&#34;</span> <span style="color:#a6e22e">reader-name=</span><span style="color:#e6db74">&#34;seed&#34;</span> <span style="color:#a6e22e">loader=</span><span style="color:#e6db74">&#34;main&#34;</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;data/OfbizDemoTypeData.xml&#34;</span><span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;entity-resource</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;data&#34;</span> <span style="color:#a6e22e">reader-name=</span><span style="color:#e6db74">&#34;demo&#34;</span> <span style="color:#a6e22e">loader=</span><span style="color:#e6db74">&#34;main&#34;</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;data/OfbizDemoDemoData.xml&#34;</span><span style="color:#f92672">/&gt;</span>
+</code></pre></div><p><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727123203985.png" alt="image-20200727125448954"></p>
+<h4 id="在实体中加载数据">在实体中加载数据</h4>
+<p>方法一 : 此时要将样本数据加载到定义的实体/表中，您可以在控制台上运行<code>gradlew loadDefault</code></p>
+<p>方法二 : 可以直接在webtools中转到此处以加载实体xml https://localhost:8443/webtools/control/EntityImport 只需将xml数据放入“完整XML文档（根标签：entity-engine-xml）：”文本区域，然后单击“导入文本”，如下图所示</p>
+<ul>
+<li>
+<p><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727133549438.png" alt="image-20200727133535455"></p>
+</li>
+<li>
+<p><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727125448954.png" alt="image-20200727133549438"></p>
+</li>
+</ul>
+<p>已经成功将数据导入数据库表中，非常简单</p>
+<p><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727133925409.png" alt="image-20200727133658918"></p>
+<h3 id="5表单和服务">5.表单和服务</h3>
+<p>在上面，已经了解了如何创建实体（表），现在该创建一个表单，该表单将允许您在该实体中进行输入。</p>
+<h4 id="51创建服务">5.1创建服务</h4>
+<ul>
+<li>在准备表单之前，先编写一个服务以在服务定义xml文件（$ OFBIZ_HOME / specialpurpose / ofbizDemo / servicedef / services.xml）中为OfbizDemo实体在数据库中创建记录</li>
+</ul>
+<p><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727134038953.png" alt="image-20200727133925409"></p>
+<ul>
+<li>此时这里的服务默认有一个</li>
+</ul>
+<p><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727133658918.png" alt="image-20200727134038953"></p>
+<p>这个是虚拟服务，防止空文件和语法错误 - 在此处添加第一个实服务时删除</p>
+<blockquote>
+<p><strong>services.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;services</span> <span style="color:#a6e22e">xmlns:xsi=</span><span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+        <span style="color:#a6e22e">xsi:noNamespaceSchemaLocation=</span><span style="color:#e6db74">&#34;http://ofbiz.apache.org/dtds/services.xsd&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;description&gt;</span>OfbizDemo Services<span style="color:#f92672">&lt;/description&gt;</span>
+    <span style="color:#f92672">&lt;vendor&gt;&lt;/vendor&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>1.0<span style="color:#f92672">&lt;/version&gt;</span>
+
+    <span style="color:#f92672">&lt;service</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;createOfbizDemo&#34;</span> <span style="color:#a6e22e">default-entity-name=</span><span style="color:#e6db74">&#34;OfbizDemo&#34;</span> <span style="color:#a6e22e">engine=</span><span style="color:#e6db74">&#34;entity-auto&#34;</span> <span style="color:#a6e22e">invoke=</span><span style="color:#e6db74">&#34;create&#34;</span> <span style="color:#a6e22e">auth=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;description&gt;</span>Create an Ofbiz Demo record<span style="color:#f92672">&lt;/description&gt;</span>
+        <span style="color:#f92672">&lt;auto-attributes</span> <span style="color:#a6e22e">include=</span><span style="color:#e6db74">&#34;pk&#34;</span> <span style="color:#a6e22e">mode=</span><span style="color:#e6db74">&#34;OUT&#34;</span> <span style="color:#a6e22e">optional=</span><span style="color:#e6db74">&#34;false&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;auto-attributes</span> <span style="color:#a6e22e">include=</span><span style="color:#e6db74">&#34;nonpk&#34;</span> <span style="color:#a6e22e">mode=</span><span style="color:#e6db74">&#34;IN&#34;</span> <span style="color:#a6e22e">optional=</span><span style="color:#e6db74">&#34;false&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;override</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;comments&#34;</span> <span style="color:#a6e22e">optional=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/service&gt;</span>
+    
+<span style="color:#f92672">&lt;/services&gt;</span>
+</code></pre></div><p>现在再次查看$ OFBIZ_HOME / specialpurpose / ofbizDemo / ofbiz-component.xml文件。 已经在其中输入了用于加载此文件中定义的服务的资源条目：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!-- service resources: model(s), eca(s) and group definitions --&gt;</span>
+<span style="color:#f92672">&lt;service-resource</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;model&#34;</span> <span style="color:#a6e22e">loader=</span><span style="color:#e6db74">&#34;main&#34;</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;servicedef/services.xml&#34;</span><span style="color:#f92672">/&gt;</span>
+</code></pre></div><p><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727134242631.png" alt="image-20200727134242631"></p>
+<p>要加载此服务定义，您将需要重新启动OFBiz。</p>
+<p><code>gradlew ofbiz</code></p>
+<p>要测试此服务，您可以直接在此处转到webtools-&gt; Run Service选项：https://localhost:8443/webtools/control/runService</p>
+<p><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727135308083.png" alt="image-20200727134514467"></p>
+<blockquote>
+<p>通过Web工具运行服务：框架提供的一种智能实用程序，用于运行您的服务。</p>
+<p>提交上述表格后，您将展示一个表格，用于输入服务的IN参数。</p>
+</blockquote>
+<ul>
+<li>
+<p>输入服务名称</p>
+<ul>
+<li><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727135425260.png" alt="image-20200727135308083"></li>
+</ul>
+</li>
+<li>
+<p>填写参数</p>
+<ul>
+<li><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727134514467.png" alt="image-20200727135349142"></li>
+</ul>
+</li>
+<li>
+<p>运行成功</p>
+<ul>
+<li><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727135256413.png" alt="image-20200727135256413"></li>
+</ul>
+</li>
+<li>
+<p>数据已经添加上去了</p>
+<ul>
+<li><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727135349142.png" alt="image-20200727135425260"></li>
+</ul>
+</li>
+</ul>
+<h4 id="52ui国际化的使用简介">5.2UI国际化的使用（简介）</h4>
+<p>Apache OFBiz的国际化非常容易，用各种语言定义UI标签，并根据用户的语言环境显示相应的标签。</p>
+<p>这是UI标签的示例（创建组件<!-- raw HTML omitted --> UiLabels.xml是默认创建的，在我们的例子中是OfbizDemoUiLabels.xml）</p>
+<blockquote>
+<p><strong>OfbizdemouiLabels. xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;resource</span> <span style="color:#a6e22e">xmlns:xsi=</span><span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span> <span style="color:#a6e22e">xsi:noNamespaceSchemaLocation=</span><span style="color:#e6db74">&#34;http://ofbiz.apache.org/dtds/ofbiz-properties.xsd&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">key=</span><span style="color:#e6db74">&#34;OfbizDemoApplication&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;value</span> <span style="color:#a6e22e">xml:lang=</span><span style="color:#e6db74">&#34;en&#34;</span><span style="color:#f92672">&gt;</span>OfbizDemo Application<span style="color:#f92672">&lt;/value&gt;</span>
+        <span style="color:#f92672">&lt;value</span> <span style="color:#a6e22e">xml:lang=</span><span style="color:#e6db74">&#34;zh&#34;</span><span style="color:#f92672">&gt;</span>OfbizDemo应用程�?<span style="color:#f92672">&lt;/value&gt;</span>
+        <span style="color:#f92672">&lt;value</span> <span style="color:#a6e22e">xml:lang=</span><span style="color:#e6db74">&#34;zh-TW&#34;</span><span style="color:#f92672">&gt;</span>OfbizDemo應用程�?<span style="color:#f92672">&lt;/value&gt;</span>
+    <span style="color:#f92672">&lt;/property&gt;</span>
+    <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">key=</span><span style="color:#e6db74">&#34;OfbizDemoCompanyName&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;value</span> <span style="color:#a6e22e">xml:lang=</span><span style="color:#e6db74">&#34;en&#34;</span><span style="color:#f92672">&gt;</span>OFBiz: OfbizDemo<span style="color:#f92672">&lt;/value&gt;</span>
+        <span style="color:#f92672">&lt;value</span> <span style="color:#a6e22e">xml:lang=</span><span style="color:#e6db74">&#34;zh-TW&#34;</span><span style="color:#f92672">&gt;</span>OFBiz: OfbizDemo<span style="color:#f92672">&lt;/value&gt;</span>
+    <span style="color:#f92672">&lt;/property&gt;</span>
+    <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">key=</span><span style="color:#e6db74">&#34;OfbizDemoCompanySubtitle&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;value</span> <span style="color:#a6e22e">xml:lang=</span><span style="color:#e6db74">&#34;en&#34;</span><span style="color:#f92672">&gt;</span>Part of the Apache OFBiz Family of Open Source Software<span style="color:#f92672">&lt;/value&gt;</span>
+        <span style="color:#f92672">&lt;value</span> <span style="color:#a6e22e">xml:lang=</span><span style="color:#e6db74">&#34;it&#34;</span><span style="color:#f92672">&gt;</span>Un modulo della famiglia di software open source Apache OFBiz<span style="color:#f92672">&lt;/value&gt;</span>
+        <span style="color:#f92672">&lt;value</span> <span style="color:#a6e22e">xml:lang=</span><span style="color:#e6db74">&#34;zh&#34;</span><span style="color:#f92672">&gt;</span>开�?软件OFBiz的组�?部分<span style="color:#f92672">&lt;/value&gt;</span>
+        <span style="color:#f92672">&lt;value</span> <span style="color:#a6e22e">xml:lang=</span><span style="color:#e6db74">&#34;zh-TW&#34;</span><span style="color:#f92672">&gt;</span>開�?軟體OFBiz的組�?部分<span style="color:#f92672">&lt;/value&gt;</span>
+    <span style="color:#f92672">&lt;/property&gt;</span>
+    <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">key=</span><span style="color:#e6db74">&#34;OfbizDemoViewPermissionError&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;value</span> <span style="color:#a6e22e">xml:lang=</span><span style="color:#e6db74">&#34;en&#34;</span><span style="color:#f92672">&gt;</span>You are not allowed to view this page.<span style="color:#f92672">&lt;/value&gt;</span>
+        <span style="color:#f92672">&lt;value</span> <span style="color:#a6e22e">xml:lang=</span><span style="color:#e6db74">&#34;zh&#34;</span><span style="color:#f92672">&gt;</span>�?�?许你�?览这个页�?�。<span style="color:#f92672">&lt;/value&gt;</span>
+        <span style="color:#f92672">&lt;value</span> <span style="color:#a6e22e">xml:lang=</span><span style="color:#e6db74">&#34;zh-TW&#34;</span><span style="color:#f92672">&gt;</span>�?�?許您檢視這個�?�?�.<span style="color:#f92672">&lt;/value&gt;</span>
+    <span style="color:#f92672">&lt;/property&gt;</span>
+<span style="color:#f92672">&lt;/resource&gt;</span>
+</code></pre></div><h4 id="53创建添加插入数据表单">5.3创建添加(插入数据)表单</h4>
+<p>让我们为此服务创建我们的第一个表单，为此,让我们编辑现有文件的位置 <strong>$OFBIZ_HOME/specialpurpose/ofbizDemo/widget/OfbizDemoForms.xml</strong>，并添加为 OfbizDemo 创建窗体，如下所示：</p>
+<blockquote>
+<p><strong>OfbizDemoForms.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;forms</span> <span style="color:#a6e22e">xmlns:xsi=</span><span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span> 
+        <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://ofbiz.apache.org/Widget-Form&#34;</span> <span style="color:#a6e22e">xsi:schemaLocation=</span><span style="color:#e6db74">&#34;http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd&#34;</span><span style="color:#f92672">&gt;</span>
+
+    <span style="color:#f92672">&lt;form</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;AddOfbizDemo&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;single&#34;</span> <span style="color:#a6e22e">target=</span><span style="color:#e6db74">&#34;createOfbizDemo&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#75715e">&lt;!-- We have this utility in OFBiz to render form based on service definition.
+</span><span style="color:#75715e">             Service attributes will automatically lookedup and will be shown on form
+</span><span style="color:#75715e">        --&gt;</span>
+        <span style="color:#f92672">&lt;auto-fields-service</span> <span style="color:#a6e22e">service-name=</span><span style="color:#e6db74">&#34;createOfbizDemo&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;ofbizDemoTypeId&#34;</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;${uiLabelMap.CommonType}&#34;</span><span style="color:#f92672">&gt;</span>
+            <span style="color:#f92672">&lt;drop-down</span> <span style="color:#a6e22e">allow-empty=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#a6e22e">current-description=</span><span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">&gt;</span>
+                <span style="color:#75715e">&lt;!---We have made this drop down options dynamic(Values from db) using this --&gt;</span>
+                <span style="color:#f92672">&lt;entity-options</span> <span style="color:#a6e22e">description=</span><span style="color:#e6db74">&#34;${description}&#34;</span> <span style="color:#a6e22e">key-field-name=</span><span style="color:#e6db74">&#34;ofbizDemoTypeId&#34;</span> <span style="color:#a6e22e">entity-name=</span><span style="color:#e6db74">&#34;OfbizDemoType&#34;</span><span style="color:#f92672">&gt;</span>
+                    <span style="color:#f92672">&lt;entity-order-by</span> <span style="color:#a6e22e">field-name=</span><span style="color:#e6db74">&#34;description&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;/entity-options&gt;</span>
+            <span style="color:#f92672">&lt;/drop-down&gt;</span>
+        <span style="color:#f92672">&lt;/field&gt;</span>
+        <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;submitButton&#34;</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;${uiLabelMap.CommonAdd}&#34;</span><span style="color:#f92672">&gt;&lt;submit</span> <span style="color:#a6e22e">button-type=</span><span style="color:#e6db74">&#34;button&#34;</span><span style="color:#f92672">/&gt;&lt;/field&gt;</span>
+    <span style="color:#f92672">&lt;/form&gt;</span>
+    
+<span style="color:#f92672">&lt;/forms&gt;</span>
+</code></pre></div><ul>
+<li>
+<p>在这里您可以注意到我们已经使用auto-fields-service根据服务定义IN / OUT属性自动生成表单</p>
+</li>
+<li>
+<p>转到Screens xml文件（OfbizDemoScreens.xml），将装饰器主体中的此表单位置添加到用于显示Hello World &hellip;文本的屏幕。 如下所示</p>
+</li>
+</ul>
+<blockquote>
+<p>在主屏幕上添加表格位置</p>
+<p><strong>OfbizDemoScreens.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;screens</span> <span style="color:#a6e22e">xmlns:xsi=</span><span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+        <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://ofbiz.apache.org/Widget-Screen&#34;</span> <span style="color:#a6e22e">xsi:schemaLocation=</span><span style="color:#e6db74">&#34;http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd&#34;</span><span style="color:#f92672">&gt;</span>
+
+    <span style="color:#f92672">&lt;screen</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;main&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;section&gt;</span>
+            <span style="color:#f92672">&lt;actions&gt;</span>
+                <span style="color:#f92672">&lt;set</span> <span style="color:#a6e22e">field=</span><span style="color:#e6db74">&#34;headerItem&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;main&#34;</span><span style="color:#f92672">/&gt;</span><span style="color:#75715e">&lt;!-- this highlights the selected menu-item with name &#34;main&#34; --&gt;</span>
+            <span style="color:#f92672">&lt;/actions&gt;</span>
+            <span style="color:#f92672">&lt;widgets&gt;</span>
+                <span style="color:#f92672">&lt;decorator-screen</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;OfbizDemoCommonDecorator&#34;</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;${parameters.mainDecoratorLocation}&#34;</span><span style="color:#f92672">&gt;</span>
+                    <span style="color:#f92672">&lt;decorator-section</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">&gt;</span>
+                        <span style="color:#f92672">&lt;screenlet</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;Add Ofbiz Demo&#34;</span><span style="color:#f92672">&gt;</span>
+                            <span style="color:#f92672">&lt;include-form</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;AddOfbizDemo&#34;</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;component://ofbizDemo/widget/OfbizDemoForms.xml&#34;</span><span style="color:#f92672">/&gt;</span>
+                        <span style="color:#f92672">&lt;/screenlet&gt;</span>
+                    <span style="color:#f92672">&lt;/decorator-section&gt;</span>
+                <span style="color:#f92672">&lt;/decorator-screen&gt;</span>
+            <span style="color:#f92672">&lt;/widgets&gt;</span>
+        <span style="color:#f92672">&lt;/section&gt;</span>
+    <span style="color:#f92672">&lt;/screen&gt;</span>
+
+<span style="color:#f92672">&lt;/screens&gt;</span>
+</code></pre></div><h4 id="54表单的控制器输入">5.4表单的控制器输入</h4>
+<p>​	在转到表单并从添加表单开始创建OfbizDemo记录之前，您需要在$ OFBIZ_HOME / specialpurpose / ofbizDemo / webapp / ofbizDemo / WEB-INF / controller.xml文件中输入一个条目，以供目标服务调用 表格已提交。 您可以按照如下所示在Ofbizdemo应用程序控制器文件中的“请求映射”下进行操作：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">    <span style="color:#f92672">&lt;request-map</span> <span style="color:#a6e22e">uri=</span><span style="color:#e6db74">&#34;createOfbizDemo&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;security</span> <span style="color:#a6e22e">https=</span><span style="color:#e6db74">&#34;true&#34;</span> <span style="color:#a6e22e">auth=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;event</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;service&#34;</span> <span style="color:#a6e22e">invoke=</span><span style="color:#e6db74">&#34;createOfbizDemo&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;response</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;success&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;view&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;main&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/request-map&gt;</span>
+</code></pre></div><p>一切都设置好了，让我们看一下我们最近创建的表单https://localhost:8443/ofbizDemo</p>
+<p><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727140458595.png" alt="image-20200727140458595"></p>
+<p>主键（ofbizDemoId）不需要与表单一起发送，它将由OFBiz在数据库记录中自动排序。</p>
+<ul>
+<li>
+<p>输入参数后添加</p>
+<ul>
+<li><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727140850893.png" alt="image-20200727140818755"></li>
+</ul>
+</li>
+<li>
+<p>可以看到数据已经添加进去了</p>
+<ul>
+<li><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727140818755.png" alt="image-20200727140850893"></li>
+</ul>
+</li>
+</ul>
+<h4 id="55创建查找查询数据表单">5.5创建查找(查询数据)表单</h4>
+<p>让我们为OfbizDemo实体创建查找表单，以便搜索正在创建的OfbizDemos。</p>
+<ol>
+<li>在OfbizDemoForms.xml中添加表单（FindOfbizDemo和ListOfbizDemo）</li>
+</ol>
+<blockquote>
+<p><strong>OfbizDemoForms.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;form</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;FindOfbizDemo&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;single&#34;</span> <span style="color:#a6e22e">target=</span><span style="color:#e6db74">&#34;FindOfbizDemo&#34;</span> <span style="color:#a6e22e">default-entity-name=</span><span style="color:#e6db74">&#34;OfbizDemo&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;noConditionFind&#34;</span><span style="color:#f92672">&gt;&lt;hidden</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;Y&#34;</span><span style="color:#f92672">/&gt;</span> <span style="color:#75715e">&lt;!-- if this isn&#39;t there then with all fields empty no query will be done --&gt;</span><span style="color:#f92672">&lt;/field&gt;</span>
+    <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;ofbizDemoId&#34;</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;${uiLabelMap.OfbizDemoId}&#34;</span><span style="color:#f92672">&gt;&lt;text-find/&gt;&lt;/field&gt;</span>
+    <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;firstName&#34;</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;${uiLabelMap.OfbizDemoFirstName}&#34;</span><span style="color:#f92672">&gt;&lt;text-find/&gt;&lt;/field&gt;</span>
+    <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;lastName&#34;</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;${uiLabelMap.OfbizDemoLastName}&#34;</span><span style="color:#f92672">&gt;&lt;text-find/&gt;&lt;/field&gt;</span>
+    <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;ofbizDemoTypeId&#34;</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;${uiLabelMap.OfbizDemoType}&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;drop-down</span> <span style="color:#a6e22e">allow-empty=</span><span style="color:#e6db74">&#34;true&#34;</span> <span style="color:#a6e22e">current-description=</span><span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">&gt;</span>
+            <span style="color:#f92672">&lt;entity-options</span> <span style="color:#a6e22e">description=</span><span style="color:#e6db74">&#34;${description}&#34;</span> <span style="color:#a6e22e">key-field-name=</span><span style="color:#e6db74">&#34;ofbizDemoTypeId&#34;</span> <span style="color:#a6e22e">entity-name=</span><span style="color:#e6db74">&#34;OfbizDemoType&#34;</span><span style="color:#f92672">&gt;</span>
+                <span style="color:#f92672">&lt;entity-order-by</span> <span style="color:#a6e22e">field-name=</span><span style="color:#e6db74">&#34;description&#34;</span><span style="color:#f92672">/&gt;</span>
+            <span style="color:#f92672">&lt;/entity-options&gt;</span>
+        <span style="color:#f92672">&lt;/drop-down&gt;</span>
+    <span style="color:#f92672">&lt;/field&gt;</span>
+    <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;searchButton&#34;</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;${uiLabelMap.CommonFind}&#34;</span> <span style="color:#a6e22e">widget-style=</span><span style="color:#e6db74">&#34;smallSubmit&#34;</span><span style="color:#f92672">&gt;&lt;submit</span> <span style="color:#a6e22e">button-type=</span><span style="color:#e6db74">&#34;button&#34;</span> <span style="color:#a6e22e">image-location=</span><span style="color:#e6db74">&#34;/images/icons/magnifier.png&#34;</span><span style="color:#f92672">/&gt;&lt;/field&gt;</span>
+<span style="color:#f92672">&lt;/form&gt;</span>
+  
+<span style="color:#f92672">&lt;form</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;ListOfbizDemo&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;list&#34;</span> <span style="color:#a6e22e">list-name=</span><span style="color:#e6db74">&#34;listIt&#34;</span> <span style="color:#a6e22e">paginate-target=</span><span style="color:#e6db74">&#34;FindOfbizDemo&#34;</span> <span style="color:#a6e22e">default-entity-name=</span><span style="color:#e6db74">&#34;OfbizDemo&#34;</span> <span style="color:#a6e22e">separate-columns=</span><span style="color:#e6db74">&#34;true&#34;</span>
+    <span style="color:#a6e22e">odd-row-style=</span><span style="color:#e6db74">&#34;alternate-row&#34;</span> <span style="color:#a6e22e">header-row-style=</span><span style="color:#e6db74">&#34;header-row-2&#34;</span> <span style="color:#a6e22e">default-table-style=</span><span style="color:#e6db74">&#34;basic-table hover-bar&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;actions&gt;</span>
+       <span style="color:#75715e">&lt;!-- Preparing search results for user query by using OFBiz stock service to perform find operations on a single entity or view entity --&gt;</span>
+       <span style="color:#f92672">&lt;service</span> <span style="color:#a6e22e">service-name=</span><span style="color:#e6db74">&#34;performFind&#34;</span> <span style="color:#a6e22e">result-map=</span><span style="color:#e6db74">&#34;result&#34;</span> <span style="color:#a6e22e">result-map-list=</span><span style="color:#e6db74">&#34;listIt&#34;</span><span style="color:#f92672">&gt;</span>
+           <span style="color:#f92672">&lt;field-map</span> <span style="color:#a6e22e">field-name=</span><span style="color:#e6db74">&#34;inputFields&#34;</span> <span style="color:#a6e22e">from-field=</span><span style="color:#e6db74">&#34;ofbizDemoCtx&#34;</span><span style="color:#f92672">/&gt;</span>
+           <span style="color:#f92672">&lt;field-map</span> <span style="color:#a6e22e">field-name=</span><span style="color:#e6db74">&#34;entityName&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;OfbizDemo&#34;</span><span style="color:#f92672">/&gt;</span>
+           <span style="color:#f92672">&lt;field-map</span> <span style="color:#a6e22e">field-name=</span><span style="color:#e6db74">&#34;orderBy&#34;</span> <span style="color:#a6e22e">from-field=</span><span style="color:#e6db74">&#34;parameters.sortField&#34;</span><span style="color:#f92672">/&gt;</span>
+           <span style="color:#f92672">&lt;field-map</span> <span style="color:#a6e22e">field-name=</span><span style="color:#e6db74">&#34;viewIndex&#34;</span> <span style="color:#a6e22e">from-field=</span><span style="color:#e6db74">&#34;viewIndex&#34;</span><span style="color:#f92672">/&gt;</span>
+           <span style="color:#f92672">&lt;field-map</span> <span style="color:#a6e22e">field-name=</span><span style="color:#e6db74">&#34;viewSize&#34;</span> <span style="color:#a6e22e">from-field=</span><span style="color:#e6db74">&#34;viewSize&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;/service&gt;</span>
+    <span style="color:#f92672">&lt;/actions&gt;</span>
+    <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;ofbizDemoId&#34;</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;${uiLabelMap.OfbizDemoId}&#34;</span><span style="color:#f92672">&gt;&lt;display/&gt;&lt;/field&gt;</span>
+    <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;ofbizDemoTypeId&#34;</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;${uiLabelMap.OfbizDemoType}&#34;</span><span style="color:#f92672">&gt;&lt;display-entity</span> <span style="color:#a6e22e">entity-name=</span><span style="color:#e6db74">&#34;OfbizDemoType&#34;</span><span style="color:#f92672">/&gt;&lt;/field&gt;</span>
+    <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;firstName&#34;</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;${uiLabelMap.OfbizDemoFirstName}&#34;</span> <span style="color:#a6e22e">sort-field=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">&gt;&lt;display/&gt;&lt;/field&gt;</span>
+    <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;lastName&#34;</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;${uiLabelMap.OfbizDemoLastName}&#34;</span> <span style="color:#a6e22e">sort-field=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">&gt;&lt;display/&gt;&lt;/field&gt;</span>
+    <span style="color:#f92672">&lt;field</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;comments&#34;</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;${uiLabelMap.OfbizDemoComment}&#34;</span><span style="color:#f92672">&gt;&lt;display/&gt;&lt;/field&gt;</span>
+<span style="color:#f92672">&lt;/form&gt;</span>
+</code></pre></div><p>窗体或屏幕的动作标签用于视图的数据准备逻辑</p>
+<blockquote>
+<p>我们已经使用OOTB OFBiz通用服务performFind进行搜索操作，当您必须在一个实体或一个视图实体上执行搜索时，该操作简单而有效。</p>
+</blockquote>
+<ol start="2">
+<li>在下一步中，我们将这些表格包含在屏幕中，让我们将这些表格添加到OfbizDemoScreens.xml文件中。 为此，包括下面在OfbizDemoScreens.xml中定义的&quot;FindOfbizDemo'&lsquo;屏幕</li>
+</ol>
+<blockquote>
+<p><strong>OfbizDemoScreens.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!--以表格形式查找并列出所有--&gt;</span>
+    <span style="color:#f92672">&lt;screen</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;FindOfbizDemo&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;section&gt;</span>
+            <span style="color:#f92672">&lt;actions&gt;</span>
+                <span style="color:#f92672">&lt;set</span> <span style="color:#a6e22e">field=</span><span style="color:#e6db74">&#34;headerItem&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;findOfbizDemo&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;set</span> <span style="color:#a6e22e">field=</span><span style="color:#e6db74">&#34;titleProperty&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;PageTitleFindOfbizDemo&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;set</span> <span style="color:#a6e22e">field=</span><span style="color:#e6db74">&#34;ofbizDemoCtx&#34;</span> <span style="color:#a6e22e">from-field=</span><span style="color:#e6db74">&#34;parameters&#34;</span><span style="color:#f92672">/&gt;</span>
+            <span style="color:#f92672">&lt;/actions&gt;</span>
+            <span style="color:#f92672">&lt;widgets&gt;</span>
+                <span style="color:#f92672">&lt;decorator-screen</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;main-decorator&#34;</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;${parameters.mainDecoratorLocation}&#34;</span><span style="color:#f92672">&gt;</span>
+                    <span style="color:#f92672">&lt;decorator-section</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">&gt;</span>
+                        <span style="color:#f92672">&lt;section&gt;</span>
+                            <span style="color:#f92672">&lt;condition&gt;</span>
+                                <span style="color:#f92672">&lt;if-has-permission</span> <span style="color:#a6e22e">permission=</span><span style="color:#e6db74">&#34;OFBIZDEMO&#34;</span> <span style="color:#a6e22e">action=</span><span style="color:#e6db74">&#34;_VIEW&#34;</span><span style="color:#f92672">/&gt;</span>
+                            <span style="color:#f92672">&lt;/condition&gt;</span>
+                            <span style="color:#f92672">&lt;widgets&gt;</span>
+                                <span style="color:#f92672">&lt;decorator-screen</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;FindScreenDecorator&#34;</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;component://common/widget/CommonScreens.xml&#34;</span><span style="color:#f92672">&gt;</span>
+                                    <span style="color:#f92672">&lt;decorator-section</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;search-options&#34;</span><span style="color:#f92672">&gt;</span>
+                                        <span style="color:#f92672">&lt;include-form</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;FindOfbizDemo&#34;</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;component://ofbizDemo/widget/OfbizDemoForms.xml&#34;</span><span style="color:#f92672">/&gt;</span>
+                                    <span style="color:#f92672">&lt;/decorator-section&gt;</span>
+                                    <span style="color:#f92672">&lt;decorator-section</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;search-results&#34;</span><span style="color:#f92672">&gt;</span>
+                                        <span style="color:#f92672">&lt;include-form</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;ListOfbizDemo&#34;</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;component://ofbizDemo/widget/OfbizDemoForms.xml&#34;</span><span style="color:#f92672">/&gt;</span>
+                                    <span style="color:#f92672">&lt;/decorator-section&gt;</span>
+                                <span style="color:#f92672">&lt;/decorator-screen&gt;</span>
+                            <span style="color:#f92672">&lt;/widgets&gt;</span>
+                            <span style="color:#f92672">&lt;fail-widgets&gt;</span>
+                                <span style="color:#f92672">&lt;label</span> <span style="color:#a6e22e">style=</span><span style="color:#e6db74">&#34;h3&#34;</span><span style="color:#f92672">&gt;</span>${uiLabelMap.OfbizDemoViewPermissionError}<span style="color:#f92672">&lt;/label&gt;</span>
+                            <span style="color:#f92672">&lt;/fail-widgets&gt;</span>
+                        <span style="color:#f92672">&lt;/section&gt;</span>
+                    <span style="color:#f92672">&lt;/decorator-section&gt;</span>
+                <span style="color:#f92672">&lt;/decorator-screen&gt;</span>
+            <span style="color:#f92672">&lt;/widgets&gt;</span>
+        <span style="color:#f92672">&lt;/section&gt;</span>
+    <span style="color:#f92672">&lt;/screen&gt;</span>
+</code></pre></div><ol start="3">
+<li>在controller.xml中添加用于访问此新的Find Ofbiz演示页面的请求映射</li>
+</ol>
+<blockquote>
+<p><strong>controller.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!-- Request Mapping --&gt;</span>
+<span style="color:#f92672">&lt;request-map</span> <span style="color:#a6e22e">uri=</span><span style="color:#e6db74">&#34;FindOfbizDemo&#34;</span><span style="color:#f92672">&gt;&lt;security</span> <span style="color:#a6e22e">https=</span><span style="color:#e6db74">&#34;true&#34;</span> <span style="color:#a6e22e">auth=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">/&gt;&lt;response</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;success&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;view&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;FindOfbizDemo&#34;</span><span style="color:#f92672">/&gt;&lt;/request-map&gt;</span>
+   
+<span style="color:#75715e">&lt;!-- View Mapping --&gt;</span>
+<span style="color:#f92672">&lt;view-map</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;FindOfbizDemo&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;screen&#34;</span> <span style="color:#a6e22e">page=</span><span style="color:#e6db74">&#34;component://ofbizDemo/widget/OfbizDemoScreens.xml#FindOfbizDemo&#34;</span><span style="color:#f92672">/&gt;</span>
+</code></pre></div><ol start="4">
+<li>
+<p>现在，让我们添加一个新菜单来显示查找选项。</p>
+<p>在OFBiz中创建菜单确实非常简单，所有菜单定义为* menus.xml。</p>
+<p>当我们从Gra创建组件时，我们得到一个名为OfbizDemoMenus.xml的文件</p>
+<p>在OfbizDemoMenus.xml文件中输入以下内容。</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>OfbizDemoMenus.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;menus</span> <span style="color:#a6e22e">xmlns:xsi=</span><span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span> <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://ofbiz.apache.org/Widget-Menu&#34;</span> <span style="color:#a6e22e">xsi:schemaLocation=</span><span style="color:#e6db74">&#34;http://ofbiz.apache.org/Widget-Menu http://ofbiz.apache.org/dtds/widget-menu.xsd&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;menu</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;MainAppBar&#34;</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;${uiLabelMap.OfbizDemoApplication}&#34;</span> <span style="color:#a6e22e">extends=</span><span style="color:#e6db74">&#34;CommonAppBarMenu&#34;</span> <span style="color:#a6e22e">extends-resource=</span><span style="color:#e6db74">&#34;component://common/widget/CommonMenus.xml&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;menu-item</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;main&#34;</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;${uiLabelMap.CommonMain}&#34;</span><span style="color:#f92672">&gt;&lt;link</span> <span style="color:#a6e22e">target=</span><span style="color:#e6db74">&#34;main&#34;</span><span style="color:#f92672">/&gt;&lt;/menu-item&gt;</span>
+        <span style="color:#f92672">&lt;menu-item</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;findOfbizDemo&#34;</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;${uiLabelMap.OfbizDemoFind}&#34;</span><span style="color:#f92672">&gt;&lt;link</span> <span style="color:#a6e22e">target=</span><span style="color:#e6db74">&#34;FindOfbizDemo&#34;</span><span style="color:#f92672">/&gt;&lt;/menu-item&gt;</span>
+    <span style="color:#f92672">&lt;/menu&gt;</span>
+<span style="color:#f92672">&lt;/menus&gt;</span>
+</code></pre></div><h4 id="56ui国际化的使用完成">5.6UI国际化的使用（完成）</h4>
+<p>如前所述，Apache OFBiz的国际化非常容易，我们以各种语言定义UI标签，并根据用户的语言环境显示相应的标签。</p>
+<p>在这里我们完成了UI标签的示例（创建组件<!-- raw HTML omitted --> UiLabels.xml是默认创建的，在我们的例子中是OfbizDemoUiLabels.xml）</p>
+<blockquote>
+<p><strong>OfbizDemoUiLabels.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">key=</span><span style="color:#e6db74">&#34;OfbizDemoFind&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;value</span> <span style="color:#a6e22e">xml:lang=</span><span style="color:#e6db74">&#34;en&#34;</span><span style="color:#f92672">&gt;</span>Find<span style="color:#f92672">&lt;/value&gt;</span>
+<span style="color:#f92672">&lt;/property&gt;</span>
+<span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">key=</span><span style="color:#e6db74">&#34;OfbizDemoFirstName&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;value</span> <span style="color:#a6e22e">xml:lang=</span><span style="color:#e6db74">&#34;en&#34;</span><span style="color:#f92672">&gt;</span>First Name<span style="color:#f92672">&lt;/value&gt;</span>
+<span style="color:#f92672">&lt;/property&gt;</span>
+<span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">key=</span><span style="color:#e6db74">&#34;OfbizDemoId&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;value</span> <span style="color:#a6e22e">xml:lang=</span><span style="color:#e6db74">&#34;en&#34;</span><span style="color:#f92672">&gt;</span>OFBiz Demo Id<span style="color:#f92672">&lt;/value&gt;</span>
+<span style="color:#f92672">&lt;/property&gt;</span>
+<span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">key=</span><span style="color:#e6db74">&#34;OfbizDemoLastName&#34;</span><span style="color:#f92672">&gt;</span>
+   <span style="color:#f92672">&lt;value</span> <span style="color:#a6e22e">xml:lang=</span><span style="color:#e6db74">&#34;en&#34;</span><span style="color:#f92672">&gt;</span>Last Name<span style="color:#f92672">&lt;/value&gt;</span>
+<span style="color:#f92672">&lt;/property&gt;</span>
+</code></pre></div><p>现在只需重新启动服务器，在ofbizdemo应用程序（https://localhost:8443/ofbizDemo/control/main）下，您将看到“find”菜单选项。</p>
+<p><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727151224885.png" alt="image-20200727143123284"></p>
+<h4 id="57使用其他引擎的服务">5.7使用其他引擎的服务</h4>
+<p>每当需要构建业务逻辑时，您都应该更喜欢编写服务以利用其内置Service Engine中的功能。</p>
+<p>您之前创建的服务“ createOfbizDemo”使用的是engine =“ entity-auto”，因此您无需提供其实现，OFBiz会负责创建操作。 当您需要在服务中进行复杂的操作时，涉及要构建的数据库和定制逻辑中的多个实体，您需要为服务提供定制实现。 在本节中，我们将重点讨论这一点。</p>
+<h5 id="571java服务">5.7.1Java服务</h5>
+<p>您可以按照以下给定步骤按照Java指令实现服务：</p>
+<ol>
+<li>定义您的服务，在这里我们将再次与自定义Ofbiz Demo应用程序的同一实体（OfbizDemo）一起运行。 打开服务定义文件$ OFBIZ_HOME / specialpurpose / ofbizDemo / servicedef / services.xml并添加新定义为：</li>
+</ol>
+<blockquote>
+<p><strong>services.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;service</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;createOfbizDemoByJavaService&#34;</span> <span style="color:#a6e22e">default-entity-name=</span><span style="color:#e6db74">&#34;OfbizDemo&#34;</span> <span style="color:#a6e22e">engine=</span><span style="color:#e6db74">&#34;java&#34;</span>
+             <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;com.companyname.ofbizdemo.services.OfbizDemoServices&#34;</span> <span style="color:#a6e22e">invoke=</span><span style="color:#e6db74">&#34;createOfbizDemo&#34;</span> <span style="color:#a6e22e">auth=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;description&gt;</span>Create an Ofbiz Demo record using a service in Java<span style="color:#f92672">&lt;/description&gt;</span>
+        <span style="color:#f92672">&lt;auto-attributes</span> <span style="color:#a6e22e">include=</span><span style="color:#e6db74">&#34;pk&#34;</span> <span style="color:#a6e22e">mode=</span><span style="color:#e6db74">&#34;OUT&#34;</span> <span style="color:#a6e22e">optional=</span><span style="color:#e6db74">&#34;false&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;auto-attributes</span> <span style="color:#a6e22e">include=</span><span style="color:#e6db74">&#34;nonpk&#34;</span> <span style="color:#a6e22e">mode=</span><span style="color:#e6db74">&#34;IN&#34;</span> <span style="color:#a6e22e">optional=</span><span style="color:#e6db74">&#34;false&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;override</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;comments&#34;</span> <span style="color:#a6e22e">optional=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/service&gt;</span>
+</code></pre></div><blockquote>
+<p>注意我们这次使用了engine =“ java”</p>
+</blockquote>
+<ol start="2">
+<li>在ofbizDemo组件src / main / java目录中创建“ com.companyname.ofbizdemo.services”包（如果src目录中不存在，则创建它们）。</li>
+</ol>
+<p>例如：src / main / java / com / companyname / ofbizdemo / services。 可以在Java目录中放置必须用Java实现的应用程序服务。</p>
+<ol start="3">
+<li>在服务目录中的OfbizDemoServices.java文件中定义新的Java类，并实现方法，服务定义将调用该方法，如下所示：</li>
+</ol>
+<blockquote>
+<p><strong>OfbizDemoServices.java</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> com.companyname.ofbizdemo.services<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> org.apache.ofbiz.base.util.Debug<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.apache.ofbiz.entity.Delegator<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.apache.ofbiz.entity.GenericEntityException<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.apache.ofbiz.entity.GenericValue<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.apache.ofbiz.service.DispatchContext<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.apache.ofbiz.service.ServiceUtil<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.util.Map<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">OfbizDemoServices</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String module <span style="color:#f92672">=</span> OfbizDemoServices<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">();</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span>Object<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">createOfbizDemo</span><span style="color:#f92672">(</span>DispatchContext dctx<span style="color:#f92672">,</span>Map<span style="color:#f92672">&lt;</span>String <span style="color:#f92672">,</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">extends</span>  Object<span style="color:#f92672">&gt;</span> context<span style="color:#f92672">){</span>
+        Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> result <span style="color:#f92672">=</span> ServiceUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">returnSuccess</span><span style="color:#f92672">();</span>
+        Delegator delegator <span style="color:#f92672">=</span> dctx<span style="color:#f92672">.</span><span style="color:#a6e22e">getDelegator</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            GenericValue ofbizDemo <span style="color:#f92672">=</span> delegator<span style="color:#f92672">.</span><span style="color:#a6e22e">makeValue</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;OfbizDemo&#34;</span><span style="color:#f92672">);</span>
+            ofbizDemo<span style="color:#f92672">.</span><span style="color:#a6e22e">setNextSeqId</span><span style="color:#f92672">();</span>
+            ofbizDemo<span style="color:#f92672">.</span><span style="color:#a6e22e">setNonPKFields</span><span style="color:#f92672">(</span>context<span style="color:#f92672">);</span>
+            ofbizDemo <span style="color:#f92672">=</span> delegator<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span>ofbizDemo<span style="color:#f92672">);</span>
+            result<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ofbizDemoId&#34;</span><span style="color:#f92672">,</span>ofbizDemo<span style="color:#f92672">.</span><span style="color:#a6e22e">getString</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ofbizDemoId&#34;</span><span style="color:#f92672">));</span>
+            Debug<span style="color:#f92672">.</span><span style="color:#a6e22e">log</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;============这是我在Apache OFBiz中的第一个Java服务实现。 使用ofbizDemoId成功创建了OfbizDemo记录：&#34;</span><span style="color:#f92672">+</span>ofbizDemo<span style="color:#f92672">.</span><span style="color:#a6e22e">getString</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ofbizDemoId&#34;</span><span style="color:#f92672">));</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>GenericEntityException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            Debug<span style="color:#f92672">.</span><span style="color:#a6e22e">logError</span><span style="color:#f92672">(</span>e<span style="color:#f92672">,</span>module<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">return</span>  ServiceUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">returnError</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;在OfbizDemo实体中创建记录时出错。&#34;</span><span style="color:#f92672">+</span>module<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span>  result<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ol start="4">
+<li>
+<p>停止服务器并使用“ ./gradlew ofbiz”重新启动，它将编译您的类，并在ofbiz重新启动更新的jar文件时使其可用。</p>
+</li>
+<li>
+<p>测试使用webtools实现的服务-&gt;运行服务选项（https：// localhost：8443 / webtools / control / runService）或仅更新控制器请求调用的服务名称以使用此服务，并在应用程序中使用添加表单 您之前准备的。 这样，您的Add OfbizDemo表单将调用此Java服务。</p>
+</li>
+</ol>
+<blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-.xml" data-lang=".xml">controller.xml
+</code></pre></div></blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;request-map</span> <span style="color:#a6e22e">uri=</span><span style="color:#e6db74">&#34;createOfbizDemo&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;security</span> <span style="color:#a6e22e">https=</span><span style="color:#e6db74">&#34;true&#34;</span> <span style="color:#a6e22e">auth=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;event</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;service&#34;</span> <span style="color:#a6e22e">invoke=</span><span style="color:#e6db74">&#34;createOfbizDemoByJavaService&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;response</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;success&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;view&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;main&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/request-map&gt;</span>
+</code></pre></div><ul>
+<li>
+<p>点击提交</p>
+<ul>
+<li><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727145856306.png" alt="image-20200727145856306"></li>
+</ul>
+</li>
+<li>
+<p>查看控制台</p>
+<ul>
+<li><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727143123284.png" alt="image-20200727150026627"></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>说明我们成功调用的是Java服务</p>
+</blockquote>
+<h5 id="572groovy中的服务">5.7.2Groovy中的服务</h5>
+<blockquote>
+<p>不使用Groovy 则跳过</p>
+</blockquote>
+<p>要利用即时编译和更少的代码行的功能，您可以使用Groovy DSL在OFBiz中实现用于构建业务逻辑的服务。</p>
+<p>要使用Groovy实施服务，您可以按照以下给定步骤进行操作：</p>
+<ol>
+<li>将新服务定义添加到services / services.xml文件，如下所示：</li>
+</ol>
+<blockquote>
+<p><strong>services.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;service</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;createOfbizDemoByGroovyService&#34;</span> <span style="color:#a6e22e">default-entity-name=</span><span style="color:#e6db74">&#34;OfbizDemo&#34;</span> <span style="color:#a6e22e">engine=</span><span style="color:#e6db74">&#34;groovy&#34;</span>
+        <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;component://ofbizDemo/script/com/companyname/ofbizdemo/OfbizDemoServices.groovy&#34;</span> <span style="color:#a6e22e">invoke=</span><span style="color:#e6db74">&#34;createOfbizDemo&#34;</span> <span style="color:#a6e22e">auth=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;description&gt;</span>Create an Ofbiz Demo record using a service in Java<span style="color:#f92672">&lt;/description&gt;</span>
+    <span style="color:#f92672">&lt;auto-attributes</span> <span style="color:#a6e22e">include=</span><span style="color:#e6db74">&#34;pk&#34;</span> <span style="color:#a6e22e">mode=</span><span style="color:#e6db74">&#34;OUT&#34;</span> <span style="color:#a6e22e">optional=</span><span style="color:#e6db74">&#34;false&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;auto-attributes</span> <span style="color:#a6e22e">include=</span><span style="color:#e6db74">&#34;nonpk&#34;</span> <span style="color:#a6e22e">mode=</span><span style="color:#e6db74">&#34;IN&#34;</span> <span style="color:#a6e22e">optional=</span><span style="color:#e6db74">&#34;false&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;override</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;comments&#34;</span> <span style="color:#a6e22e">optional=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/service&gt;</span>
+</code></pre></div><ol start="2">
+<li>
+<p>在此处添加新的Groovy服务文件<a href="component://ofbizdemo/script/com/companyname/ofbizdemo/OfbizDemoServices.groovy">component://ofbizDemo/script/com/companyname/ofbizdemo/OfbizDemoServices.groovy</a></p>
+</li>
+<li>
+<p>将服务实现添加到文件OfbizDemoServices.groovy</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>OfbizDemoServices.groovy</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#f92672">import</span> org.apache.ofbiz.entity.GenericEntityException<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">createOfbizDemo</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    result <span style="color:#f92672">=</span> <span style="color:#f92672">[:];</span>
+    <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+        ofbizDemo <span style="color:#f92672">=</span> delegator<span style="color:#f92672">.</span><span style="color:#a6e22e">makeValue</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;OfbizDemo&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#75715e">// Auto generating next sequence of ofbizDemoId primary key
+</span><span style="color:#75715e"></span>        ofbizDemo<span style="color:#f92672">.</span><span style="color:#a6e22e">setNextSeqId</span><span style="color:#f92672">();</span>
+        <span style="color:#75715e">// Setting up all non primary key field values from context map
+</span><span style="color:#75715e"></span>        ofbizDemo<span style="color:#f92672">.</span><span style="color:#a6e22e">setNonPKFields</span><span style="color:#f92672">(</span>context<span style="color:#f92672">);</span>
+        <span style="color:#75715e">// Creating record in database for OfbizDemo entity for prepared value
+</span><span style="color:#75715e"></span>        ofbizDemo <span style="color:#f92672">=</span> delegator<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span>ofbizDemo<span style="color:#f92672">);</span>
+        result<span style="color:#f92672">.</span><span style="color:#a6e22e">ofbizDemoId</span> <span style="color:#f92672">=</span> ofbizDemo<span style="color:#f92672">.</span><span style="color:#a6e22e">ofbizDemoId</span><span style="color:#f92672">;</span>
+        logInfo<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;==========This is my first Groovy Service implementation in Apache OFBiz. OfbizDemo record &#34;</span>
+                  <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;created successfully with ofbizDemoId: &#34;</span><span style="color:#f92672">+</span>ofbizDemo<span style="color:#f92672">.</span><span style="color:#a6e22e">getString</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ofbizDemoId&#34;</span><span style="color:#f92672">));</span>
+      <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>GenericEntityException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+          logError<span style="color:#f92672">(</span>e<span style="color:#f92672">.</span><span style="color:#a6e22e">getMessage</span><span style="color:#f92672">());</span>
+          <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">error</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Error in creating record in OfbizDemo entity ........&#34;</span><span style="color:#f92672">);</span>
+      <span style="color:#f92672">}</span>
+      <span style="color:#66d9ef">return</span> result<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span> 
+</code></pre></div><ol start="4">
+<li>
+<p>停止服务器并使用“ ./gradlew ofbiz”重新启动，这一次，我们只需要加载新的服务定义，就不需要显式编译，因为它是Groovy中的服务实现。</p>
+</li>
+<li>
+<p>测试使用webtools实现的服务-&gt;运行服务选项（https：// localhost：8443 / webtools / control / runService）或仅更新控制器请求调用的服务名称以使用此服务，并在应用程序中使用添加表单 您之前为测试准备的。 这样，您的Add OfbizDemo表单将调用此groovy服务。</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>controller.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;request-map</span> <span style="color:#a6e22e">uri=</span><span style="color:#e6db74">&#34;createOfbizDemo&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;security</span> <span style="color:#a6e22e">https=</span><span style="color:#e6db74">&#34;true&#34;</span> <span style="color:#a6e22e">auth=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;event</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;service&#34;</span> <span style="color:#a6e22e">invoke=</span><span style="color:#e6db74">&#34;createOfbizDemoByGroovyService&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;response</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;success&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;view&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;main&#34;</span><span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/request-map&gt;</span>
+</code></pre></div><p>要确保正在执行此新服务实现，可以使用Debug.log（&hellip;）在控制台日志中检查您已在代码中放入的这一行。 要登录OFBiz，必须始终在Java类中使用Debug类方法。</p>
+<p>要获得有关在Apache OFBiz中使用Groovy DSL进行服务和事件实现的更多详细信息，您可以在此处参考由Jacopo Cappellato创建的文档在<a href="http://cwiki.apache.org/confluence/x/_M_oAQ">OFBiz Wiki</a>中。</p>
+<h3 id="6events事件">6.Events(事件)</h3>
+<h4 id="61示范">6.1示范</h4>
+<p>Apache OFBiz中的事件只是用于HttpServletRequest和HttpServletResponse对象的简单方法。 您无需像使用服务那样提供这些定义。 这些直接从控制器调用。 当您要将自定义服务器端验证添加到输入参数时，事件也很有用。 对于执行数据库操作，您仍然可以从事件中调用预建服务。</p>
+<p>要在OFBiz中编写事件，请按照以下步骤操作：</p>
+<ol>
+<li>添加新的事件目录到package和新的Events类文件，如下所示：</li>
+</ol>
+<p><img src="https://he-img-test.oss-cn-shanghai.aliyuncs.com/img/image-20200727150026627.png" alt="image-20200727151224885"></p>
+<blockquote>
+<p><strong>OfbizDemoEvents.java</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> com.companyname.ofbizdemo.events<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> javax.servlet.http.HttpServletRequest<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> javax.servlet.http.HttpServletResponse<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> org.apache.ofbiz.base.util.Debug<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.apache.ofbiz.base.util.UtilMisc<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.apache.ofbiz.base.util.UtilValidate<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.apache.ofbiz.entity.Delegator<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.apache.ofbiz.entity.GenericValue<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.apache.ofbiz.service.GenericServiceException<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.apache.ofbiz.service.LocalDispatcher<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">OfbizDemoEvents</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String module <span style="color:#f92672">=</span> OfbizDemoEvents<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">();</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String <span style="color:#a6e22e">createOfbizDemoEvent</span><span style="color:#f92672">(</span>HttpServletRequest request<span style="color:#f92672">,</span> HttpServletResponse response<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Delegator delegator <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Delegator<span style="color:#f92672">)</span> request<span style="color:#f92672">.</span><span style="color:#a6e22e">getAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;delegator&#34;</span><span style="color:#f92672">);</span>
+        LocalDispatcher dispatcher <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>LocalDispatcher<span style="color:#f92672">)</span> request<span style="color:#f92672">.</span><span style="color:#a6e22e">getAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;dispatcher&#34;</span><span style="color:#f92672">);</span>
+        GenericValue userLogin <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>GenericValue<span style="color:#f92672">)</span> request<span style="color:#f92672">.</span><span style="color:#a6e22e">getSession</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;userLogin&#34;</span><span style="color:#f92672">);</span>
+
+        String ofbizDemoTypeId <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span><span style="color:#a6e22e">getParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ofbizDemoTypeId&#34;</span><span style="color:#f92672">);</span>
+        String firstName <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span><span style="color:#a6e22e">getParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;firstName&#34;</span><span style="color:#f92672">);</span>
+        String lastName <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span><span style="color:#a6e22e">getParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;lastName&#34;</span><span style="color:#f92672">);</span>
+
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>UtilValidate<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(</span>firstName<span style="color:#f92672">)</span> <span style="color:#f92672">||</span> UtilValidate<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(</span>lastName<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+            String errMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;名和姓是表单上的必填字段，不能为空&#34;</span><span style="color:#f92672">;</span>
+            request<span style="color:#f92672">.</span><span style="color:#a6e22e">setAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;_ERROR_MESSAGE_&#34;</span><span style="color:#f92672">,</span> errMsg<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;error&#34;</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        String comments <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span><span style="color:#a6e22e">getParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;comments&#34;</span><span style="color:#f92672">);</span>
+
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            Debug<span style="color:#f92672">.</span><span style="color:#a6e22e">logInfo</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;=======使用服务createOfbizDemoByJavaService在事件中创建OfbizDemo记录=========&#34;</span><span style="color:#f92672">,</span> module<span style="color:#f92672">);</span>
+            dispatcher<span style="color:#f92672">.</span><span style="color:#a6e22e">runSync</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;createOfbizDemoByJavaService&#34;</span><span style="color:#f92672">,</span> UtilMisc<span style="color:#f92672">.</span><span style="color:#a6e22e">toMap</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ofbizDemoTypeId&#34;</span><span style="color:#f92672">,</span> ofbizDemoTypeId<span style="color:#f92672">,</span>
+                    <span style="color:#e6db74">&#34;firstName&#34;</span><span style="color:#f92672">,</span> firstName<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;lastName&#34;</span><span style="color:#f92672">,</span> lastName<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;comments&#34;</span><span style="color:#f92672">,</span> comments<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;userLogin&#34;</span><span style="color:#f92672">,</span> userLogin<span style="color:#f92672">));</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>GenericServiceException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            String errMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;无法在OfbizDemo实体中创建新记录: &#34;</span> <span style="color:#f92672">+</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">();</span>
+            request<span style="color:#f92672">.</span><span style="color:#a6e22e">setAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;_ERROR_MESSAGE_&#34;</span><span style="color:#f92672">,</span> errMsg<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;error&#34;</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        request<span style="color:#f92672">.</span><span style="color:#a6e22e">setAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;_EVENT_MESSAGE_&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;OFBiz演示成功创建.&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ol start="2">
+<li>将调用此事件的控制器请求添加为：</li>
+</ol>
+<blockquote>
+<p><strong>controller.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;request-map</span> <span style="color:#a6e22e">uri=</span><span style="color:#e6db74">&#34;createOfbizDemoEvent&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;security</span> <span style="color:#a6e22e">https=</span><span style="color:#e6db74">&#34;true&#34;</span> <span style="color:#a6e22e">auth=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;event</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;java&#34;</span> <span style="color:#a6e22e">path=</span><span style="color:#e6db74">&#34;com.companyname.ofbizdemo.events.OfbizDemoEvents&#34;</span> <span style="color:#a6e22e">invoke=</span><span style="color:#e6db74">&#34;createOfbizDemoEvent&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;response</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;success&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;view&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;main&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;response</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;error&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;view&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;main&#34;</span><span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/request-map&gt;</span>
+</code></pre></div><ol start="3">
+<li>
+<p>通过重建服务器来停止和启动服务器，因为我们需要编译在＃1中添加的Java事件类。</p>
+</li>
+<li>
+<p>现在要测试该事件，您只需将AddOfbizDemo表单目标更改为读取“ createOfbizDemoEvent”，并且由于其提交，它将调用您的事件。</p>
+</li>
+</ol>
+<h4 id="62服务与事件之间的区别">6.2服务与事件之间的区别</h4>
+<p>以下是服务和事件之间的一些区别，</p>
+<ul>
+<li>事件用于使用map processor进行验证和转换，而服务用于诸如CRUD操作之类的业务逻辑。</li>
+<li>服务返回Map。</li>
+<li>事件返回字符串。</li>
+<li>服务随服务器一起加载，定义的任何更改（如果在MiniLang中，则不是实现）都需要重新加载。</li>
+<li>我们可以在事件内部调用服务。 但是我们不能在服务内部调用事件</li>
+<li>事件是特定的本地片段功能，通常在一个地方用于一种目的，并从其位置调用。</li>
+<li>服务是一项功能，可以位于网络上的任何位置，大部分时间在几个不同的地方使用，并以其“name”来调用。</li>
+<li>如果发生事件，您可以访问HttpServletRequest和HttpServletResponse对象，并且可以读取/写入任何所需内容。 如果是服务，则只能访问服务参数。</li>
+</ul>
+<blockquote>
+<p><a href="https://cwiki.apache.org/confluence/display/OFBIZ/FAQ+-+Tips+-+Tricks+-+Cookbook+-+HowTo#FAQ-Tips-Tricks-Cookbook-HowTo-DifferenceBetweenEventAndService">参考资料</a></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>标准</th>
+<th>服务</th>
+<th>事件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用于编写业务逻辑</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>返回类型</td>
+<td>Map</td>
+<td>String</td>
+</tr>
+<tr>
+<td>需要定义</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>可以进行作业调度</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>实施可能性</td>
+<td>实体自动，Java，简单（XML）和Groovy</td>
+<td>Simple (XML), Java &amp; Groovy</td>
+</tr>
+</tbody>
+</table>
+<h3 id="7自定义用户界面">7.自定义用户界面</h3>
+<p>使用FreeMarker模板和Groovy脚本</p>
+<p>好的，我们在OFBiz教程的最后一部分中。 在这一部分中，我们将重点介绍为业务管理应用程序（即后端应用程序和esp）定制Apache OFBiz的UI层。 大多数时候，您会发现OFBiz窗口小部件已足够。 但是有时候重要的是根据用户的实际需求开发应用程序。</p>
+<p>因此，首先要自定义应用程序的UI部分以使其变得容易，我们将使用Freemarker模板而不是内置的Form Widgets。 首先，我们将了解如何将Freemarker和Groovy脚本与Apache OFBiz一起使用，然后我们将了解如何通过定义自己的装饰器来对其进行自定义样式。 最初，我们将使用OFBiz默认装饰器。</p>
+<p>从此处开始，请遵循给出的步骤：</p>
+<ol>
+<li>在位置$ OFBIZ_HOME / specialpurpose / ofbizDemo / webapp / ofbizDemo / crud / AddOfbizDemo.ftl和ListOfbizDemo.ftl处添加两个Freemarker文件。</li>
+</ol>
+<blockquote>
+<p><strong>AddOfbizDemo.ftl</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;screenlet-body&#34;</span>&gt;
+  &lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;createOfbizDemoEvent&#34;</span> <span style="color:#a6e22e">method</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;post&#34;</span> <span style="color:#a6e22e">action</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&lt;@ofbizUrl&gt;createOfbizDemoEvent&lt;/@ofbizUrl&gt;&#34;</span>&gt;
+    &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hidden&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;addOfbizDemoFromFtl&#34;</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Y&#34;</span>/&gt;
+    &lt;<span style="color:#f92672">fieldset</span>&gt;
+      &lt;<span style="color:#f92672">div</span>&gt;
+        &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;label&#34;</span>&gt;${uiLabelMap.OfbizDemoType}&lt;/<span style="color:#f92672">span</span>&gt;
+        &lt;<span style="color:#f92672">select</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ofbizDemoTypeId&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;required&#39;</span>&gt;
+          <span style="color:#960050;background-color:#1e0010">&lt;</span>#list ofbizDemoTypes as demoType&gt;
+            &lt;<span style="color:#f92672">option</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;${demoType.ofbizDemoTypeId}&#39;</span>&gt;${demoType.description}&lt;/<span style="color:#f92672">option</span>&gt;
+          <span style="color:#960050;background-color:#1e0010">&lt;</span>/#list&gt;
+        &lt;/<span style="color:#f92672">select</span>&gt;*
+      &lt;/<span style="color:#f92672">div</span>&gt;
+      &lt;<span style="color:#f92672">div</span>&gt;
+        &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;label&#34;</span>&gt;${uiLabelMap.OfbizDemoFirstName}&lt;/<span style="color:#f92672">span</span>&gt;
+        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;firstName&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;firstName&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;required&#39;</span> <span style="color:#a6e22e">maxlength</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;20&#34;</span> /&gt;*
+      &lt;/<span style="color:#f92672">div</span>&gt;
+      &lt;<span style="color:#f92672">div</span>&gt;
+        &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;label&#34;</span>&gt;${uiLabelMap.OfbizDemoLastName}&lt;/<span style="color:#f92672">span</span>&gt;
+        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lastName&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lastName&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;required&#39;</span> <span style="color:#a6e22e">maxlength</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;20&#34;</span> /&gt;*
+      &lt;/<span style="color:#f92672">div</span>&gt;
+      &lt;<span style="color:#f92672">div</span>&gt;
+        &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;label&#34;</span>&gt;${uiLabelMap.OfbizDemoComment}&lt;/<span style="color:#f92672">span</span>&gt;
+        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;comments&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;comments&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;inputBox&#39;</span> <span style="color:#a6e22e">size</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;60&#34;</span> <span style="color:#a6e22e">maxlength</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;255&#34;</span> /&gt;
+      &lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;/<span style="color:#f92672">fieldset</span>&gt;
+    &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submit&#34;</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${uiLabelMap.CommonAdd}&#34;</span> /&gt;
+  &lt;/<span style="color:#f92672">form</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+</code></pre></div><blockquote>
+<p><strong>ListOfbizDemo.ftl</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;screenlet-body&#34;</span>&gt;
+  <span style="color:#960050;background-color:#1e0010">&lt;</span>#if ofbizDemoList?has_content&gt;
+    &lt;<span style="color:#f92672">table</span> <span style="color:#a6e22e">cellspacing</span><span style="color:#f92672">=</span><span style="color:#e6db74">0</span> <span style="color:#a6e22e">cellpadding</span><span style="color:#f92672">=</span><span style="color:#e6db74">2</span> <span style="color:#a6e22e">border</span><span style="color:#f92672">=</span><span style="color:#e6db74">0</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;basic-table&#34;</span>&gt;
+      &lt;<span style="color:#f92672">thead</span>&gt;&lt;<span style="color:#f92672">tr</span>&gt;
+        &lt;<span style="color:#f92672">th</span>&gt;${uiLabelMap.OfbizDemoId}&lt;/<span style="color:#f92672">th</span>&gt;
+        &lt;<span style="color:#f92672">th</span>&gt;${uiLabelMap.OfbizDemoType}&lt;/<span style="color:#f92672">th</span>&gt;
+        &lt;<span style="color:#f92672">th</span>&gt;${uiLabelMap.OfbizDemoFirstName}&lt;/<span style="color:#f92672">th</span>&gt;
+        &lt;<span style="color:#f92672">th</span>&gt;${uiLabelMap.OfbizDemoLastName}&lt;/<span style="color:#f92672">th</span>&gt;
+        &lt;<span style="color:#f92672">th</span>&gt;${uiLabelMap.OfbizDemoComment}&lt;/<span style="color:#f92672">th</span>&gt;
+      &lt;/<span style="color:#f92672">tr</span>&gt;&lt;/<span style="color:#f92672">thead</span>&gt;
+      &lt;<span style="color:#f92672">tbody</span>&gt;
+        <span style="color:#960050;background-color:#1e0010">&lt;</span>#list ofbizDemoList as ofbizDemo&gt;
+          &lt;<span style="color:#f92672">tr</span>&gt;
+            &lt;<span style="color:#f92672">td</span>&gt;${ofbizDemo.ofbizDemoId}&lt;/<span style="color:#f92672">td</span>&gt;
+            &lt;<span style="color:#f92672">td</span>&gt;${ofbizDemo.getRelatedOne(&#34;OfbizDemoType&#34;).get(&#34;description&#34;, locale)}&lt;/<span style="color:#f92672">td</span>&gt;
+            &lt;<span style="color:#f92672">td</span>&gt;${ofbizDemo.firstName?default(&#34;NA&#34;)}&lt;/<span style="color:#f92672">td</span>&gt;
+            &lt;<span style="color:#f92672">td</span>&gt;${ofbizDemo.lastName?default(&#34;NA&#34;)}&lt;/<span style="color:#f92672">td</span>&gt;
+            &lt;<span style="color:#f92672">td</span>&gt;${ofbizDemo.comments!}&lt;/<span style="color:#f92672">td</span>&gt;
+          &lt;/<span style="color:#f92672">tr</span>&gt;
+        <span style="color:#960050;background-color:#1e0010">&lt;</span>/#list&gt;
+       &lt;/<span style="color:#f92672">tbody</span>&gt;
+    &lt;/<span style="color:#f92672">table</span>&gt;
+  <span style="color:#960050;background-color:#1e0010">&lt;</span>/#if&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+</code></pre></div><ol start="2">
+<li>在位置$ OFBIZ_HOME / specialpurpose / ofbizDemo / webapp / ofbizDemo / WEB-INF / actions / crud / ListOfbizDemo.groovy中添加新的Groovy文件以用于数据提取逻辑，并添加如下所示的代码以列出OfbizDemo记录：</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ofbizDemoTypes <span style="color:#f92672">=</span> delegator<span style="color:#f92672">.</span><span style="color:#a6e22e">findList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;OfbizDemoType&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+context<span style="color:#f92672">.</span><span style="color:#a6e22e">ofbizDemoTypes</span> <span style="color:#f92672">=</span> ofbizDemoTypes<span style="color:#f92672">;</span>
+ofbizDemoList <span style="color:#f92672">=</span> delegator<span style="color:#f92672">.</span><span style="color:#a6e22e">findList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;OfbizDemo&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+context<span style="color:#f92672">.</span><span style="color:#a6e22e">ofbizDemoList</span> <span style="color:#f92672">=</span> ofbizDemoList<span style="color:#f92672">;</span>
+</code></pre></div><ol start="3">
+<li>使用Ofbiz默认装饰器将新的屏幕文件添加到OfbizDemoScreens.xml，其中新添加的freemarker和groovy文件为</li>
+</ol>
+<blockquote>
+<p><strong>OfbizDemoScreens.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;screen</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;AddOfbizDemoFtl&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;section&gt;</span>
+        <span style="color:#f92672">&lt;actions&gt;</span>
+            <span style="color:#f92672">&lt;set</span> <span style="color:#a6e22e">field=</span><span style="color:#e6db74">&#34;titleProperty&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;PageTitleAddOfbizDemos&#34;</span><span style="color:#f92672">/&gt;</span>
+            <span style="color:#f92672">&lt;set</span> <span style="color:#a6e22e">field=</span><span style="color:#e6db74">&#34;headerItem&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;addOfbizDemoFtl&#34;</span><span style="color:#f92672">/&gt;</span>
+            <span style="color:#f92672">&lt;script</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;component://ofbizDemo/webapp/ofbizDemo/WEB-INF/actions/crud/ListOfbizDemo.groovy&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;/actions&gt;</span>
+        <span style="color:#f92672">&lt;widgets&gt;</span>
+            <span style="color:#f92672">&lt;decorator-screen</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;main-decorator&#34;</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;${parameters.mainDecoratorLocation}&#34;</span><span style="color:#f92672">&gt;</span>
+                <span style="color:#f92672">&lt;decorator-section</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">&gt;</span>
+                    <span style="color:#f92672">&lt;screenlet</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;${uiLabelMap.OfbizDemoListOfbizDemos}&#34;</span><span style="color:#f92672">&gt;</span>
+                        <span style="color:#f92672">&lt;platform-specific&gt;</span>
+                            <span style="color:#f92672">&lt;html&gt;&lt;html-template</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;component://ofbizDemo/webapp/ofbizDemo/crud/ListOfbizDemo.ftl&#34;</span><span style="color:#f92672">/&gt;&lt;/html&gt;</span>
+                         <span style="color:#f92672">&lt;/platform-specific&gt;</span>
+                    <span style="color:#f92672">&lt;/screenlet&gt;</span>
+                    <span style="color:#f92672">&lt;screenlet</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;${uiLabelMap.OfbizDemoAddOfbizDemoServiceByFtl}&#34;</span><span style="color:#f92672">&gt;</span>
+                        <span style="color:#f92672">&lt;platform-specific&gt;</span>
+                            <span style="color:#f92672">&lt;html&gt;&lt;html-template</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;component://ofbizDemo/webapp/ofbizDemo/crud/AddOfbizDemo.ftl&#34;</span><span style="color:#f92672">/&gt;&lt;/html&gt;</span>
+                        <span style="color:#f92672">&lt;/platform-specific&gt;</span>
+                    <span style="color:#f92672">&lt;/screenlet&gt;</span>
+                <span style="color:#f92672">&lt;/decorator-section&gt;</span>
+            <span style="color:#f92672">&lt;/decorator-screen&gt;</span>
+        <span style="color:#f92672">&lt;/widgets&gt;</span>
+    <span style="color:#f92672">&lt;/section&gt;</span>
+<span style="color:#f92672">&lt;/screen&gt;</span>
+ 
+</code></pre></div><ol start="4">
+<li>为OfbizDemo菜单添加新的控制器请求和新项，如下所示：</li>
+</ol>
+<blockquote>
+<p><strong>controller.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!--Request Mapping--&gt;</span>
+<span style="color:#f92672">&lt;request-map</span> <span style="color:#a6e22e">uri=</span><span style="color:#e6db74">&#34;AddOfbizDemoFtl&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;security</span> <span style="color:#a6e22e">https=</span><span style="color:#e6db74">&#34;true&#34;</span> <span style="color:#a6e22e">auth=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;response</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;success&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;view&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;AddOfbizDemoFtl&#34;</span><span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/request-map&gt;</span>
+ 
+<span style="color:#75715e">&lt;!--View Mapping--&gt;</span>
+<span style="color:#f92672">&lt;view-map</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;AddOfbizDemoFtl&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;screen&#34;</span> <span style="color:#a6e22e">page=</span><span style="color:#e6db74">&#34;component://ofbizDemo/widget/OfbizDemoScreens.xml#AddOfbizDemoFtl&#34;</span><span style="color:#f92672">/&gt;</span>
+ 
+</code></pre></div><blockquote>
+<p><strong>OfbizDemoMenus.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;menu-item</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;addOfbizDemoFtl&#34;</span> <span style="color:#a6e22e">title=</span><span style="color:#e6db74">&#34;${uiLabelMap.OfbizDemoAddFtl}&#34;</span><span style="color:#f92672">&gt;&lt;link</span> <span style="color:#a6e22e">target=</span><span style="color:#e6db74">&#34;AddOfbizDemoFtl&#34;</span><span style="color:#f92672">/&gt;&lt;/menu-item&gt;</span> 
+</code></pre></div><ol start="5">
+<li>
+<p>添加您的应用所使用的新UI标签。</p>
+</li>
+<li>
+<p>运行您的Ofbiz演示应用程序，然后转到您刚刚添加的新标签。</p>
+</li>
+</ol>
+<h4 id="71创建自定义装饰器">7.1创建自定义装饰器</h4>
+<p>将用户界面放置在Freemarker中使您可以自由地进行实验，进行CSS调整并使应用程序达到用户想要的方式。 在本节中，我们将看到如何做到这一点。</p>
+<p>我们将通过为您的应用程序视图定义自定义装饰器来做到这一点。 OFBiz中的装饰器不过是一个屏幕，您可以通过在其他应用程序屏幕中包含该屏幕来定义和重用该屏幕。 您已经使用OFBiz随附的默认装饰器（主装饰器–&gt; ApplicationDecorator）进行了此操作。 只需观察您到目前为止准备的屏幕，您会发现您正在使用此主装饰器，请参考OfbizDemoScreens.xml中的以下行。</p>
+<blockquote>
+<p><strong>OfbizDemoScreens.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;decorator-screen</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;main-decorator&#34;</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;${parameters.mainDecoratorLocation}&#34;</span><span style="color:#f92672">&gt;</span>
+</code></pre></div><blockquote>
+<p><strong>web.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;context-param&gt;</span>
+    <span style="color:#f92672">&lt;description&gt;</span>The location of the main-decorator screen to use for this webapp; referred to as a context variable in screen def XML files.<span style="color:#f92672">&lt;/description&gt;</span>
+    <span style="color:#f92672">&lt;param-name&gt;</span>mainDecoratorLocation<span style="color:#f92672">&lt;/param-name&gt;</span>
+    <span style="color:#f92672">&lt;param-value&gt;</span>component://ofbizDemo/widget/CommonScreens.xml<span style="color:#f92672">&lt;/param-value&gt;</span>
+<span style="color:#f92672">&lt;/context-param&gt;</span>
+</code></pre></div><p>现在是时候使用自定义样式定义自己的装饰器了。</p>
+<p>在下面给出的示例中，我们将使用Bootstrap设置在本教程最后一部分中开发的示例Freemarker屏幕的样式。 请按照以下给定的步骤构建您自己的装饰器。</p>
+<ol>
+<li>下载Bootstrap v3.3.7目录，您可以从此处下载它并解压缩。</li>
+<li>在位置$ OFBIZ_HOME / specialpurpose / ofbizDemo / webapp / ofbizDemo /下创建两个新目录，分别为“ css”和“ js”</li>
+<li>将bootstrap-3.3.7 / dist / css / bootstrap.min.css复制到$ OFBIZ_HOME / specialpurpose / ofbizDemo / webapp / ofbizDemo / css</li>
+<li>将bootstrap-3.3.7 / dist / js / bootstrap.min.js复制到$ OFBIZ_HOME / specialpurpose / ofbizDemo / webapp / ofbizDemo / js。</li>
+<li>打开$ OFBIZ_HOME / specialpurpose / ofbizDemo / webapp / ofbizDemo / WEB-INF / web.xml，最后在allowedPaths中为css和js目录创建条目，如下所示：</li>
+</ol>
+<blockquote>
+<p><strong>web.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;init-param&gt;</span>
+    <span style="color:#f92672">&lt;param-name&gt;</span>allowedPaths<span style="color:#f92672">&lt;/param-name&gt;</span>
+    <span style="color:#f92672">&lt;param-value&gt;</span>/error:/control:/select:/index.html:/index.jsp:/default.html:/default.jsp:/images:/includes/maincss.css:/css:/js<span style="color:#f92672">&lt;/param-value&gt;</span>
+<span style="color:#f92672">&lt;/init-param&gt;</span>
+</code></pre></div><ol start="6">
+<li>在$ OFBIZ_HOME / specialpurpose / ofbizDemo / webapp / ofbizDemo /位置添加名为“ includes”的新目录，并在您刚刚添加的名为PreBody.ftl和PostBody.ftl的新目录中创建两个新文件。 我们将在装饰器屏幕中使用（包括）这两个文件来构建完整的HTML页面。</li>
+</ol>
+<blockquote>
+<p><strong>PreBody.ftl</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">html</span>&gt;
+  &lt;<span style="color:#f92672">head</span>&gt;
+    &lt;<span style="color:#f92672">title</span>&gt;${layoutSettings.companyName}&lt;/<span style="color:#f92672">title</span>&gt;
+    &lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;viewport&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;width=device-width, user-scalable=no&#34;</span>/&gt;
+    <span style="color:#960050;background-color:#1e0010">&lt;</span>#if webSiteFaviconContent?has_content&gt;
+      &lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;shortcut icon&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>&gt;
+    <span style="color:#960050;background-color:#1e0010">&lt;</span>/#if&gt;
+    <span style="color:#960050;background-color:#1e0010">&lt;</span>#list layoutSettings.styleSheets as styleSheet&gt;
+      &lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${StringUtil.wrapString(styleSheet)}&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/css&#34;</span>/&gt;
+    <span style="color:#960050;background-color:#1e0010">&lt;</span>/#list&gt;
+    <span style="color:#960050;background-color:#1e0010">&lt;</span>#list layoutSettings.javaScripts as javaScript&gt;
+      &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/javascript&#34;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${StringUtil.wrapString(javaScript)}&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+    <span style="color:#960050;background-color:#1e0010">&lt;</span>/#list&gt;
+  &lt;/<span style="color:#f92672">head</span>&gt;
+  &lt;<span style="color:#f92672">body</span> <span style="color:#a6e22e">data-offset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;125&#34;</span>&gt;
+    &lt;<span style="color:#f92672">h4</span> <span style="color:#a6e22e">align</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;center&#34;</span>&gt; ==================Page PreBody Starts From Decorator Screen========================= &lt;/<span style="color:#f92672">h4</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;container menus&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;container&#34;</span>&gt;
+      &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col-sm-12&#34;</span>&gt;
+          &lt;<span style="color:#f92672">ul</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;page-title&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;breadcrumb&#34;</span>&gt;
+            &lt;<span style="color:#f92672">li</span>&gt;
+                &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&lt;@ofbizUrl&gt;main&lt;/@ofbizUrl&gt;&#34;</span>&gt;Main&lt;/<span style="color:#f92672">a</span>&gt;
+            &lt;/<span style="color:#f92672">li</span>&gt;
+            &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;active&#34;</span>&gt;&lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;flipper-title&#34;</span>&gt;${StringUtil.wrapString(uiLabelMap[titleProperty])}&lt;/<span style="color:#f92672">span</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+            &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;pull-right&#34;</span>&gt;
+              &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&lt;@ofbizUrl&gt;logout&lt;/@ofbizUrl&gt;&#34;</span> <span style="color:#a6e22e">title</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${uiLabelMap.CommonLogout}&#34;</span>&gt;logout&lt;/<span style="color:#f92672">i</span>&gt;&lt;/<span style="color:#f92672">a</span>&gt;
+            &lt;/<span style="color:#f92672">li</span>&gt;
+          &lt;/<span style="color:#f92672">ul</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+      &lt;/<span style="color:#f92672">div</span>&gt;
+      &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col-lg-12 header-col&#34;</span>&gt;
+          &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;main-content&#34;</span>&gt;
+              &lt;<span style="color:#f92672">h4</span> <span style="color:#a6e22e">align</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;center&#34;</span>&gt; ==================Page PreBody Ends From Decorator Screen=========================&lt;/<span style="color:#f92672">h4</span>&gt;
+              &lt;<span style="color:#f92672">h4</span> <span style="color:#a6e22e">align</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;center&#34;</span>&gt; ==================Page Body starts From Screen=========================&lt;/<span style="color:#f92672">h4</span>&gt;
+ 
+</code></pre></div><blockquote>
+<p><strong>PostBody.ftl</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#960050;background-color:#1e0010">&lt;</span>#-- Close the tags opened in the PreBody section --&gt;
+          &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+      &lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;<span style="color:#f92672">h4</span> <span style="color:#a6e22e">align</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;center&#34;</span>&gt; ==================Page PostBody and Page body in general ends here from Decorator Screen=========================&lt;/<span style="color:#f92672">h4</span>&gt;
+  &lt;/<span style="color:#f92672">body</span>&gt;
+&lt;/<span style="color:#f92672">html</span>&gt;
+</code></pre></div><ol start="7">
+<li>打开组件的通用屏幕文件$ OFBIZ_HOME / specialpurpose / ofbizDemo / widget / CommonScreens.xml，这是我们将定义自定义装饰器的文件。</li>
+<li>更新屏幕名为“ OfbizDemoCommonDecorator”（将用作您的应用程序的自定义装饰器），如下所示：</li>
+</ol>
+<blockquote>
+<p><strong>CommonScreens.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;screen</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;OfbizDemoCommonDecorator&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;section&gt;</span>
+        <span style="color:#f92672">&lt;actions&gt;</span>
+            <span style="color:#f92672">&lt;property-map</span> <span style="color:#a6e22e">resource=</span><span style="color:#e6db74">&#34;OfbizDemoUiLabels&#34;</span> <span style="color:#a6e22e">map-name=</span><span style="color:#e6db74">&#34;uiLabelMap&#34;</span> <span style="color:#a6e22e">global=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">/&gt;</span>
+            <span style="color:#f92672">&lt;property-map</span> <span style="color:#a6e22e">resource=</span><span style="color:#e6db74">&#34;CommonUiLabels&#34;</span> <span style="color:#a6e22e">map-name=</span><span style="color:#e6db74">&#34;uiLabelMap&#34;</span> <span style="color:#a6e22e">global=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">/&gt;</span>
+   
+            <span style="color:#f92672">&lt;set</span> <span style="color:#a6e22e">field=</span><span style="color:#e6db74">&#34;layoutSettings.companyName&#34;</span> <span style="color:#a6e22e">from-field=</span><span style="color:#e6db74">&#34;uiLabelMap.OfbizDemoCompanyName&#34;</span> <span style="color:#a6e22e">global=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">/&gt;</span>
+            
+            <span style="color:#75715e">&lt;!-- Including custom CSS Styles that you want to use in your application view. [] in field can be used to 
+</span><span style="color:#75715e">                 set the order of loading CSS files to load if there are multiple --&gt;</span>
+            <span style="color:#f92672">&lt;set</span> <span style="color:#a6e22e">field=</span><span style="color:#e6db74">&#34;layoutSettings.styleSheets[]&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;/ofbizDemo/css/bootstrap.min.css&#34;</span><span style="color:#f92672">/&gt;</span>
+   
+            <span style="color:#75715e">&lt;!-- Including custom JS that you want to use in your application view. [] in field can be used to
+</span><span style="color:#75715e">                 set the order of loading of JS files to load if there are multiple --&gt;</span>
+           <span style="color:#f92672">&lt;set</span> <span style="color:#a6e22e">field=</span><span style="color:#e6db74">&#34;layoutSettings.javaScripts[+0]&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;/ofbizDemo/js/bootstrap.min.js&#34;</span> <span style="color:#a6e22e">global=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;/actions&gt;</span>
+        <span style="color:#f92672">&lt;widgets&gt;</span>
+            <span style="color:#f92672">&lt;section&gt;</span>
+                <span style="color:#f92672">&lt;condition&gt;</span>
+                    <span style="color:#f92672">&lt;if-has-permission</span> <span style="color:#a6e22e">permission=</span><span style="color:#e6db74">&#34;OFBIZDEMO&#34;</span> <span style="color:#a6e22e">action=</span><span style="color:#e6db74">&#34;_VIEW&#34;</span><span style="color:#f92672">/&gt;</span>
+                <span style="color:#f92672">&lt;/condition&gt;</span>
+                <span style="color:#f92672">&lt;widgets&gt;</span>
+                    <span style="color:#f92672">&lt;platform-specific&gt;&lt;html&gt;&lt;html-template</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;component://ofbizDemo/webapp/ofbizDemo/includes/PreBody.ftl&#34;</span><span style="color:#f92672">/&gt;&lt;/html&gt;&lt;/platform-specific&gt;</span>
+                    <span style="color:#f92672">&lt;decorator-section-include</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;pre-body&#34;</span><span style="color:#f92672">/&gt;</span>
+                    <span style="color:#f92672">&lt;decorator-section-include</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">/&gt;</span>
+                    <span style="color:#f92672">&lt;platform-specific&gt;&lt;html&gt;&lt;html-template</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;component://ofbizDemo/webapp/ofbizDemo/includes/PostBody.ftl&#34;</span><span style="color:#f92672">/&gt;&lt;/html&gt;&lt;/platform-specific&gt;</span>
+                <span style="color:#f92672">&lt;/widgets&gt;</span>
+                <span style="color:#f92672">&lt;fail-widgets&gt;</span>
+                    <span style="color:#f92672">&lt;label</span> <span style="color:#a6e22e">style=</span><span style="color:#e6db74">&#34;h3&#34;</span><span style="color:#f92672">&gt;</span>${uiLabelMap.OfbizDemoViewPermissionError}<span style="color:#f92672">&lt;/label&gt;</span>
+                <span style="color:#f92672">&lt;/fail-widgets&gt;</span>
+            <span style="color:#f92672">&lt;/section&gt;</span>
+        <span style="color:#f92672">&lt;/widgets&gt;</span>
+    <span style="color:#f92672">&lt;/section&gt;</span>
+<span style="color:#f92672">&lt;/screen&gt;</span>
+</code></pre></div><p>在上面的代码中，您可能已经注意到了layoutSettings.styleSheets []和layoutSettings.javaScripts [+0]表示法。 您可以使用layoutSettings。 文件的符号。</p>
+<p>如果要带空方括号的styleSheets或javaScripts，只需将文件添加到layoutSettings.styleSheets或layoutSettings.javaScripts列表的末尾，并用[+0]将其添加到它的前面。</p>
+<ol start="9">
+<li>在上一部分创建的Freemarker屏幕中，将此装饰器用作：</li>
+</ol>
+<blockquote>
+<p><strong>OfbizDemoScreens.xml</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;screen</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;AddOfbizDemoFtl&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;section&gt;</span>
+        <span style="color:#f92672">&lt;actions&gt;</span>
+            <span style="color:#f92672">&lt;set</span> <span style="color:#a6e22e">field=</span><span style="color:#e6db74">&#34;titleProperty&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;OfbizDemoAddOfbizDemoFtl&#34;</span><span style="color:#f92672">/&gt;</span>
+            <span style="color:#f92672">&lt;set</span> <span style="color:#a6e22e">field=</span><span style="color:#e6db74">&#34;headerItem&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;addOfbizDemoFtl&#34;</span><span style="color:#f92672">/&gt;</span>
+            <span style="color:#f92672">&lt;script</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;component://ofbizDemo/webapp/ofbizDemo/WEB-INF/actions/crud/ListOfbizDemo.groovy&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;/actions&gt;</span>
+        <span style="color:#f92672">&lt;widgets&gt;</span>
+            <span style="color:#f92672">&lt;decorator-screen</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;OfbizDemoCommonDecorator&#34;</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;${parameters.mainDecoratorLocation}&#34;</span><span style="color:#f92672">&gt;</span>
+                <span style="color:#f92672">&lt;decorator-section</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">&gt;</span>
+                     <span style="color:#f92672">&lt;label</span> <span style="color:#a6e22e">style=</span><span style="color:#e6db74">&#34;h4&#34;</span> <span style="color:#a6e22e">text=</span><span style="color:#e6db74">&#34;${uiLabelMap.OfbizDemoListOfbizDemos}&#34;</span><span style="color:#f92672">/&gt;</span>
+                     <span style="color:#f92672">&lt;platform-specific&gt;</span>
+                         <span style="color:#f92672">&lt;html&gt;&lt;html-template</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;component://ofbizDemo/webapp/ofbizDemo/crud/ListOfbizDemo.ftl&#34;</span><span style="color:#f92672">/&gt;&lt;/html&gt;</span>
+                     <span style="color:#f92672">&lt;/platform-specific&gt;</span>
+                     <span style="color:#f92672">&lt;label</span> <span style="color:#a6e22e">style=</span><span style="color:#e6db74">&#34;h4&#34;</span> <span style="color:#a6e22e">text=</span><span style="color:#e6db74">&#34;${uiLabelMap.OfbizDemoAddOfbizDemoFtl}&#34;</span><span style="color:#f92672">/&gt;</span>
+                     <span style="color:#f92672">&lt;platform-specific&gt;</span>
+                         <span style="color:#f92672">&lt;html&gt;&lt;html-template</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;component://ofbizDemo/webapp/ofbizDemo/crud/AddOfbizDemo.ftl&#34;</span><span style="color:#f92672">/&gt;&lt;/html&gt;</span>
+                     <span style="color:#f92672">&lt;/platform-specific&gt;</span>
+                <span style="color:#f92672">&lt;/decorator-section&gt;</span>
+            <span style="color:#f92672">&lt;/decorator-screen&gt;</span>
+        <span style="color:#f92672">&lt;/widgets&gt;</span>
+    <span style="color:#f92672">&lt;/section&gt;</span>
+<span style="color:#f92672">&lt;/screen&gt;</span>
+</code></pre></div><ol start="10">
+<li>更新您的FTL文件以遵循HTML Web标准并将CSS应用于以下文件：</li>
+</ol>
+<blockquote>
+<p><strong>AddOfbizDemo.ftl</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">method</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;post&#34;</span> <span style="color:#a6e22e">action</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&lt;@ofbizUrl&gt;createOfbizDemoEventFtl&lt;/@ofbizUrl&gt;&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;createOfbizDemoEvent&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-horizontal&#34;</span>&gt;
+  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;control-group&#34;</span>&gt;
+    &lt;<span style="color:#f92672">label</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;control-label&#34;</span> <span style="color:#a6e22e">for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ofbizDemoTypeId&#34;</span>&gt;${uiLabelMap.OfbizDemoType}&lt;/<span style="color:#f92672">label</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;controls&#34;</span>&gt;
+      &lt;<span style="color:#f92672">select</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ofbizDemoTypeId&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ofbizDemoTypeId&#34;</span>&gt;
+        <span style="color:#960050;background-color:#1e0010">&lt;</span>#list ofbizDemoTypes as demoType&gt;
+          &lt;<span style="color:#f92672">option</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;${demoType.ofbizDemoTypeId}&#39;</span>&gt;${demoType.description}&lt;/<span style="color:#f92672">option</span>&gt;
+        <span style="color:#960050;background-color:#1e0010">&lt;</span>/#list&gt;
+      &lt;/<span style="color:#f92672">select</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+  &lt;/<span style="color:#f92672">div</span>&gt;
+  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;control-group&#34;</span>&gt;
+    &lt;<span style="color:#f92672">label</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;control-label&#34;</span> <span style="color:#a6e22e">for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;firstName&#34;</span>&gt;${uiLabelMap.OfbizDemoFirstName}&lt;/<span style="color:#f92672">label</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;controls&#34;</span>&gt;
+      &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;firstName&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;firstName&#34;</span> <span style="color:#a6e22e">required</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+  &lt;/<span style="color:#f92672">div</span>&gt;
+  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;control-group&#34;</span>&gt;
+    &lt;<span style="color:#f92672">label</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;control-label&#34;</span> <span style="color:#a6e22e">for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lastName&#34;</span>&gt;${uiLabelMap.OfbizDemoLastName}&lt;/<span style="color:#f92672">label</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;controls&#34;</span>&gt;
+      &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lastName&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lastName&#34;</span> <span style="color:#a6e22e">required</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+  &lt;/<span style="color:#f92672">div</span>&gt;
+  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;control-group&#34;</span>&gt;
+    &lt;<span style="color:#f92672">label</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;control-label&#34;</span> <span style="color:#a6e22e">for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;comments&#34;</span>&gt;${uiLabelMap.OfbizDemoComment}&lt;/<span style="color:#f92672">label</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;controls&#34;</span>&gt;
+      &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;comments&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;comments&#34;</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+  &lt;/<span style="color:#f92672">div</span>&gt;
+  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;control-group&#34;</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;controls&#34;</span>&gt;
+      &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submit&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;btn&#34;</span>&gt;${uiLabelMap.CommonAdd}&lt;/<span style="color:#f92672">button</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+  &lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">form</span>&gt;
+</code></pre></div><blockquote>
+<p><strong>ListOfbizDemo.ftl</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">table</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;table table-bordered table-striped table-hover&#34;</span>&gt;
+    &lt;<span style="color:#f92672">thead</span>&gt;
+        &lt;<span style="color:#f92672">tr</span>&gt;
+          &lt;<span style="color:#f92672">th</span>&gt;${uiLabelMap.OfbizDemoId}&lt;/<span style="color:#f92672">th</span>&gt;
+          &lt;<span style="color:#f92672">th</span>&gt;${uiLabelMap.OfbizDemoType}&lt;/<span style="color:#f92672">th</span>&gt;
+          &lt;<span style="color:#f92672">th</span>&gt;${uiLabelMap.OfbizDemoFirstName}&lt;/<span style="color:#f92672">th</span>&gt;
+          &lt;<span style="color:#f92672">th</span>&gt;${uiLabelMap.OfbizDemoLastName}&lt;/<span style="color:#f92672">th</span>&gt;
+          &lt;<span style="color:#f92672">th</span>&gt;${uiLabelMap.OfbizDemoComment}&lt;/<span style="color:#f92672">th</span>&gt;
+        &lt;/<span style="color:#f92672">tr</span>&gt;
+    &lt;/<span style="color:#f92672">thead</span>&gt;
+    &lt;<span style="color:#f92672">tbody</span>&gt;
+        <span style="color:#960050;background-color:#1e0010">&lt;</span>#list ofbizDemoList as ofbizDemo&gt;
+            &lt;<span style="color:#f92672">tr</span>&gt;
+              &lt;<span style="color:#f92672">td</span>&gt;${ofbizDemo.ofbizDemoId}&lt;/<span style="color:#f92672">td</span>&gt;
+              &lt;<span style="color:#f92672">td</span>&gt;${ofbizDemo.getRelatedOne(&#34;OfbizDemoType&#34;).get(&#34;description&#34;, locale)}&lt;/<span style="color:#f92672">td</span>&gt;
+              &lt;<span style="color:#f92672">td</span>&gt;${ofbizDemo.firstName?default(&#34;NA&#34;)}&lt;/<span style="color:#f92672">td</span>&gt;
+              &lt;<span style="color:#f92672">td</span>&gt;${ofbizDemo.lastName?default(&#34;NA&#34;)}&lt;/<span style="color:#f92672">td</span>&gt;
+              &lt;<span style="color:#f92672">td</span>&gt;${ofbizDemo.comments!}&lt;/<span style="color:#f92672">td</span>&gt;
+            &lt;/<span style="color:#f92672">tr</span>&gt;
+        <span style="color:#960050;background-color:#1e0010">&lt;</span>/#list&gt;
+    &lt;/<span style="color:#f92672">tbody</span>&gt;
+&lt;/<span style="color:#f92672">table</span>&gt; 
+</code></pre></div><ol start="11">
+<li>现在，在web.xml中输入allowedPaths的条目后，重新启动OFBiz。 重新加载时，请访问https：// localhost：8443 / ofbizDemo / control / AddOfbizDemoFtl。您应该看到具有自定义样式的页面，而不是使用默认的OFBiz主题。</li>
+</ol>
+<p>现在，您可以在这里随心所欲地玩它。 尝试更改页眉或使用新的页眉，添加页脚，进行验证等。因此，您可以使用Freemarker模板，CSS和JS自定义OFBiz的UI层。</p>
+<p>您可能想要添加自己的CSS或JS文件，可以像对Bootstrap文件那样添加它们。</p>
+<p>如果您已按照本教程进行了所有步骤并开发了实践应用程序，那么这将有助于您了解OFBiz中的其他实现。 这些都是在OFBiz中工作的基本基础。 现在您知道了如何在OFBiz中开始开发。 不要留下本教程中提供的额外链接，因为它们将帮助您大量了解此处详细介绍的内容。</p>
+<p>这是常见问题解答技巧食谱手册中的另一本好书。</p>
+<p>现在，接下来的事情是业务流程，为了真正理解OFBiz和OOTB数据模型中的OOTB流程，确实需要很好地理解它们，因此，可以在：OFBiz相关书中找到这些书。 充分了解OFBiz OOTB可用数据模型和业务流程将有助于在其顶部构建更好的业务解决方案。</p>
+<p>现在您可以开始研究了。欢迎来到OFBiz世界。</p>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
